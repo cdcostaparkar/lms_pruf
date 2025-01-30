@@ -1,0 +1,138 @@
+/* Light and Dark Mode */
+.mode.light {
+    background-color: #ffffff; /* White background for light mode */
+    color: #000000; /* Black text for light mode */
+}
+
+.mode.dark {
+    background-color: #000000; /* Black background for dark mode */
+    color: #ffffff; /* White text for dark mode */
+}
+
+/* Full Container */
+.mode{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh; /* Full viewport height */
+    width: 100vw; /* Full viewport width */
+    text-align: center;
+    padding: 20px; /* Padding for small screens */
+    position: relative;
+    box-sizing: border-box; /* Include padding in height/width calculations */
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 900px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Toggle Button */
+.toggle-btn {
+    background: none;
+    border: 2px solid currentColor;
+    padding: 12px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 5px;
+    z-index: 9999; 
+    color: inherit;
+    position: fixed;
+    top: 20px;
+    right:20px;
+}
+
+.toggle-btn:hover {
+    background: solid currentColor; /* Background color matches text color */
+    color: currentColor; /* White text on hover */
+}
+
+/* Profile Container */
+.profile-container {
+    width: 90%; /* Full width */
+    max-width: 1000px; /* Maximum width */
+    height: 400px; /* Set a fixed height */
+    padding: 20px; /* Padding inside the container */
+    background: rgba(156, 137, 137, 0.1); 
+    box-shadow: 0 4px 12px rgba(224, 21, 21, 0.1); /* Subtle shadow */
+    border-radius: 10px; /* Rounded corners */
+    display: flex; /* Ensure it uses flexbox for layout */
+    align-items: center; /* Center items vertically */
+    overflow: hidden; /* Prevent overflow */
+}
+
+/* User Profile Card */
+.user-profile-card {
+    display: flex;
+    width: 100%;
+}
+
+.profile-img {
+    width: 30%; /* Fixed width */
+    height: auto; /* Fixed height */
+    border-radius: 10px; /* Circular image */
+    object-fit: cover; /* Cover the area */
+    border: 4px solid currentColor; /* Border color matches text color */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-right: 20px; /* Space below image */
+    
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column; 
+    text-align: left; 
+    width:70%;  
+}
+
+.user-info p {
+    font-size: 22px; 
+    margin-bottom: 12px; /* Space below paragraphs */
+    line-height: 1.8; /* Line height */
+    text-align: left;
+    padding-left: 90px;
+}
+
+.user-info p strong {
+    color: inherit; /* Inherit color */
+    font-weight: 600; /* Bold text */
+}
+
+.user-profile-heading{
+    margin: 20px 0; 
+    font-size: 48px;
+    font-weight: 700;
+    color: inherit; 
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 0;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.user-profile-card p {
+    font-size: 16px; /* Paragraph size */
+    margin-bottom: 8px; /* Space below paragraphs */
+    line-height: 1.5; /* Line height */
+}
+
+.user-profile-card p strong {
+    color: inherit; /* Inherit color */
+    font-weight: 600; /* Bold text */
+}
+
+/* Adjust text color based on mode */
+.mode.light .user-profile-card p {
+    color: #333333; /* Dark text for light mode */
+}
+
+.mode.dark .user-profile-card p {
+    color: #ffffff; /* White text for dark mode */
+}
+

@@ -4,14 +4,14 @@ import "./CourseDetails.css";
 
 
 
-const CourseDetails: React.FC = () => {
+const CourseDetails = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const toggleModal = () => {
         setIsModalOpen(!isModalOpen);
     };
 
-    const closeModalIfClickedOutside = (e: React.MouseEvent) => {
+    const closeModalIfClickedOutside = (e) => {
         if (e.target === e.currentTarget){
             setIsModalOpen(false);
         }

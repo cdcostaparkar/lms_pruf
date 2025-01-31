@@ -1,4 +1,13 @@
 /* signup.css */
+
+.signup-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; 
+    /* background-color: #f0f0f0;  */
+}
+
 .Signup-container {
     margin: 2px 0; /* Add space above and below the container */
     background-color: white; /* Card background */

@@ -5,8 +5,8 @@
   align-items: center;
   justify-content: center;
   /* justify-content: flex-start; */
-  height: 100vh; /* Full viewport height */
-  width: 100vw; /* Full viewport width */
+  height: 100%; 
+  width: 100%; 
   text-align: center;
   padding: 20px; /* Padding for small screens */
   position: relative;

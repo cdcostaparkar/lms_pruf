@@ -12,16 +12,19 @@ import CoursesProgress from './pages/progress/CoursesProgress';
 import CoursePage from './pages/CourseContent/CourseContent';
 import AccountDetails from './pages/AccountDetails/AccountDetails';
 import CourseDetails from './pages/CourseDetails/CourseDetails';
+import AddCourses from './pages/AddCourses/AddCourses'
 
 
 function App() {
   return (
     <>
-    <CoursePage/>
+    {/* <CoursePage/> */}
 
     {/* <Signup/> */}
     {/* <Login/> */}
     {/* <CoursesProgress /> */}
+
+    <AddCourses/>
     {/* <AccountDetails/> */}
     {/* <CourseDetails/> */}
     </>

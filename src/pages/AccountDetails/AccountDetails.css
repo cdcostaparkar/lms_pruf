@@ -23,7 +23,7 @@
     box-sizing: border-box; /* Include padding in height/width calculations */
 }
 
-.header{
+.page-header{
     display: flex;
     justify-content: space-between;
     width: 100%;

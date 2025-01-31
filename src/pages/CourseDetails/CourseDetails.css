@@ -5,14 +5,14 @@
   align-items: center;
   justify-content: center;
   /* justify-content: flex-start; */
-  height: 100%; 
-  width: 100%; 
+  height: 100vh; /* Full viewport height */
+  width: 100vw; /* Full viewport width */
   text-align: center;
   padding: 20px; /* Padding for small screens */
   position: relative;
   box-sizing: border-box; /* Include padding in height/width calculations */
 }
-  .container{
+  .course-container{
    
     text-align: center;
     padding: 40px;
@@ -89,21 +89,21 @@
     line-height: 1.6;
   }
   
-  .modules{
+  .course-details-modules{
     margin: 20px 0;
     text-align: left;
   }
   
-  .modules h3{
+  .course-details-modules h3{
     font-size: 18px;
     margin-bottom: 10px;
   }
   
-  .modules ul{
+  .course-details-modules ul{
     list-style-type: none;
   }
   
-  .modules ul li {
+  .courses-details-modules ul li {
     font-size: 16px;
     margin-bottom: 8px;
   }

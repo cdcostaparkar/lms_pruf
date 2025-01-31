@@ -1,8 +1,18 @@
+.login-div {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; 
+    /* background-color: #f0f0f0;  */
+}
+
 .login-container {
-    margin: 0; 
-    position: relative;
-    max-width: 90%; /* Use a percentage for responsiveness */
-    width: 300px; /* Set a max width */
+    /* display: flex; */
+    /* justify-content: center; */
+    /* margin: 0;  */
+    /* position: relative; */
+    max-width: 90%; 
+    width: 300px; 
     background: white;
     border-radius: 5px;
     padding: 20px;

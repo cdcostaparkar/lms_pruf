@@ -1,0 +1,211 @@
+/* src/components/UpdateCourse/UpdateCourse.css */
+:root {
+    --background-color: #f7f9fc;
+    --text-color: #333;
+    --module-background: white;
+    --module-shadow: rgba(0, 0, 0, 0.1);
+    --button-background: #007bff;
+    --button-hover: #0056b3;
+    --input-border: #ccc;
+}
+
+
+
+.uc-navbar {
+    display: flex;
+    font-size: 34px;
+    justify-content: space-between;
+    align-items: center;
+    /* background-color: #007bff; */
+    padding: 0px 20px;
+    /* color: white; */
+    color: black;
+    margin: 0px;
+    font-weight: 500;
+    margin-left: 40px;
+}
+
+.uc-navbar p{
+    margin: 20px;
+}
+
+.uc-navbar h1 {
+    margin: 0;
+    font-size: 25px;
+}
+
+.theme-toggle {
+    background-color: transparent;
+    color: white; 
+    background-color: gray;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 15px; 
+    transition: color 0.3s;
+} 
+
+.theme-toggle:hover {
+    color: #f0f0f0;
+}
+
+.update-course-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+}
+
+.update-course-modules {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.update-course-module {
+    background: var(--module-background);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px var(--module-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.module:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.update-course-module h2 {
+    /* color: #007bff; */
+    margin: 0 0 10px;
+    font-weight: 700;
+}
+
+.update-course-module p {
+    color: #555;
+    padding-bottom: 15px;
+}
+
+.update-course-btn {
+    background-color: var(--button-background);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.update-course-btn i {
+    margin-right: 5px;
+}
+
+.update-course-btn:hover {
+    background-color: var(--button-hover);
+    transform: scale(1.05);
+}
+
+.update-course-modal {
+    /* display: none; */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.update-course-modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.update-course-modal-close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.update-course-modal-close:hover,
+.update-course-modal-close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #007bff;
+    outline: none;
+} */
+
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    transition: border-color 0.3s;
+}
+
+.modal-input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.update-modal-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    width: 100%;
+}
+
+.update-modal-btn:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+/* Dark Theme */
+body.dark {
+    --background-color: #181818;
+    --text-color: #f7f9fc;
+    --module-background: #2c2c2c;
+    --module-shadow: rgba(255, 255, 255, 0.1);
+    --button-background: #007bff;
+    --button-hover: #0056b3;
+    --input-border: #555;
+}
+
+.update-course-module-div{
+    display: flex;
+    flex-wrap: wrap;
+    /* gap: 100px; */
+    flex-direction: column;
+}

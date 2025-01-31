@@ -13,18 +13,23 @@ import CoursePage from './pages/CourseContent/CourseContent';
 import AccountDetails from './pages/AccountDetails/AccountDetails';
 import CourseDetails from './pages/CourseDetails/CourseDetails';
 import AddCourses from './pages/AddCourses/AddCourses'
+import CourseUpdate from './pages/courseUpdate/CourseUpdate'
 
 
 function App() {
   return (
     <>
+    {/* CD */}
     {/* <CoursePage/> */}
-
-    {/* <Signup/> */}
-    {/* <Login/> */}
     {/* <CoursesProgress /> */}
 
-    <AddCourses/>
+    {/* VK */}
+    {/* <CourseUpdate/> */}
+    {/* <Signup/> */}
+    {/* <Login/> */}
+    
+    {/* AM */}
+    {/* <AddCourses/> */}
     {/* <AccountDetails/> */}
     {/* <CourseDetails/> */}
     </>

@@ -14,6 +14,7 @@ import AccountDetails from './pages/AccountDetails/AccountDetails';
 import CourseDetails from './pages/CourseDetails/CourseDetails';
 import AddCourses from './pages/AddCourses/AddCourses'
 import CourseUpdate from './pages/courseUpdate/CourseUpdate'
+import HomePage from './pages/HomePage/HomePage'
 
 
 function App() {
@@ -32,6 +33,8 @@ function App() {
     {/* <AddCourses/> */}
     {/* <AccountDetails/> */}
     {/* <CourseDetails/> */}
+    <HomePage/>
+    
     </>
   );
 }

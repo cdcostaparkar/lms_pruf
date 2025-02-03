@@ -1,13 +1,13 @@
 /* Light and Dark Mode */
-.mode.light {
-    background-color: #ffffff; /* White background for light mode */
-    color: #000000; /* Black text for light mode */
+/* .mode.light {
+    background-color: #ffffff;
+    color: #000000; 
 }
 
 .mode.dark {
-    background-color: #000000; /* Black background for dark mode */
-    color: #ffffff; /* White text for dark mode */
-}
+    background-color: #000000;
+    color: #ffffff;
+} */
 
 /* Full Container */
 .mode{
@@ -15,8 +15,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    height: 100vh; /* Full viewport height */
-    width: 100vw; /* Full viewport width */
+    /* height: 100vh;
+    width: 100vw;  */
     text-align: center;
     padding: 20px; /* Padding for small screens */
     position: relative;

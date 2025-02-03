@@ -1,6 +1,7 @@
 // src/Signup.jsx
 import React, { useState } from 'react';
 import './signup.css'; // Import the CSS file
+import { Link } from 'react-router-dom';
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -71,6 +72,11 @@ const Signup = () => {
                 </div>
             ))}
             <button type="submit" className="signup-button">Sign Up</button>
+            <div className="login-link">
+                <Link to="/login">
+                <p>Already have an account? Login</p>
+                </Link>
+            </div>
         </form>
     </div>
     </div>

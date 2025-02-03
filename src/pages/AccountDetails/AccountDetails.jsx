@@ -14,12 +14,12 @@ function AccountDetails() {
 
   return (
       <div className ={`mode ${darkMode ? "dark" : "light"}`}>  
-        <header className="page-header"> 
+        {/* <header className="page-header"> 
           <h1 className="user-profile-heading">User Profile </h1>      
           <button className="toggle-btn" onClick={() => setDarkMode(!darkMode)}>
             {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
           </button>
-        </header> 
+        </header>  */}
 
         <div className='profile-container'>
           <div className ="user-profile-card">

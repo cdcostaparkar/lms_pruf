@@ -5,6 +5,36 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AvailableCourses = () => {
+
+    const mockUserData = {
+        userId: "001",
+        role: "trainer"
+    };
+
+    const CourseTrainerActions = ({ onUpdate, onDelete}) => {
+        return (
+            <div className="course-actions">
+                <button className="button update-button" onClick={onUpdate}>
+                    Update
+                </button>
+                <button className="button delete-button" onClick={onDelete}>
+                    Delete
+                </button>
+            </div>
+        );
+    };
+
+    const CourseStudentActions = ({onResume}) => {
+        return (
+            <div className="course-actions">
+                <button className="button resume-button" onClick={onResume}>
+                    Resume
+                </button>
+            </div>
+        );
+    };
+
+
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
@@ -28,39 +58,74 @@ const AvailableCourses = () => {
     };
 
     return (
-        <div className="available-courses-section">
-            <h2 className="available-courses-heading"> Trending Courses </h2>
-            <div className="available-courses-grid">
-                {availableCourses.map((course, index) => (
-                    <div key={index} className="course-card">
-                        <img
-                            src={course.image}
-                            alt={course.title}
-                            className="course-image"
-                        />
-                        <h3 className="course-title"> {course.title} </h3>
-                        <p className="course-instructor"> {course.instructor}</p>
-                        <div className="course-card-buttons">
-                            <button
-                                className="additional-details-button"
-                                onClick={() => toggleModal(course)}
-                            >
-                                Additional Details
-                            </button>
-                            <button
-                                className="card-enroll-button"
-                                onClick={() => handleEnroll(course.id)} // Pass the course ID
-                            >
-                                Enroll Now
-                            </button>
+        <div>
+            {mockUserData.role ==="student" ? (
+                <div className="course-progress-section">
+                    <h2 className="course-progress-heading"> Course Progress </h2>
+                    <div className="course-progress-grid">{availableCourses.map((course,index)=>(
+                        <div key={index} className="course-card">
+                            <img src={course.image} alt={course.title}className="course-image" />
+                            <h3 className="course-title"> {course.title} </h3>
+                            <p className="course-instructor">{course.instructor}</p>
+                            <CourseStudentActions
+                            onResume={()=> console.log(`Resuming Course:${course.title}`)}/>
                         </div>
+                    ))}
                     </div>
-                ))}
-            </div>
-
-            {isModalOpen && (
-                <CourseDetails course={selectedCourse} toggleModal={toggleModal} />
+                </div>
+            ):(
+            <div className="course-created-section">
+                <h2 className="course-created-heading"> Courses Created by You </h2>
+                <div className="course-created-grid">
+                    {availableCourses.map((course,index)=>(
+                        <div key={index} className="course-card">
+                            <img src={course.image} alt={course.title}className="course-image" />
+                            <h3 className="course-title"> {course.title} </h3>
+                            <p className="course-instructor">{course.instructor}</p>
+                            <CourseTrainerActions
+                            onUpdate={() => console.log(`Course Title: ${course.title}, Course Trainer: ${course.instructor}`)}
+                            onDelete={() => console.log(`Deleting Course ID: ${course.courseID}`)} 
+                            />
+                        </div>
+                    ))}
+                    </div>
+                </div>
             )}
+            
+            <div className="available-courses-section">
+                <h2 className="available-courses-heading"> Trending Courses </h2>
+                <div className="available-courses-grid">
+                    {availableCourses.map((course, index) => (
+                        <div key={index} className="course-card">
+                            <img
+                                src={course.image}
+                                alt={course.title}
+                                className="course-image"
+                            />
+                            <h3 className="course-title"> {course.title} </h3>
+                            <p className="course-instructor"> {course.instructor}</p>
+                            <div className="course-card-buttons">
+                                <button
+                                    className="additional-details-button"
+                                    onClick={() => toggleModal(course)}
+                                >
+                                    Additional Details
+                                </button>
+                                <button
+                                    className="card-enroll-button"
+                                    onClick={() => handleEnroll(course.id)} // Pass the course ID
+                                >
+                                    Enroll Now
+                                </button>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {isModalOpen && (
+                    <CourseDetails course={selectedCourse} toggleModal={toggleModal} />
+                )}
+            </div>
         </div>
     );
 };

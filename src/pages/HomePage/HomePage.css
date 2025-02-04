@@ -64,24 +64,24 @@
     background-color: #e0e0e0;
 }
 
-.available-courses-section{
+.available-courses-section,.course-progress-section, .course-created-section{
     margin-top: 20px;
 }
 
-.available-courses-heading{
+.available-courses-heading, .course-progress-heading, .course-created-heading{
     font-size:18px;
     font-weight: bold;
     margin-top: 45px;
     margin-bottom: 16px;
 }
 
-.available-courses-grid{
+.available-courses-grid, .course-progress-grid,.course-created-grid{
     display:grid;
     gap:10px;
 }
 
 @media (min-width: 768px){
-    .available-courses-grid{
+    .available-courses-grid, .course-progress-grid, .course-created-grid{
         grid-template-columns: repeat(3, 1fr);
     }
 }
@@ -112,9 +112,32 @@
     display:flex;
     gap:10px;
     justify-content: flex-start;
+
 }
 
-.additional-details-button, .card-enroll-button{
+.button{
+    padding: 8px 16px;
+    border-radius: 4px;
+    color: white;
+    border:none;
+    cursor:pointer;
+    margin-right: 8px;
+}
+
+.update-button{
+    background-color: #212327;
+}
+
+.delete-button{
+    background-color: #212327;
+}
+
+.resume-button{
+    background-color: #212327;
+    margin-top:8px;
+}
+
+.additional-details-button, .card-enroll-button, .resume-button, .delete-button, .update-button{
     font-size:16px;
     padding: 5px 15px;
     border-radius: 5px;

@@ -6,6 +6,8 @@ import AvailableCourses from "@/components/homepage/AvailableCourses";
 
 export default function HomePage() {
     const [search, setSearch] = useState("");
+
+    
     const categories = ["Development", "Business", "IT & Software", "Design"];
     
 
@@ -17,7 +19,7 @@ export default function HomePage() {
                 <h2>Easy Learning </h2>
                 <div>
                     {/* Search Bar */}
-                    <div className="search-bar">
+                    {/* <div className="search-bar">
                         <input
                             type="text"
                             placeholder="Search for courses..."
@@ -26,11 +28,11 @@ export default function HomePage() {
                             className="search-input"
                         />
                         <Button className="search-button"> Search </Button>
-                    </div>
+                    </div> */}
 
                     {/* Categories */}
 
-                    <div className="course-categories-grid">
+                    {/* <div className="course-categories-grid">
                         {categories.map((category, index) => (
                             <button
                                 key={index}
@@ -41,7 +43,7 @@ export default function HomePage() {
                                 {category}{" "}
                             </button>
                         ))}
-                    </div>
+                    </div> */}
                     
 
                     {/* Available Courses */}

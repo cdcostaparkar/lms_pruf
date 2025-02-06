@@ -3,10 +3,10 @@ import React from 'react';
 const UpdateCourseModule = ({ module, onUpdate }) => {
     return (
         <div className="update-course-module-div">
-            <div className="update-course-module" id={module.id}>
-            <h2>{module.name}</h2>
+            <div className="update-course-module" id={module._id}>
+            <h2>{module.title}</h2>
             <p>{module.description}</p>
-            <button className="update-course-btn" onClick={() => onUpdate(module.id)}>
+            <button className="update-course-btn" onClick={() => onUpdate(module._id)}>
                 {/* <i className="fas fa-edit"></i>  */}
                 Update
             </button>

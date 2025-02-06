@@ -1,15 +1,32 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./CourseDetails.css";
+import { getModules } from "@/api/moduleApi";
 
-const CourseDetails = ({ course, toggleModal }) => {
+const CourseDetails = ({ course, toggleModal, roleName, handleEnroll }) => {
+    const [modules, setModules] = useState([]);
+    console.log("course",course);
+    useEffect(() => {
+        const fetchModules = async (courseId) => {
+            try {
+                const data = await getModules(courseId); // Fetch modules using the API
+                setModules(data);
+            } catch (error) {
+                setError('Failed to fetch modules. Please try again later.'); // Set error message
+            }
+        };
 
-    const modules = [
-        { content: 'Module 1: Introduction to React' },
-        { content: 'Module 2: Working with Components' },
-        { content: 'Module 3: React State and Hooks' },
-    ];
+        if (course._id) {
+            fetchModules(course._id);
+        }
+    }, [course._id]);
 
+    // const modules = [
+    //     { content: 'Module 1: Introduction to React' },
+    //     { content: 'Module 2: Working with Components' },
+    //     { content: 'Module 3: React State and Hooks' },
+    // ];
+    console.log("modules",modules);
     const closeModalIfClickedOutside = (e) => {
         if (e.target === e.currentTarget) {
             toggleModal(null);
@@ -24,7 +41,6 @@ const CourseDetails = ({ course, toggleModal }) => {
                 </button> */}
 
                 {/* Modal */}
-                {/* {isModalOpen &&( */}
                 <div className="modal-overlay" onClick={closeModalIfClickedOutside}>
                     <div className="modal-content">
                         <button className="close-btn" onClick={toggleModal}>
@@ -32,32 +48,36 @@ const CourseDetails = ({ course, toggleModal }) => {
                         </button>
                         <div className="course-info">
                             <img src="https://eu.ui-avatars.com/api/?name=John+Doe&size=250"
-                                alt="Course"
+                                alt={course.title}
                                 className="course-image" />
-                            <h2> Course Name: React Development </h2>
+                            <h2> {course.title}</h2>
                             <p className="course-description">
-                                A brief overview of React, its components and how to build
-                                applications using React framework.
+                                {course.description}
                             </p>
                             <p><strong> Mode of Learning: </strong> Online </p>
-                            <p><strong>Duration: </strong> 6 weeks </p>
+                            <p><strong>Duration: </strong> {course.duration} weeks </p>
                         </div>
 
                         <div className="course-details-modules">
                             <h3>Modules: </h3>
-                            <ul>
-                                {modules.map((module, index) => (
-                                    <li key={index} style={{ fontSize: '18px' }}>
-                                        {module.content}
-                                    </li>
-                                ))}
-                            </ul>
+                            {modules.length > 0 ? (
+                                <ul>
+                                    {modules.map((module, index) => (
+                                        <li key={index} style={{ fontSize: '18px' }}>
+                                            Module {index + 1}: {module.title}
+                                        </li>
+                                    ))}
+                                </ul>
+                            ) : (
+                                <p>No modules yet</p>
+                            )}
                         </div>
 
-                        <button className="enroll-btn">  Enroll Now</button>
+                        {roleName !== 'trainer' && (
+                            <button className="enroll-btn" onClick={() => handleEnroll(user, course._id)}>Enroll Now</button>
+                        )}
                     </div>
                 </div>
-                {/* )} */}
             </div>
         </div>
     );

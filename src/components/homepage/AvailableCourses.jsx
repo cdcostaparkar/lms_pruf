@@ -1,21 +1,66 @@
-import { availableCourses } from "@/lib/mockData";
 import CourseDetails from "@/pages/CourseDetails/CourseDetails";
-import { useState } from "react";
-// import "../../pages/CourseDetails/CourseDetails.css"
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import UpdateCourseDisplay from "../updateCourse/UpdateCourseDisplay";
 import TrainerCourses from "./TrainerCourses";
+import { useAuth } from "@/context/AuthContext";
+import { 
+    getAllEnrolledCourses, 
+    getAllNotEnrolledCourses, 
+    getTrainerCourses, 
+    getNotTrainerCourses 
+} from "@/api/getCoursesApi";
+import { handleEnroll } from "@/api/enrollApi";
 
 const AvailableCourses = () => {
+    const { user, roleName } = useAuth();
 
-    const mockUserData = {
-        userId: "001",
-        role: "trainer"
-    };
+    // State for student courses
+    const [studentEnrolledCourses, setStudentEnrolledCourses] = useState([]);
+    const [studentNotEnrolledCourses, setStudentNotEnrolledCourses] = useState([]);
 
-    
+    // State for trainer courses
+    const [trainerCourses, setTrainerCourses] = useState([]);
+    const [trainerNotCourses, setTrainerNotCourses] = useState([]);
 
-    const CourseStudentActions = ({onResume}) => {
+    const [error, setError] = useState(null);
+    const [selectedCourse, setSelectedCourse] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+   
+    const [enrollmentChange, setEnrollmentChange] = useState(0);
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                if (roleName === "student") {
+                    // Fetch enrolled courses for student
+                    const enrolled = await getAllEnrolledCourses(user);
+                    setStudentEnrolledCourses(enrolled);
+
+                    // Fetch not enrolled courses for student
+                    const notEnrolled = await getAllNotEnrolledCourses(user);
+                    setStudentNotEnrolledCourses(notEnrolled);
+                    console.log(enrolled, notEnrolled)
+                } else if (roleName === "trainer") {
+                    // Fetch courses for trainer
+                    const trainerCourses = await getTrainerCourses(user);
+                    setTrainerCourses(trainerCourses);
+
+                    // Fetch not trainer courses
+                    const notTrainerCourses = await getNotTrainerCourses(user);
+                    setTrainerNotCourses(notTrainerCourses);
+                    console.log(trainerCourses, notTrainerCourses);
+                }
+            } catch (error) {
+                setError(error.message);
+            }
+        };
+
+        if (user) {
+            fetchCourses();
+        }
+    }, [user, roleName, enrollmentChange]);
+
+    const CourseStudentActions = ({ onResume }) => {
         return (
             <div className="course-actions">
                 <button className="button resume-button" onClick={onResume}>
@@ -25,102 +70,128 @@ const AvailableCourses = () => {
         );
     };
 
-
-    const [selectedCourse, setSelectedCourse] = useState(null);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const navigate = useNavigate();
-
     const toggleModal = (course) => {
         setSelectedCourse(course);
         setIsModalOpen(!isModalOpen);
     };
 
-    const handleEnroll = async (courseId) => {
+    const handleEnrollCourse = async (user, courseId) => {
         try {
-            const response = await enrollInCourse(courseId); // Call the API
-            if (response.success) {
-                // Redirect to the course details page with the course ID
-                navigate(`/courses/${courseId}`);
-            }
+            await handleEnroll(user, courseId); // Call the original handleEnroll
+            setEnrollmentChange((prev) => prev + 1); // Update enrollmentChange
         } catch (error) {
-            console.error("Enrollment failed:", error);
-            // Handle error (e.g., show a notification)
+            setError(error.message);
         }
     };
 
+    // const handleEnroll = async (courseId) => {
+    //     try {
+    //         console.log(`Enrolling in course: ${courseId}`);
+    //         const response = await enrollInCourse(courseId); // Call the API
+    //         if (response.success) {
+    //             // Redirect to the course details page with the course ID
+    //             navigate(`/courses/${courseId}`);
+    //         }
+    //     } catch (error) {
+    //         console.error("Enrollment failed:", error);
+    //         // Handle error (e.g., show a notification)
+    //     }
+    // };
+
     return (
         <div>
-            {mockUserData.role ==="student" ? (
-                <div className="course-progress-section">
-                    <h2 className="course-progress-heading"> Course Progress </h2>
-                    <div className="course-progress-grid">{availableCourses.map((course,index)=>(
-                        <div key={index} className="course-card">
-                            <img src={course.image} alt={course.title}className="course-image" />
-                            <h3 className="course-title"> {course.title} </h3>
-                            <p className="course-instructor">{course.instructor}</p>
-                            <CourseStudentActions
-                            onResume={()=> console.log(`Resuming Course:${course.title}`)}/>
+            {roleName === "student" ? (
+                <div>
+                    <div className="course-progress-section">
+                        <h2 className="course-progress-heading"> Course Progress </h2>
+                        <div className="course-progress-grid">
+                            {studentEnrolledCourses.map((course, index) => (
+                                <div key={index} className="course-card">
+                                    <img
+                                        src={`https://picsum.photos/200?random=${course.enrollment.course_id._id}`}
+                                        alt={course.enrollment.course_id.title}
+                                        className="course-image"
+                                    />
+                                    <h3 className="course-title"> {course.enrollment.course_id.title} </h3>
+                                    <p className="course-instructor">{course.enrollment.course_id.trainer_id.name}</p>
+                                    <CourseStudentActions
+                                        onResume={() => console.log(`Resuming Course:${course.title}`)}
+                                    />
+                                </div>
+                            ))}
                         </div>
-                    ))}
+                    </div>
+                    {/* Available courses */}
+                    <div className="available-courses-section">
+                        <h2 className="available-courses-heading"> Available Courses </h2>
+                        <div className="available-courses-grid">
+                            {studentNotEnrolledCourses.map((course, index) => (
+                                <div key={index} className="course-card">
+                                    <img
+                                        src={`https://picsum.photos/200?random=${course._id}`}
+                                        alt={course.title}
+                                        className="course-image"
+                                    />
+                                    <h3 className="course-title"> {course.title} </h3>
+                                    <p className="course-instructor"> {course.trainer_id.name}</p>
+                                    <div className="course-card-buttons">
+                                        <button
+                                            className="additional-details-button"
+                                            onClick={() => toggleModal(course)}
+                                        >
+                                            Additional Details
+                                        </button>
+                                        <button
+                                            className="card-enroll-button"
+                                            onClick={() => handleEnrollCourse(user, course._id)} // Pass the course ID
+                                        >
+                                            Enroll Now
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {isModalOpen && (
+                            <CourseDetails course={selectedCourse} toggleModal={toggleModal} roleName={roleName} handleEnroll={handleEnrollCourse}/>
+                        )}
                     </div>
                 </div>
-            ):(
-            <div>
-                <TrainerCourses availableCourses={availableCourses}/>
-            </div>
-            // <div className="course-created-section">
-            //     <UpdateCourseDisplay/>
-            //     <h2 className="course-created-heading"> Courses Created by You </h2>
-            //     <div className="course-created-grid">
-            //         {availableCourses.map((course,index)=>(
-            //             <div key={index} className="course-card">
-            //                 <img src={course.image} alt={course.title}className="course-image" />
-            //                 <h3 className="course-title"> {course.title} </h3>
-            //                 <p className="course-instructor">{course.instructor}</p>
-            //                 <CourseTrainerActions
-            //                 onUpdate={() => console.log(`Course Title: ${course.title}, Course Trainer: ${course.instructor}`)}
-            //                 onDelete={() => console.log(`Deleting Course ID: ${course.courseID}`)} 
-            //              </div>   />
-            //             </div>
-            //         ))}
-            //     </div>
-            // </div>
-            )}
-            
-            <div className="available-courses-section">
-                <h2 className="available-courses-heading"> Trending Courses </h2>
-                <div className="available-courses-grid">
-                    {availableCourses.map((course, index) => (
-                        <div key={index} className="course-card">
-                            <img
-                                src={course.image}
-                                alt={course.title}
-                                className="course-image"
-                            />
-                            <h3 className="course-title"> {course.title} </h3>
-                            <p className="course-instructor"> {course.instructor}</p>
-                            <div className="course-card-buttons">
-                                <button
-                                    className="additional-details-button"
-                                    onClick={() => toggleModal(course)}
-                                >
-                                    Additional Details
-                                </button>
-                                <button
-                                    className="card-enroll-button"
-                                    onClick={() => handleEnroll(course.id)} // Pass the course ID
-                                >
-                                    Enroll Now
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+            ) : roleName === "trainer" ? (
+                <div>
+                    {/* Render TrainerCourses and available courses for trainers */}
+                    <TrainerCourses availableCourses={trainerCourses} />
 
-                {isModalOpen && (
-                    <CourseDetails course={selectedCourse} toggleModal={toggleModal} />
-                )}
-            </div>
+                    <div className="available-courses-section">
+                        <h2 className="available-courses-heading"> Trending Courses </h2>
+                        <div className="available-courses-grid">
+                            {trainerNotCourses.map((course, index) => (
+                                <div key={index} className="course-card">
+                                    <img
+                                        src={course.image}
+                                        alt={course.title}
+                                        className="course-image"
+                                    />
+                                    <h3 className="course-title"> {course.title} </h3>
+                                    <p className="course-instructor"> {course.instructor}</p>
+                                    <div className="course-card-buttons">
+                                        <button
+                                            className="additional-details-button"
+                                            onClick={() => toggleModal(course)}
+                                        >
+                                            Additional Details
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {isModalOpen && (
+                            <CourseDetails course={selectedCourse} toggleModal={toggleModal} roleName={roleName} />
+                        )}
+                    </div>
+                </div>
+            ) : null}
         </div>
     );
 };

@@ -45,6 +45,7 @@ const courseData = {
 }
 
 const CourseContent = () => {
+  console.log("hi")
   const {selectedModule} = useModule();
   // console.log("ok",courseData.courses[0].modules[0].title);
   // console.log(selectedModule);

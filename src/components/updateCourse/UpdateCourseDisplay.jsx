@@ -4,24 +4,21 @@ import UpdateCourseModule from './UpdateCourseModule';
 import UpdateCourseModal from './UpdateCourseModal';
 import './UpdateCourseDisplay.css'; 
 import { useParams } from 'react-router-dom';
+import { getModules, updateModule } from '@/api/moduleApi';
 
 const UpdateCourseDisplay = () => {
-    const {courseId} = useParams();
-    console.log(courseId); // use this to retrieve the modules if any
+    const { courseId } = useParams();
+    // console.log(courseId); // use this to retrieve the modules if any
 
-    const [modules, setModules] = useState([
-        { id: 'module1', name: 'Module 1', description: 'This is a description of Module 1.' },
-        { id: 'module2', name: 'Module 2', description: 'This is a description of Module 2.' },
-    ]);
+    const [modules, setModules] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentModule, setCurrentModule] = useState(null);
-    // const [isDarkMode, setIsDarkMode] = useState(false);
-
-    // console.log(currentCourse);
+    const [error, setError] = useState(null); // State to hold error messages
 
     const openModal = (moduleId) => {
-        const module = modules.find(m => m.id === moduleId);
+        const module = modules.find(m => m._id === moduleId);
         setCurrentModule(module);
+        console.log("currentModule",currentModule);
         setIsModalOpen(true);
     };
 
@@ -29,11 +26,31 @@ const UpdateCourseDisplay = () => {
         setIsModalOpen(false);
     };
 
-    const updateModule = (id, name, description) => {
-        setModules(modules.map(module => 
-            module.id === id ? { ...module, name, description } : module
-        ));
+    const handleUpdate  = (id, title, description) => {
+        if (currentModule) {
+            updateModule(id, title, description);
+            setModules(modules.map(module => 
+                module._id === id ? { ...module, title, description } : module
+            ));
+            closeModal();
+        }
     };
+
+
+    useEffect(() => {
+        const fetchModules = async (courseId) => {
+            try {
+                const data = await getModules(courseId); // Fetch modules using the API
+                setModules(data);
+            } catch (error) {
+                setError('Failed to fetch modules. Please try again later.'); // Set error message
+            }
+        };
+
+        if (courseId) {
+            fetchModules(courseId);
+        }
+    }, [courseId]);
 
     return (
         <div className={`App`}>
@@ -41,10 +58,12 @@ const UpdateCourseDisplay = () => {
                 <p>Update Courses</p>
             </div>
 
+            {error && <p className="error">{error}</p>} {/* Display error message */}
+            {modules.length === 0 && <p>No modules available.</p>}
             <div className="update-course-container">
                 <div className="update-course-modules">
                     {modules.map(module => (
-                        <UpdateCourseModule key={module.id} module={module} onUpdate={openModal} />
+                        <UpdateCourseModule key={module._id} module={module} onUpdate={openModal} />
                     ))}
                 </div>
             </div>
@@ -52,7 +71,7 @@ const UpdateCourseDisplay = () => {
                 isOpen={isModalOpen} 
                 onClose={closeModal} 
                 module={currentModule} 
-                onUpdate={updateModule} 
+                onUpdate={handleUpdate} 
             />
         </div>
     );

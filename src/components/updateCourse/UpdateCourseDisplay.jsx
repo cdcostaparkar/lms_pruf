@@ -1,34 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './UpdateNavbar';
-import Module from './UpdateCourseModule';
-import Modal from './UpdateCourseModal';
+import UpdateCourseModule from './UpdateCourseModule';
+import UpdateCourseModal from './UpdateCourseModal';
 import './UpdateCourseDisplay.css'; 
+import { useParams } from 'react-router-dom';
 
 const UpdateCourseDisplay = () => {
+    const {courseId} = useParams();
+    console.log(courseId); // use this to retrieve the modules if any
+
     const [modules, setModules] = useState([
         { id: 'module1', name: 'Module 1', description: 'This is a description of Module 1.' },
         { id: 'module2', name: 'Module 2', description: 'This is a description of Module 2.' },
     ]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentModule, setCurrentModule] = useState(null);
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    // const [isDarkMode, setIsDarkMode] = useState(false);
 
-
-    // console.log(isModalOpen);
-    // Load the saved theme from localStorage
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            setIsDarkMode(savedTheme === 'dark');
-            document.body.classList.toggle('dark', savedTheme === 'dark');
-        }
-    }, []);
-
-    const toggleTheme = () => {
-        setIsDarkMode(prev => !prev);
-        document.body.classList.toggle('dark');
-        localStorage.setItem('theme', !isDarkMode ? 'dark' : 'light');
-    };
+    // console.log(currentCourse);
 
     const openModal = (moduleId) => {
         const module = modules.find(m => m.id === moduleId);
@@ -47,16 +36,19 @@ const UpdateCourseDisplay = () => {
     };
 
     return (
-        <div className={`App ${isDarkMode ? 'dark' : ''}`}>
-            <Navbar toggleTheme={toggleTheme} />
+        <div className={`App`}>
+            <div className="uc-navbar">
+                <p>Update Courses</p>
+            </div>
+
             <div className="update-course-container">
                 <div className="update-course-modules">
                     {modules.map(module => (
-                        <Module key={module.id} module={module} onUpdate={openModal} />
+                        <UpdateCourseModule key={module.id} module={module} onUpdate={openModal} />
                     ))}
                 </div>
             </div>
-            <Modal 
+            <UpdateCourseModal 
                 isOpen={isModalOpen} 
                 onClose={closeModal} 
                 module={currentModule} 

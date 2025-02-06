@@ -26,6 +26,7 @@ const AddCourses = () => {
         }
 
         if (modules.length >= 3) {
+            setShowModal(false);
             document.getElementById("module-alert").style.display = "block";
             setTimeout(() => {
                 document.getElementById("module-alert").style.display = "none";
@@ -55,6 +56,7 @@ const AddCourses = () => {
 
     return (
         <div className="page-container">
+            <div className="module-alert" id="module-alert">Can't add more than 3 courses</div>
             <div className="header-container">
                 <div className="header-content">
                 <h2 className="page-heading">Add New Course</h2>

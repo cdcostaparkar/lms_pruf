@@ -1,43 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./AccountDetails.css";
-const mockUser = {
-  name: "Ananya Mehta",
-  username: "ananya_mehta",
-  email: "ananya_mehta@example.com",
-  address:"123 , Main St, Anytown, USA",
-  role:"Student",
-  profileImage: "https://eu.ui-avatars.com/api/?name=John+Doe&size=250",
-};
+import { useAuth } from "@/context/AuthContext";
+import { fetchUserDetails } from "@/api/userApi";
 
 function AccountDetails() {
-  const [darkMode, setDarkMode] = useState(false);
+  const { user } =  useAuth();
+  const [userDetails, setUserDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const getUserDetails = async () => {
+      try {
+        const data = await fetchUserDetails(user);
+        setUserDetails(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getUserDetails();
+  }, [user]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
   return (
-      <div className ={`mode ${darkMode ? "dark" : "light"}`}>  
-        {/* <header className="page-header"> 
-          <h1 className="user-profile-heading">User Profile </h1>      
-          <button className="toggle-btn" onClick={() => setDarkMode(!darkMode)}>
-            {darkMode ? "Light Mode ☀️" : "Dark Mode 🌙"}
-          </button>
-        </header>  */}
-
-        <div className='profile-container'>
-          <div className ="user-profile-card">
-            <img 
-                src={mockUser.profileImage}
-                alt="Profile"
-                className="profile-img" 
-            />
-            <div className="user-info">
-              <p><strong>Name: </strong> {mockUser.name}</p>
-              <p><strong>Username: </strong> {mockUser.username}</p>
-              <p><strong>Email: </strong> {mockUser.email}</p>
-              <p><strong>Address: </strong> {mockUser.address}</p>
-              <p><strong>Role: </strong> {mockUser.role}</p>
-            </div>
-          </div>
+    <div className="mode">
+      <div className='profile-container'>
+        <div className="user-profile-card">
+          <img
+            src={userDetails.profileImage}
+            alt={userDetails.name}
+            className="profile-img"
+          />
+          <div className="user-info">
+            <p><strong>Name: </strong> {userDetails.name}</p>
+            <p><strong>Username: </strong> {userDetails.username}</p>
+            <p><strong>Email: </strong> {userDetails.email}</p>
+            <p><strong>Address: </strong> {userDetails.address}</p>
+            <p><strong>Role: </strong> {userDetails.role_name}</p>
           </div>
         </div>
+      </div>
+    </div>
 
   );
 }

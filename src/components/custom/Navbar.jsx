@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuList,
@@ -15,8 +15,11 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { useAuth } from "@/context/AuthContext";
 
-export default function Navbar() {
+export default function Navbar({ onLogout }) {
+  const { roleName } = useAuth();
+  
   return (
     <header className="flex h-20 w-full shrink-0 items-center px-4 md:px-6">
       <Link to="/" className="mr-6 hidden lg:flex">
@@ -34,14 +37,17 @@ export default function Navbar() {
             </Link>
           </NavigationMenuLink>
           
-          <NavigationMenuLink asChild>
-            <Link
-              to="/progress"
-              className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-            >
-              Progress
-            </Link>
-          </NavigationMenuLink>
+          {/* Conditionally render the Progress link */}
+          {roleName === "student" && (
+            <NavigationMenuLink asChild>
+              <Link
+                to="/progress"
+                className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-white px-4 py-2 text-sm font-medium transition-colors hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+              >
+                Progress
+              </Link>
+            </NavigationMenuLink>
+          )}
 
           <NavigationMenuLink asChild>
             <Link
@@ -69,7 +75,7 @@ export default function Navbar() {
             </DropdownMenuItem>
             {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={onLogout}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

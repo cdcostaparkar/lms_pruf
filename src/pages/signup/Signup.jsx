@@ -1,7 +1,8 @@
 // src/Signup.jsx
 import React, { useState } from 'react';
 import './signup.css'; // Import the CSS file
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -11,10 +12,12 @@ const Signup = () => {
         password: '',
         phone: '',
         address: '',
-        role: '',
+        role_name: '',
     });
 
     const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
+    const { login } = useAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,16 +41,51 @@ const Signup = () => {
         if (!formData.phone) newErrors.phone = 'Phone number is required';
         if (!formData.address) newErrors.address = 'Address is required';
         if (!formData.role) newErrors.role = 'Role is required';
+        else if (!['trainer', 'student'].includes(formData.role)) {
+            newErrors.role = 'Role must be either "trainer" or "student"';
+        }
 
         return newErrors;
     };
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     const validationErrors = validate();
+    //     if (Object.keys(validationErrors).length === 0) {
+    //         console.log('Form submitted successfully:', formData);
+    //         // Handle form submission (e.g., send data to an API)
+    //     } else {
+    //         setErrors(validationErrors);
+    //     }
+    // };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = validate();
         if (Object.keys(validationErrors).length === 0) {
-            console.log('Form submitted successfully:', formData);
-            // Handle form submission (e.g., send data to an API)
+            try {
+                console.log(formData);
+                const response = await fetch("http://localhost:5000/api/users/createUser", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                if (!response.ok) {
+                    throw new Error("Signup failed. Please check your details.");
+                }
+
+                const data = await response.json();
+
+                // Use the login function from context to store userId and role_name
+                login(data.userId, data.role_name);
+
+                // Redirect to homepage or another route after successful signup
+                navigate(`/`);
+            } catch (error) {
+                setErrors({ api: error.message });
+            }
         } else {
             setErrors(validationErrors);
         }

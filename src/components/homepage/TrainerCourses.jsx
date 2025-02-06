@@ -42,12 +42,16 @@ const TrainerCourses = ({availableCourses}) => {
             <div className="course-created-grid">
                 {availableCourses.map((course,index)=>(
                     <div key={index} className="course-card">
-                        <img src={course.image} alt={course.title}className="course-image" />
+                        <img 
+                            src={`https://picsum.photos/200?random=${course._id}`}
+                            alt={course.title}
+                            className="course-image" 
+                        />
                         <h3 className="course-title"> {course.title} </h3>
                         <p className="course-instructor">{course.instructor}</p>
                         <CourseTrainerActions
-                            onUpdate={() => navigate(`/courses/update/${course.courseID}`)}
-                            onDelete={() => console.log(`Deleting Course ID: ${course.courseID}`)} 
+                            onUpdate={() => navigate(`/courses/update/${course._id}`)}
+                            onDelete={() => console.log(`Deleting Course ID: ${course._id}`)} 
                         />
                     </div>
                 ))}

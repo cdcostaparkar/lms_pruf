@@ -38,8 +38,15 @@ const CourseCard = ({ courses, showProgress }) => {
         {courses.map((course) => (
           <CarouselItem key={course.id} className="w-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/4">
             <div className="p-2">
-              <Card className="h-72 flex flex-col">
-                <CardContent className="flex flex-col justify-between p-6 space-y-4 flex-grow"> {/* Use flex-grow to fill space */}
+              <Card className="h-auto flex flex-col">
+                <img
+                  src={`https://picsum.photos/200?random=${course.id}`}
+                  alt={course.name}
+                  // width={400}
+                  // height={225}
+                  className="aspect-video object-cover rounded-md"
+                />
+                <CardContent className="flex flex-col justify-between p-6 space-y-4 flex-grow">
                   <div>
                     <h3 className="text-xl font-semibold text-center mb-2">{course.name}</h3>
                     <p className="text-sm text-gray-600 overflow-hidden text-ellipsis whitespace-nowrap max-w-full">

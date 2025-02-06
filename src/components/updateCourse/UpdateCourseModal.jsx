@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 const UpdateCourseModal = ({ isOpen, onClose, module, onUpdate }) => {
     if (!isOpen) return null;
     console.log("hi", module);
-    const [name, setName] = useState(module.name);
+    const [name, setName] = useState(module.title);
     const [description, setDescription] = useState(module.description);
 
     const handleUpdate = () => {
-        onUpdate(module.id, name, description);
+        onUpdate(module._id, name, description);
         onClose();
     };
     // console.log(module);

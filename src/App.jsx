@@ -64,8 +64,12 @@ function App() {
                 path="/progress" 
                 element={<ProtectedRoute element={<CoursesProgress />} allowedRoles={['student']} />} 
               />
+              <Route 
+                path="/courses/add" 
+                element={<ProtectedRoute element={<AddCourses />} allowedRoles={['trainer']} />} 
+              />
+
               <Route path="/courses/update/:courseId" element={<CourseUpdate />} />
-              <Route path="/courses/add" element={<AddCourses />} />
               <Route path="/account" element={<AccountDetails />} />
 
               {/* This is a modal, and can be persisted on click in HomePage */}

@@ -11,6 +11,7 @@ import {
 } from "@/api/getCoursesApi";
 import { handleEnroll } from "@/api/enrollApi";
 
+
 const AvailableCourses = () => {
     const { user, roleName } = useAuth();
 
@@ -28,7 +29,7 @@ const AvailableCourses = () => {
    
     const [enrollmentChange, setEnrollmentChange] = useState(0);
 
-    useEffect(() => {
+    useEffect(() => { 
         const fetchCourses = async () => {
             try {
                 if (roleName === "student") {
@@ -77,7 +78,11 @@ const AvailableCourses = () => {
 
     const handleEnrollCourse = async (user, courseId) => {
         try {
-            await handleEnroll(user, courseId); // Call the original handleEnroll
+            // store
+            
+
+
+            // await handleEnroll(user, courseId); // Call the original handleEnroll
             setEnrollmentChange((prev) => prev + 1); // Update enrollmentChange
         } catch (error) {
             setError(error.message);
@@ -115,7 +120,7 @@ const AvailableCourses = () => {
                                     <h3 className="course-title"> {course.enrollment.course_id.title} </h3>
                                     <p className="course-instructor">{course.enrollment.course_id.trainer_id.name}</p>
                                     <CourseStudentActions
-                                        onResume={() => console.log(`Resuming Course:${course.title}`)}
+                                        onResume={() => console.log(`Resuming Course:${course.enrollment.course_id._id}`)}
                                     />
                                 </div>
                             ))}
@@ -160,7 +165,7 @@ const AvailableCourses = () => {
             ) : roleName === "trainer" ? (
                 <div>
                     {/* Render TrainerCourses and available courses for trainers */}
-                    <TrainerCourses availableCourses={trainerCourses} />
+                    <TrainerCourses availableCourses={trainerCourses} setAvailableCourses={setTrainerCourses}/>
 
                     <div className="available-courses-section">
                         <h2 className="available-courses-heading"> Trending Courses </h2>
@@ -168,7 +173,7 @@ const AvailableCourses = () => {
                             {trainerNotCourses.map((course, index) => (
                                 <div key={index} className="course-card">
                                     <img
-                                        src={course.image}
+                                        src={`https://picsum.photos/200?random=${course._id}`}
                                         alt={course.title}
                                         className="course-image"
                                     />

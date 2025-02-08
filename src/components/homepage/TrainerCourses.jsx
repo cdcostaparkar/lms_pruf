@@ -1,9 +1,9 @@
 import { useState } from "react";
 import UpdateCourseDisplay from "../updateCourse/UpdateCourseDisplay";
 import { useNavigate } from "react-router-dom";
+import { deleteCourse } from "@/api/courseApi";
 
-
-const TrainerCourses = ({availableCourses}) => {
+const TrainerCourses = ({availableCourses, setAvailableCourses}) => {
     const navigate = useNavigate();
     // const [isModalOpen, setIsModalOpen] = useState(false);
     // const [currentCourse, setCurrentCourse] = useState(null);
@@ -17,6 +17,19 @@ const TrainerCourses = ({availableCourses}) => {
     //     setIsModalOpen(false);
     //     setCurrentCourse(null);
     // };
+
+    const handleDeleteCourse = async (courseId) => {
+        try {
+            await deleteCourse(courseId);
+            // Update the availableCourses state to remove the deleted course
+            setAvailableCourses((prevCourses) =>
+                prevCourses.filter((course) => course._id !== courseId)
+            );
+            console.log(`Course ID ${courseId} deleted successfully.`);
+        } catch (error) {
+            console.error(`Failed to delete course ID ${courseId}:`, error);
+        }
+    };
 
     const CourseTrainerActions = ({ onUpdate, onDelete}) => {
         return (
@@ -51,7 +64,7 @@ const TrainerCourses = ({availableCourses}) => {
                         <p className="course-instructor">{course.instructor}</p>
                         <CourseTrainerActions
                             onUpdate={() => navigate(`/courses/update/${course._id}`)}
-                            onDelete={() => console.log(`Deleting Course ID: ${course._id}`)} 
+                            onDelete={() => handleDeleteCourse(course._id)}
                         />
                     </div>
                 ))}

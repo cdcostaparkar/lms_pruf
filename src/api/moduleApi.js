@@ -35,3 +35,23 @@ export const updateModule = async (moduleId, title, description) => {
         console.error("Error updating module:", error);
     }
 };
+
+
+export async function createModule(courseId, moduleData) {
+    try {
+        const response = await fetch(`${MODULES_API_URL}/createModule/${courseId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(moduleData),
+        });
+
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error creating module:', error);
+        throw error;
+    }
+}

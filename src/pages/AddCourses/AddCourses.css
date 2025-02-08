@@ -12,11 +12,12 @@
     margin: 10px 0;
     padding: 20px;  
 }
-.course-heading{
+
+.course-heading {
     font-size: larger;
     font-weight: bold;
-
 }
+
 .header-content {
     display: flex;
     align-items: center; 
@@ -24,10 +25,16 @@
     width: 100%;
 }
 
+.button-container {
+    display: flex;
+    gap: 1rem; /* Adds space between buttons */
+}
+
+
 .page-heading {
     margin: 0; 
     font-weight: bold;
-    font-size: 18px;
+    font-size: 2rem;
 }
 
 .add-module-button {
@@ -35,6 +42,14 @@
     border: none;
     background-color: #182430;
     color: white; 
+    cursor: pointer; 
+}
+
+.submit-course-button {
+    padding: 10px 30px; 
+    border: none;
+    background-color: rgb(214, 214, 214);
+    color: #182430; 
     cursor: pointer; 
 }
 
@@ -79,13 +94,42 @@
     margin-right: 80px; 
 }
 
+.name-duration-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Space between the two fields */
+}
+
+.modal-group {
+    flex: 1; /* Allow the fields to grow equally */
+    min-width: 0; /* Prevent overflow */
+}
+
+.modal-input, .modal-textarea {
+    padding: 10px;
+    border: 1px solid #ccc; 
+    font-size: 16px; 
+    color: #333; 
+    width: 100%; 
+    box-sizing: border-box; 
+    overflow: hidden; /* Prevent overflow */
+}
+
+.module-duration {
+    font-size: 0.8rem;    
+    color: #666; 
+    margin-bottom: 0.4rem; 
+}
+
+
 .modules-container {
-    flex: 0 0 200px; 
+    /* flex: 0 0 200px;  */
     padding: 30px; 
     overflow-y: auto;
 }
 .modules-heading {
-    margin: 0 0 10px; 
+    margin: 0 0 10px;
+    font-weight: bold;
 }
 
 .modules-list {
@@ -105,6 +149,9 @@
     background-color: #fff; 
 }
 
+.module-title {
+    font-weight: bold;
+}
 .modal-heading {
     font-size: 28px; 
     text-align: center;

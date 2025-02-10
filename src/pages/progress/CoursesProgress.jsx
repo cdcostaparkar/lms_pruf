@@ -2,20 +2,6 @@ import React, { useEffect, useState } from 'react';
 import CourseCard from '@/components/custom/CourseCard';
 import { getAllEnrolledCourses } from '@/api/getCoursesApi';
 import { useAuth } from '@/context/AuthContext';
-// export const getAllEnrolledCourses = async (userId) => {
-//   const response = await fetch(`${ENROLL_API_URL}/getAllEnrolledCourses/${userId}`, {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//   });
-
-//   if (!response.ok) {
-//     throw new Error("Failed to fetch enrolled courses.");
-//   }
-
-//   return await response.json();
-// };
 
 const CoursesProgress = () => {
     const { user } = useAuth();
@@ -42,13 +28,21 @@ const CoursesProgress = () => {
     }, [user]);
 
     return (
-        <>
-            <h1 className="text-3xl font-bold text-left my-4 pl-4">Courses In Progress</h1>
-            <CourseCard courses={inProgressCourses} showProgress={true} />
-            <br />
-            <h1 className="text-3xl font-bold text-left my-4 pl-4">Courses Completed</h1>
-            <CourseCard courses={completedCourses} showProgress={false} />
-        </>
+        <div className="p-6"> {/* Added padding here */}
+            <h1 className="text-4xl font-bold text-left my-4 pl-4">My Learning</h1>
+            <div className="mb-4">
+                <h2 className="bg-gray-200 bg-opacity-60 rounded-full p-4 text-left text-l font-bold inline-block ml-4 opacity-75">
+                    In Progress
+                </h2>
+                <CourseCard courses={inProgressCourses} showProgress={true} />
+            </div>
+            <div className="mb-4">
+                <h2 className="bg-gray-200 bg-opacity-70 rounded-full p-4 text-left text-l font-bold inline-block ml-4 opacity-75">
+                    Completed
+                </h2>
+                <CourseCard courses={completedCourses} showProgress={false} />
+            </div>
+        </div>
     );
 };
 

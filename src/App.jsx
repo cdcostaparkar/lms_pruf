@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -18,6 +17,7 @@ import AddCourses from './pages/AddCourses/AddCourses'
 import CourseUpdate from './pages/courseUpdate/CourseUpdate'
 import HomePage from './pages/HomePage/HomePage'
 import Navbar from './components/custom/Navbar'
+import LoginPage from './app/login/page'
 
 
 function App() {
@@ -27,21 +27,6 @@ function App() {
   const ProtectedRoute = ({ element, allowedRoles }) => {
     return allowedRoles.includes(roleName) ? element : <Navigate to="/" />;
   };
-  // const [user, setUser] = useState(localStorage.getItem("userId"));
-
-  // console.log(user);
-  // const handleLogout = () => {
-  //   // Remove userId and role_name from localStorage
-  //   localStorage.removeItem('userId');
-  //   localStorage.removeItem('roleName');
-
-  //   // Update user state to null
-  //   setUser(null);
-  // };
-
-  // const handleLogin = (userId) => {
-  //   setUser(userId);
-  // };
 
   return (
     <>
@@ -51,6 +36,8 @@ function App() {
           <Routes>
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/login2" element={<LoginPage />} />
+            
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         ) : (

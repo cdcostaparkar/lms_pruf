@@ -10,6 +10,8 @@ import {
     getNotTrainerCourses 
 } from "@/api/getCoursesApi";
 import { handleEnroll } from "@/api/enrollApi";
+import { ButtonWithIcon } from "../custom/ButtonWithIcon";
+import CourseCard from "../custom/CourseCard";
 
 
 const AvailableCourses = () => {
@@ -21,7 +23,7 @@ const AvailableCourses = () => {
 
     // State for trainer courses
     const [trainerCourses, setTrainerCourses] = useState([]);
-    const [trainerNotCourses, setTrainerNotCourses] = useState([]);
+    // const [trainerNotCourses, setTrainerNotCourses] = useState([]);
 
     const [error, setError] = useState(null);
     const [selectedCourse, setSelectedCourse] = useState(null);
@@ -47,9 +49,9 @@ const AvailableCourses = () => {
                     setTrainerCourses(trainerCourses);
 
                     // Fetch not trainer courses
-                    const notTrainerCourses = await getNotTrainerCourses(user);
-                    setTrainerNotCourses(notTrainerCourses);
-                    console.log(trainerCourses, notTrainerCourses);
+                    // const notTrainerCourses = await getNotTrainerCourses(user);
+                    // setTrainerNotCourses(notTrainerCourses);
+                    console.log("trainerCourses",trainerCourses);
                 }
             } catch (error) {
                 setError(error.message);
@@ -61,15 +63,16 @@ const AvailableCourses = () => {
         }
     }, [user, roleName, enrollmentChange]);
 
-    const CourseStudentActions = ({ onResume }) => {
-        return (
-            <div className="course-actions">
-                <button className="button resume-button" onClick={onResume}>
-                    Resume
-                </button>
-            </div>
-        );
-    };
+    // const CourseStudentActions = ({ onResume }) => {
+    //     return (
+            
+    //         <div className="course-actions">
+    //             <button className="button resume-button" onClick={onResume}>
+    //                 Resume
+    //             </button>
+    //         </div>
+    //     );
+    // };
 
     const toggleModal = (course) => {
         setSelectedCourse(course);
@@ -81,33 +84,21 @@ const AvailableCourses = () => {
             // store
             
 
-
-            // await handleEnroll(user, courseId); // Call the original handleEnroll
+            console.log("enrolling")
+            await handleEnroll(user, courseId); // Call the original handleEnroll
             setEnrollmentChange((prev) => prev + 1); // Update enrollmentChange
         } catch (error) {
             setError(error.message);
         }
     };
 
-    // const handleEnroll = async (courseId) => {
-    //     try {
-    //         console.log(`Enrolling in course: ${courseId}`);
-    //         const response = await enrollInCourse(courseId); // Call the API
-    //         if (response.success) {
-    //             // Redirect to the course details page with the course ID
-    //             navigate(`/courses/${courseId}`);
-    //         }
-    //     } catch (error) {
-    //         console.error("Enrollment failed:", error);
-    //         // Handle error (e.g., show a notification)
-    //     }
-    // };
-
     return (
         <div>
             {roleName === "student" ? (
                 <div>
-                    <div className="course-progress-section">
+                    <h2 className="course-progress-heading"> Course Progress </h2>
+                    <CourseCard courses={studentEnrolledCourses} showProgress={true} />
+                    {/* <div className="course-progress-section">
                         <h2 className="course-progress-heading"> Course Progress </h2>
                         <div className="course-progress-grid">
                             {studentEnrolledCourses.map((course, index) => (
@@ -119,13 +110,11 @@ const AvailableCourses = () => {
                                     />
                                     <h3 className="course-title"> {course.enrollment.course_id.title} </h3>
                                     <p className="course-instructor">{course.enrollment.course_id.trainer_id.name}</p>
-                                    <CourseStudentActions
-                                        onResume={() => console.log(`Resuming Course:${course.enrollment.course_id._id}`)}
-                                    />
+                                    <ButtonWithIcon course={course}/>
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                     {/* Available courses */}
                     <div className="available-courses-section">
                         <h2 className="available-courses-heading"> Available Courses </h2>
@@ -167,34 +156,6 @@ const AvailableCourses = () => {
                     {/* Render TrainerCourses and available courses for trainers */}
                     <TrainerCourses availableCourses={trainerCourses} setAvailableCourses={setTrainerCourses}/>
 
-                    <div className="available-courses-section">
-                        <h2 className="available-courses-heading"> Trending Courses </h2>
-                        <div className="available-courses-grid">
-                            {trainerNotCourses.map((course, index) => (
-                                <div key={index} className="course-card">
-                                    <img
-                                        src={`https://picsum.photos/200?random=${course._id}`}
-                                        alt={course.title}
-                                        className="course-image"
-                                    />
-                                    <h3 className="course-title"> {course.title} </h3>
-                                    <p className="course-instructor"> {course.instructor}</p>
-                                    <div className="course-card-buttons">
-                                        <button
-                                            className="additional-details-button"
-                                            onClick={() => toggleModal(course)}
-                                        >
-                                            Additional Details
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        {isModalOpen && (
-                            <CourseDetails course={selectedCourse} toggleModal={toggleModal} roleName={roleName} />
-                        )}
-                    </div>
                 </div>
             ) : null}
         </div>

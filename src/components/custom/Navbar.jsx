@@ -21,13 +21,13 @@ export default function Navbar({ onLogout }) {
   const { roleName } = useAuth();
   
   return (
-    <header className="sticky top-0 z-50 flex h-16 w-full shrink-0 items-center px-4 md:px-6 justify-between bg-purple-200 bg-opacity-50 backdrop-blur-md shadow-lg">
+    <header className="sticky top-0 z-50 flex h-16 w-full shrink-0 items-center px-4 md:px-6 justify-between bg-purple-300 bg-opacity-50 backdrop-blur-md shadow-lg">
       <Link to="/" className="mr-6 hidden lg:flex">
         <MountainIcon className="h-6 w-6" />
         <span className="sr-only">Acme Inc</span>
         <span className="ml-2 text-lg font-semibold">Easy Learning</span>
       </Link>
-      <div className="flex-grow flex justify-center">
+      <div className="flex-grow flex justify-start"> {/* Changed from justify-center to justify-start (middle to left) */}
         <NavigationMenu className="lg:flex">
           <NavigationMenuList>
             <NavigationMenuLink asChild>

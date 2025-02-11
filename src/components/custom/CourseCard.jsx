@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
@@ -9,9 +9,37 @@ import {
 } from "@/components/ui/carousel";
 import { Progress } from "@/components/ui/progress";
 import { ButtonWithIcon } from "./ButtonWithIcon";
+import { Heart, HeartOff } from "lucide-react"; // Import both icons
+import { addToWishlist, removeFromWishlist } from "@/api/wishlistAPI";
+import { useAuth } from "@/context/AuthContext";
 
-const CourseCard = ({ courses, showProgress }) => {
-  console.log("progress courses", courses);
+const CourseCard = ({ courses, setCourses, showProgress }) => {
+  const { user } = useAuth();
+
+  const toggleBookmark = async (isWishlisted, courseId) => {
+    console.log(user, courseId);
+    let updatedCourses = [...courses]; // Create a copy of the courses array
+    const courseIndex = updatedCourses.findIndex(
+      (course) => course.enrollment.course_id._id === courseId
+    );
+
+    if (isWishlisted) {
+      const response = await removeFromWishlist(user, courseId);
+      if (response.success) {
+        updatedCourses[courseIndex].isWishlisted = false; // Update the wishlist status
+      }
+    } else {
+      const response = await addToWishlist(user, courseId);
+      if (response.success) {
+        updatedCourses[courseIndex].isWishlisted = true; // Update the wishlist status
+      }
+    }
+
+    // Update the state with the modified courses array
+    // Assuming you have a way to set the courses state, e.g., via props or context
+    setCourses(updatedCourses); // Uncomment this if you have a setCourses function
+  };
+
   return (
     <Carousel
       opts={{
@@ -27,21 +55,31 @@ const CourseCard = ({ courses, showProgress }) => {
           >
             <div className="p-2">
               <Card className="h-auto flex flex-col">
-                <img
-                  src={`https://picsum.photos/200?random=${course.enrollment.course_id._id}`}
-                  alt={course.enrollment.course_id.title}
-                  className="aspect-video object-cover rounded-md"
-                />
+                <div className="relative"> 
+                  <img
+                    src={`https://picsum.photos/200?random=${course.enrollment.course_id._id}`}
+                    alt={course.enrollment.course_id.title}
+                    className="w-full h-auto aspect-video object-cover rounded-md"
+                  />
+                  <div className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-md">
+                    {course.isWishlisted ? (
+                      <HeartOff
+                        className="text-gray-700 hover:text-gray-900 cursor-pointer"
+                        onClick={() => toggleBookmark(course.isWishlisted, course.enrollment.course_id._id)}
+                      />
+                    ) : (
+                      <Heart
+                        className="text-gray-700 hover:text-gray-900 cursor-pointer"
+                        onClick={() => toggleBookmark(course.isWishlisted, course.enrollment.course_id._id)}
+                      />
+                    )}
+                  </div>
+                </div>
                 <CardContent className="flex flex-col justify-between p-6 space-y-4 flex-grow">
                   <div>
                     <h3 className="text-xl font-bold text-left mb-2">
                       {course.enrollment.course_id.title}
                     </h3>
-                    {/* <p className="text-sm text-gray-600 text-left mb-2 max-w-full">
-                      {course.enrollment.course_id.description.length > 60
-                        ? `${course.enrollment.course_id.description.substring(0, 60)}...`
-                        : course.enrollment.course_id.description}
-                    </p> */}
                     <div className="flex justify-between text-sm text-dark-gray">
                       <span>
                         Course By:{" "}
@@ -62,8 +100,8 @@ const CourseCard = ({ courses, showProgress }) => {
                   </div>
                   {showProgress && (
                     <div className="flex flex-col items-center mt-4">
-                      <Progress value={course.progress} className="w-[90%]" />
-                      <span className="text-sm text-gray-500">{course.progress}%</span>
+                      <Progress value={course.progress.status} className="w-[90%]" />
+                      <span className="text-sm text-gray-500">{course.progress.status}%</span>
                       <ButtonWithIcon course={course} />
                     </div>
                   )}

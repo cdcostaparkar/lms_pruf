@@ -100,7 +100,7 @@ const CourseContent = () => {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
+                  <BreadcrumbLink href="#" onClick={(e) => e.preventDefault()}>
                     {course.enrollment.course_id.title}
                   </BreadcrumbLink>
                 </BreadcrumbItem>

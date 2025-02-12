@@ -1,0 +1,93 @@
+.modal-overlay{
+    background-color: rgba(88, 78, 105, 0.7); /* Semi-transparent background */
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+    z-index: 1000; 
+}
+
+.modal-content{
+    background-color: white;
+    border-radius: 8px;
+    /* padding: 20px; */
+    /* width: 90%; */
+    max-width: 1000px;
+    max-height: 500px;
+    /* position: relative; */
+}
+
+.close-button{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #ec426f; /* Color for the close button */
+}
+
+.course-info{
+    text-align: center;
+}
+
+.course-image {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.course-heading{
+    font-size: 20px;
+    justify-content: center;
+    padding-bottom: 8px;
+}
+
+.modal-course-description{
+    /* padding: 6px 0; */
+    font-size: 14px;
+    text-align: left;
+}
+
+.trainer-and-duration{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin: 2px ; */
+}
+
+.course-trainer, .course-duration{
+    margin: 0;
+}
+
+.course-duration strong, .course-trainer strong{
+    font-size: 14px;
+}
+
+.course-duration p, .course-trainer p{
+    font-size:small;
+}
+
+.course-details-modules {
+    margin-top: 2px;
+    padding: 5px; 
+    border-top: 1px solid #ccc; 
+    margin-bottom: 2px;
+}
+
+.course-details-modules h3 {
+    font-size: 13px; 
+    margin-bottom: 4px;
+    color: #1a1919; 
+    font-weight: bold;
+}
+
+.course-details-modules ul {
+    list-style-type:none;
+    padding: 0;  
+}
+
+.course-details-modules li {
+    margin: 5px 0; 
+    color: #262525;
+    font-size: 13.5px;
+}

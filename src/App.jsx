@@ -18,6 +18,9 @@ import CourseUpdate from './pages/courseUpdate/CourseUpdate'
 import HomePage from './pages/HomePage/HomePage'
 import Navbar from './components/custom/Navbar'
 import LoginPage from './app/login/page'
+import AddToCartPage from './pages/AddToCart/AddToCartPage';
+import LPNavbar from './components/landingpage/LPNavBar';
+import LandingPage from './pages/LandingPage/LandingPage';
 
 
 function App() {
@@ -33,13 +36,17 @@ function App() {
       <Router>
         {/* Redirect to login/signup if user is null */}
         {user === null ? (
+          <>
+          <LPNavbar/>
           <Routes>
+            <Route path="/landing" element={<LandingPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/login2" element={<LoginPage />} />
             
-            <Route path="*" element={<Navigate to="/login" />} />
+            <Route path="*" element={<Navigate to="/landing" />} />
           </Routes>
+          </>
         ) : (
           <>
             <Navbar onLogout={logout} /> {/* Include the Navbar here for authenticated users */}
@@ -55,6 +62,8 @@ function App() {
                 path="/courses/add" 
                 element={<ProtectedRoute element={<AddCourses />} allowedRoles={['trainer']} />} 
               />
+              
+              <Route path="/cart" element={<AddToCartPage />} />
 
               <Route path="/courses/update/:courseId" element={<CourseUpdate />} />
               <Route path="/account" element={<AccountDetails />} />

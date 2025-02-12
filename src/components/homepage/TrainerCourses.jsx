@@ -60,12 +60,12 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                                                     : course.description}
                                             </p>
                                             <div className="flex justify-between text-sm text-dark-gray">
-                                                <span>
+                                                {/* <span>
                                                     Course By:{" "}
                                                     <span className="font-bold text-gray-700">
                                                         {course.name}
                                                     </span>
-                                                </span>
+                                                </span> */}
                                                 <span className="text-gray-500">
                                                     Duration:{" "}
                                                     <span className="font-bold text-gray-700">

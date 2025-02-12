@@ -19,7 +19,7 @@ import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar({ onLogout }) {
   const { roleName } = useAuth();
-  
+
   return (
     <header className="sticky top-0 z-50 flex h-16 w-full shrink-0 items-center px-4 md:px-6 justify-between bg-purple-300 bg-opacity-50 backdrop-blur-md shadow-lg">
       <Link to="/" className="mr-6 hidden lg:flex">
@@ -27,7 +27,8 @@ export default function Navbar({ onLogout }) {
         <span className="sr-only">Acme Inc</span>
         <span className="ml-2 text-lg font-semibold">Easy Learning</span>
       </Link>
-      <div className="flex-grow flex justify-start"> {/* Changed from justify-center to justify-start (middle to left) */}
+      <div className="flex-grow flex justify-start">
+        {/* Changed from justify-center to justify-start (middle to left) */}
         <NavigationMenu className="lg:flex">
           <NavigationMenuList>
             <NavigationMenuLink asChild>
@@ -38,7 +39,7 @@ export default function Navbar({ onLogout }) {
                 Home
               </Link>
             </NavigationMenuLink>
-            
+
             {/* Conditionally render the Progress link */}
             {roleName === "student" && (
               <NavigationMenuLink asChild>
@@ -47,6 +48,18 @@ export default function Navbar({ onLogout }) {
                   className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-4 py-2 text-sm font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
                 >
                   My Learning
+                </Link>
+              </NavigationMenuLink>
+            )}
+
+            {/* Conditionally render the Cart link */}
+            {roleName === "student" && (
+              <NavigationMenuLink asChild>
+                <Link
+                  to="/cart"
+                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-4 py-2 text-sm font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                >
+                  Cart
                 </Link>
               </NavigationMenuLink>
             )}
@@ -74,10 +87,10 @@ export default function Navbar({ onLogout }) {
               <span className="sr-only">Toggle user menu</span>
             </Avatar>
           </DropdownMenuTrigger>
-          
+
           <DropdownMenuContent>
             <DropdownMenuItem>
-                <Link to="/account">My Account</Link>
+              <Link to="/account">My Account</Link>
             </DropdownMenuItem>
             {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
             <DropdownMenuSeparator />

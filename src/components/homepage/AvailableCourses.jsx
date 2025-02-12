@@ -14,6 +14,8 @@ import { ButtonWithIcon } from "../custom/ButtonWithIcon";
 import CourseCard from "../custom/CourseCard";
 import { Card, CardContent } from "@/components/ui/card";
 
+import LPCourseDetails from "../landingpage/LPCourseDetails";
+
 // Lucide
 import { ShoppingCart, BookOpenText } from "lucide-react";
 import { Button } from "../ui/button";
@@ -94,6 +96,51 @@ const AvailableCourses = () => {
         }
     };
 
+    const handleAddCart = (newCourse) => {
+
+        // if(!isLoggedIn){
+        //     navigate('/login');
+        //     return;
+        // }
+
+        // if (userRole === 'student'){
+        //     const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        //     if(!currentCart.some(course => course.id === courseId)) {
+        //         const courseToAdd = courses.find(course => course.id === courseId);
+        //         currentCart.push(courseToAdd);
+        //         localStorage.setItem("cart", JSON.stringify(currentCart));
+        //         alert("Course added to cart");
+        //         console.log("Course added to cart:", courseToAdd);
+        //     }else{
+        //         console.log("Course already in the cart");
+        //     }
+        //     navigate("/cart");
+        // }else if(userRole === 'trainer'){
+        //     alert("Error: Trainer cannot enroll in courses.");
+        // }
+
+
+        console.log("Adding to cart: ",newCourse);
+        // handleEnrollTrack(navigate, courseId);
+
+        const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        if(!currentCart.some(course => course._id === newCourse._id)){
+            const courseToAdd = studentNotEnrolledCourses.find(course => course._id === newCourse._id);
+
+            currentCart.push(courseToAdd);
+
+            localStorage.setItem("cart", JSON.stringify(currentCart));
+            alert("Course added to cart!")
+            console.log("Course added to cart:", courseToAdd);
+        }else{
+            alert("Course already in cart!")
+            console.log("Course already in cart");
+        }
+    };
+
+
     return (
         <div>
             {roleName === "student" ? (
@@ -158,7 +205,7 @@ const AvailableCourses = () => {
                                             Details
                                             <BookOpenText/>
                                         </Button>
-                                        <Button className="bg-purple-600 text-white py-2 px-4 rounded" onClick={() => console.log("first")}>
+                                        <Button className="bg-purple-600 text-white py-2 px-4 rounded" onClick={() => handleAddCart(course)}>
                                             Add 
                                             <ShoppingCart/>
                                         </Button>
@@ -170,7 +217,7 @@ const AvailableCourses = () => {
                         {/* </div> */}
                         
                         {isModalOpen && (
-                            <CourseDetails course={selectedCourse} toggleModal={toggleModal} roleName={roleName} handleEnroll={handleEnrollCourse}/>
+                            <LPCourseDetails course={selectedCourse} toggleModal={toggleModal}/>
                         )}
                     </div>
                 </div>

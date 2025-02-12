@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import "./HomePage.css";
+import midsectionimage from '../../assets/LP_mid_section/mid_image.jpg'
 import AvailableCourses from "@/components/homepage/AvailableCourses";
 
 export default function HomePage() {
@@ -16,7 +17,6 @@ export default function HomePage() {
     return (
         <div className="webpage-layout">
             <div className="webpage-heading">
-                <h2>Easy Learning </h2>
                 <div>
                     {/* Search Bar */}
                     {/* <div className="search-bar">
@@ -44,6 +44,16 @@ export default function HomePage() {
                             </button>
                         ))}
                     </div> */}
+
+                    <div className="landing-page-mid-section">
+                        <div className="mid-section-content">
+                            <div className="mid-section-text">                        
+                                <h1 className="landing-page-mid-section-heading"> 🎉 All the best courses you need in one place! 🎉</h1>
+                                <p className="landing-page-mid-section-description"> From interpersonal skills to technical topics, learning made easy and fun.</p>
+                            </div>
+                            <img className="landing-page-mid-section-image" src={midsectionimage} alt="hi" />
+                        </div>
+                    </div>
                     
 
                     {/* Available Courses */}

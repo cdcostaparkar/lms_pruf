@@ -15,6 +15,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import ELlogo from "../../assets/platformLogo/ELlogo.png"
 import { useAuth } from "@/context/AuthContext";
 
 export default function Navbar({ onLogout }) {
@@ -24,6 +25,7 @@ export default function Navbar({ onLogout }) {
     <header className="sticky top-0 z-50 flex h-16 w-full shrink-0 items-center px-4 md:px-6 justify-between bg-purple-300 bg-opacity-50 backdrop-blur-md shadow-lg">
       <Link to="/" className="mr-6 hidden lg:flex">
         <MountainIcon className="h-6 w-6" />
+        {/* <img src={ELlogo} alt="ELlogo"></img> */}
         <span className="sr-only">Acme Inc</span>
         <span className="ml-2 text-lg font-semibold">Easy Learning</span>
       </Link>

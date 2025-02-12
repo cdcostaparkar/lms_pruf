@@ -8,6 +8,7 @@ import { getAllCourses } from "@/api/getCoursesApi";
 // import { handleEnrollTrack } from "@/lib/enrollCourseTrack";
 import { useNavigate } from "react-router-dom";
 import midsectionimage from '../../assets/LP_mid_section/mid_image.jpg'
+import followusimage from '../../assets/LP_end_section/follow_us.jpg'
 
 import { useAuth } from "@/context/AuthContext"; // Import useAuth
 
@@ -26,48 +27,54 @@ export default function LandingPage() {
 
     const { isLoggedIn, userRole} =useAuth();
 
-    const handleEnroll = (courseId) => {
+    // const handleEnroll = (courseId) => {
 
-        // if(!isLoggedIn){
-        //     navigate('/login');
-        //     return;
-        // }
+    //     // if(!isLoggedIn){
+    //     //     navigate('/login');
+    //     //     return;
+    //     // }
 
-        // if (userRole === 'student'){
-        //     const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+    //     // if (userRole === 'student'){
+    //     //     const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-        //     if(!currentCart.some(course => course.id === courseId)) {
-        //         const courseToAdd = courses.find(course => course.id === courseId);
-        //         currentCart.push(courseToAdd);
-        //         localStorage.setItem("cart", JSON.stringify(currentCart));
-        //         alert("Course added to cart");
-        //         console.log("Course added to cart:", courseToAdd);
-        //     }else{
-        //         console.log("Course already in the cart");
-        //     }
-        //     navigate("/cart");
-        // }else if(userRole === 'trainer'){
-        //     alert("Error: Trainer cannot enroll in courses.");
-        // }
+    //     //     if(!currentCart.some(course => course.id === courseId)) {
+    //     //         const courseToAdd = courses.find(course => course.id === courseId);
+    //     //         currentCart.push(courseToAdd);
+    //     //         localStorage.setItem("cart", JSON.stringify(currentCart));
+    //     //         alert("Course added to cart");
+    //     //         console.log("Course added to cart:", courseToAdd);
+    //     //     }else{
+    //     //         console.log("Course already in the cart");
+    //     //     }
+    //     //     navigate("/cart");
+    //     // }else if(userRole === 'trainer'){
+    //     //     alert("Error: Trainer cannot enroll in courses.");
+    //     // }
 
 
-        console.log("Adding to cart: ",courseId);
-        // handleEnrollTrack(navigate, courseId);
+    //     console.log("Adding to cart: " , courseId);
+    //     // handleEnrollTrack(navigate, courseId);
 
-        const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+    //     const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-        if(!currentCart.some(course => course._id === courseId)){
-            const courseToAdd = courses.find(course => course._id === courseId);
-
-            currentCart.push(courseToAdd);
-
-            localStorage.setItem("cart", JSON.stringify(currentCart));
-            alert("Course added to cart!")
-            console.log("Course added to cart:", courseToAdd);
-        }else{
-            console.log("Course already in cart");
-        }
-    };
+    //     if(!currentCart.some((course) => course._id === courseId)){
+            
+    //         const courseToAdd = courses.find((course) => course._id === courseId);
+            
+    //         if (courseToAdd){
+    //             currentCart.push(courseToAdd);
+    //             localStorage.setItem("cart", JSON.stringify(currentCart));
+    //             alert("Course added to cart!")
+    //             console.log("Course added to cart:", courseToAdd);
+    //         }else{
+    //             alert("Course not found!");
+    //             console.log("Course not found in the courses array");
+    //         }
+    //     }else{
+    //         alert("Course already in the cart!");
+    //         console.log("Course already in cart");
+    //     }
+    // };
 
     useEffect(() => { 
         console.log("Fetching courses...");
@@ -147,8 +154,7 @@ export default function LandingPage() {
                                             Additional Details
                                         </button>
                                         <button
-                                            className="card-enroll-button"
-                                            onClick={() => handleEnroll(course._id)} // Pass the course ID
+                                            className="card-enroll-button" // Pass the course ID
                                         >
                                             Add to Cart 🛒
                                         </button>
@@ -164,7 +170,7 @@ export default function LandingPage() {
                 </div>
 
                     {/* Companies Using Udemy */}
-                    <div className="companies-section">
+                    {/* <div className="companies-section">
                         <h2 className="companies-heading"> Trusted by Top Companies </h2>
                         <div className="companies-list">
                             {companies.map((company, index) => (
@@ -173,8 +179,23 @@ export default function LandingPage() {
                                 </span>
                             ))}
                         </div>
-                    </div>
+                    </div> */}
                 {/* </div> */}
+
+                <div className="landing-page-end-section">
+                        <div className="end-section-content">
+                            <div className="end-section-text">                        
+                                <h1 className="landing-page-end-section-heading"> Join Our Community! </h1>
+                                <p className="landing-page-end-section-description">  
+                                Stay updated with the latest courses, exclusive content, and
+                                learning tips. </p>
+                                <p className="landing-page-end-section-description"> 
+                                     Follow us on social media! </p>
+                            </div>
+                            <img className="landing-page-end-section-image" src={followusimage} alt="Follow us" />
+                       </div>
+                </div>
+
             </div>
     );
 }

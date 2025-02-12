@@ -21,6 +21,7 @@ import LoginPage from './app/login/page'
 import AddToCartPage from './pages/AddToCart/AddToCartPage';
 import LPNavbar from './components/landingpage/LPNavBar';
 import LandingPage from './pages/LandingPage/LandingPage';
+import WishListPage from './pages/WishList Page/WishListPage';
 
 
 function App() {
@@ -63,6 +64,8 @@ function App() {
                 element={<ProtectedRoute element={<AddCourses />} allowedRoles={['trainer']} />} 
               />
               
+              
+              <Route path="/wishlist" element={<WishListPage />} />
               <Route path="/cart" element={<AddToCartPage />} />
 
               <Route path="/courses/update/:courseId" element={<CourseUpdate />} />

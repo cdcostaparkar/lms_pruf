@@ -23,6 +23,7 @@ import { Button } from "../ui/button";
 
 const AvailableCourses = () => {
     const { user, roleName } = useAuth();
+    // console.log("hi",user, roleName);
 
     // State for student courses
     const [studentEnrolledCourses, setStudentEnrolledCourses] = useState([]);
@@ -76,7 +77,6 @@ const AvailableCourses = () => {
     //         </div>
     //     );
     // };
-
     const toggleModal = (course) => {
         setSelectedCourse(course);
         setIsModalOpen(!isModalOpen);
@@ -96,48 +96,46 @@ const AvailableCourses = () => {
         }
     };
 
-    const handleAddCart = (newCourse) => {
+    const handleAddCart = (course) => {
 
-        // if(!isLoggedIn){
-        //     navigate('/login');
-        //     return;
-        // }
+        console.log("Adding to cart: ", course);
+        let currentCart = localStorage.getItem("cart");
+        currentCart = currentCart ? JSON.parse(currentCart) : [];
 
-        // if (userRole === 'student'){
-        //     const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
-
-        //     if(!currentCart.some(course => course.id === courseId)) {
-        //         const courseToAdd = courses.find(course => course.id === courseId);
-        //         currentCart.push(courseToAdd);
-        //         localStorage.setItem("cart", JSON.stringify(currentCart));
-        //         alert("Course added to cart");
-        //         console.log("Course added to cart:", courseToAdd);
-        //     }else{
-        //         console.log("Course already in the cart");
-        //     }
-        //     navigate("/cart");
-        // }else if(userRole === 'trainer'){
-        //     alert("Error: Trainer cannot enroll in courses.");
-        // }
-
-
-        console.log("Adding to cart: ",newCourse);
-        // handleEnrollTrack(navigate, courseId);
-
-        const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
-
-        if(!currentCart.some(course => course._id === newCourse._id)){
-            const courseToAdd = studentNotEnrolledCourses.find(course => course._id === newCourse._id);
-
-            currentCart.push(courseToAdd);
-
+        if (!Array.isArray(currentCart)) {
+            console.log( "Resetting cart." );
+            currentCart = []; // Reset the cart to an empty array
+        }
+        
+        if (!currentCart.some((item) => item._id === course._id)) {
+            currentCart.push(course);
             localStorage.setItem("cart", JSON.stringify(currentCart));
-            alert("Course added to cart!")
-            console.log("Course added to cart:", courseToAdd);
-        }else{
-            alert("Course already in cart!")
+            alert("Course added to cart!");
+            console.log("Course added to cart:", course);
+        } else {
+            alert("Course already in cart!");
             console.log("Course already in cart");
         }
+
+
+
+        // console.log("Adding to cart: ",newCourse);
+        // // handleEnrollTrack(navigate, courseId);
+
+        // const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // if(!currentCart.some(course => course._id === newCourse._id)){
+        //     const courseToAdd = studentNotEnrolledCourses.find(course => course._id === newCourse._id);
+
+        //     currentCart.push(courseToAdd);
+
+        //     localStorage.setItem("cart", JSON.stringify(currentCart));
+        //     alert("Course added to cart!")
+        //     console.log("Course added to cart:", courseToAdd);
+        // }else{
+        //     alert("Course already in cart!")
+        //     console.log("Course already in cart");
+        // }
     };
 
 

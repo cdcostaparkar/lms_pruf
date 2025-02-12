@@ -7,12 +7,13 @@
 
 .landing-page-mid-section {
     background-color: rgb(171, 128, 201); 
-    padding: 90px 10px;
+    padding: 60px 10px;
     /* text-align: center; */
     border-radius: 8px; 
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 
 .mid-section-content{
     display: flex;
@@ -59,8 +60,6 @@
 
 
 
-
-
 /* .course-categories-grid{
     display:grid;
     grid-template-columns: repeat(2,1fr);
@@ -85,3 +84,57 @@
 .course-category-button:hover{
     background-color: #e0e0e0;
 } */
+
+.landing-page-end-section {
+    background-color: white; 
+    margin-top: 20px;
+    padding: 20px 10px;
+    /* text-align: center; */
+    border-radius: 8px; 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+.end-section-content{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.end-section-text{
+    max-width: 80%;
+}
+
+.landing-page-end-section-image {
+    max-width: 75%; 
+    height: auto;
+    /* border-radius: 8px; */
+    margin-left: 20px;
+    margin-right: 25px;
+}
+
+.landing-page-end-section:hover {
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
+
+.landing-page-end-section-heading {
+    /* padding-top: 100px; */
+    padding-left: 20px;
+    /* padding-right: 10px; */
+    font-size: 36px; 
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    text-align: left;
+    color: #242121; /* Darker text color for readability */
+    margin-bottom: 10px; /* Space below the heading */
+    font-weight: bold; /* Bold font for emphasis */
+}
+
+.landing-page-end-section-description {
+    font-size: 20px; 
+    color: #5e5858;
+    text-align: left;
+    line-height: 1.6;
+    max-width: 900px; 
+    padding-left: 20px;
+}

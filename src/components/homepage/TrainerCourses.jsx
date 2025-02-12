@@ -74,14 +74,14 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                                             </div>
                                         </div>
                                         <div className="flex justify-center mt-4 space-x-4">
-                                            <button
+                                            {/* <button
                                                 className="button update-button"
                                                 onClick={() =>
                                                     navigate(`/courses/update/${course._id}`)
                                                 }
                                             >
                                                 Update
-                                            </button>
+                                            </button> */}
                                             <button
                                                 className="button delete-button bg-red-500 text-white"
                                                 onClick={() => handleDeleteCourse(course._id)}

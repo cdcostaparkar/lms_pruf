@@ -52,7 +52,7 @@ export const getAllNotEnrolledCourses = async (userId) => {
 // const COURSES_API_URL = "http://localhost:5000/api/courses";
 
 export const getTrainerCourses = async (userId) => {
-    const response = await fetch(`${COURSES_API_URL}/getTrainerCourses/${userId}`, {
+    const response = await fetch(`${COURSE_API_URL}/getTrainerCourses/${userId}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

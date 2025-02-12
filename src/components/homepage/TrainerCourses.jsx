@@ -9,6 +9,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Button } from "../ui/button";
 
 const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
     const navigate = useNavigate();
@@ -59,12 +60,12 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                                                     : course.description}
                                             </p>
                                             <div className="flex justify-between text-sm text-dark-gray">
-                                                <span>
+                                                {/* <span>
                                                     Course By:{" "}
                                                     <span className="font-bold text-gray-700">
                                                         {course.name}
                                                     </span>
-                                                </span>
+                                                </span> */}
                                                 <span className="text-gray-500">
                                                     Duration:{" "}
                                                     <span className="font-bold text-gray-700">
@@ -74,20 +75,12 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                                             </div>
                                         </div>
                                         <div className="flex justify-center mt-4 space-x-4">
-                                            <button
-                                                className="button update-button"
-                                                onClick={() =>
-                                                    navigate(`/courses/update/${course._id}`)
-                                                }
-                                            >
-                                                Update
-                                            </button>
-                                            <button
-                                                className="button delete-button bg-red-500 text-white"
+                                            <Button
+                                                className="bg-red-500 text-white"
                                                 onClick={() => handleDeleteCourse(course._id)}
                                             >
                                                 Delete
-                                            </button>
+                                            </Button>
                                         </div>
                                     </CardContent>
                                 </Card>

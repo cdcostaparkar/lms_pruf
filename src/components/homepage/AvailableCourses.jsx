@@ -17,8 +17,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import LPCourseDetails from "../landingpage/LPCourseDetails";
 
 // Lucide
-import { ShoppingCart, BookOpenText } from "lucide-react";
+import { ShoppingCart, BookOpenText, HeartOff, Heart } from "lucide-react";
 import { Button } from "../ui/button";
+import { addToWishlist, removeFromWishlist } from "@/api/wishlistAPI";
 
 
 const AvailableCourses = () => {
@@ -96,6 +97,31 @@ const AvailableCourses = () => {
         }
     };
 
+
+
+    const toggleBookmark = async (isWishlisted, courseId) => {
+        console.log(user, courseId);
+        let updatedCourses = [...studentNotEnrolledCourses]; // Create a copy of the courses array
+        const courseIndex = updatedCourses.findIndex(
+          (course) => course._id === courseId
+        );
+    
+        if (isWishlisted) {
+          const response = await removeFromWishlist(user, courseId);
+          if (response.success) {
+            updatedCourses[courseIndex].isWishlisted = false; // Update the wishlist status
+          }
+        } else {
+          const response = await addToWishlist(user, courseId);
+          if (response.success) {
+            updatedCourses[courseIndex].isWishlisted = true; // Update the wishlist status
+          }
+        }
+    
+        // Update the state with the modified courses array
+        // Assuming you have a way to set the courses state, e.g., via props or context
+        setStudentNotEnrolledCourses(updatedCourses); // Uncomment this if you have a setCourses function
+      };
     const handleAddCart = (newCourse) => {
 
         // if(!isLoggedIn){
@@ -179,7 +205,21 @@ const AvailableCourses = () => {
                                     alt={course.title}
                                     className="w-full h-auto aspect-video object-cover rounded-md"
                                     />
+                                    <div className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-md">
+                                        {course.isWishlisted ? (
+                                        <HeartOff
+                                            className="text-gray-700 hover:text-gray-900 cursor-pointer"
+                                            onClick={() => toggleBookmark(course.isWishlisted, course._id)}
+                                        />
+                                        ) : (
+                                        <Heart
+                                            className="text-gray-700 hover:text-gray-900 cursor-pointer"
+                                            onClick={() => toggleBookmark(course.isWishlisted, course._id)}
+                                        />
+                                        )}
+                                    </div>
                                 </div>
+                                
                                 <CardContent className="flex flex-col justify-between p-6 space-y-4 flex-grow">
                                     <div>
                                     <h3 className="text-xl font-bold text-left mb-2">

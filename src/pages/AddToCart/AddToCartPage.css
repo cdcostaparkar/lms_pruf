@@ -2,14 +2,38 @@
     padding: 20px;
 }
 
+.cart-header {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 20px 60px; 
+  }
+
 .cart-heading {
     font-size: 28px;
-    margin-bottom: 20px;
+    margin: 0;
     font-weight: bold;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    padding-left: 60px;
-    padding-top: 10px;
+    /* padding-left: 60px;
+    padding-top: 10px; */
 }
+
+.enroll-all-courses-button {
+    background-color: #8748c6; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-right: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    /* font-weight: bold;  */
+    transition: background-color 0.3s; 
+  }
+  
+  .enroll-all-courses-button:hover {
+    background-color: #7438ff; 
+  }
 
 .cart-courses-grid {
     display: block; 

@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import "./HomePage.css";
 import midsectionimage from "../../assets/LP_mid_section/mid_image.jpg";
+// import midsectionimage from "../../assets/LP_mid_section/woman-working-laptop-online-course.png";
 import AvailableCourses from "@/components/homepage/AvailableCourses";
 import { useAuth } from "@/context/AuthContext";
 
@@ -49,7 +50,7 @@ export default function HomePage() {
           </p>
         </div>
         <img
-          className="landing-page-mid-section-image"
+          className="landing-page-mid-section-image sm:w-48 lg:w-64"
           src={midsectionimage}
           alt="hi"
         />

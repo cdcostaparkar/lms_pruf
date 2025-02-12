@@ -21,6 +21,7 @@ import LoginPage from './app/login/page'
 import AddToCartPage from './pages/AddToCart/AddToCartPage';
 import LPNavbar from './components/landingpage/LPNavBar';
 import LandingPage from './pages/LandingPage/LandingPage';
+import { Toaster } from 'react-hot-toast';
 
 
 function App() {
@@ -33,9 +34,11 @@ function App() {
 
   return (
     <>
+      <div><Toaster/></div>
       <Router>
         {/* Redirect to login/signup if user is null */}
         {user === null ? (
+          
           <>
           <LPNavbar/>
           <Routes>

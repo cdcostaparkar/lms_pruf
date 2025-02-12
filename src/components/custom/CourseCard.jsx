@@ -12,6 +12,7 @@ import { ButtonWithIcon } from "./ButtonWithIcon";
 import { Heart, HeartOff } from "lucide-react"; // Import both icons
 import { addToWishlist, removeFromWishlist } from "@/api/wishlistAPI";
 import { useAuth } from "@/context/AuthContext";
+import toast from "react-hot-toast";
 
 const CourseCard = ({ courses, setCourses, showProgress }) => {
   const { user } = useAuth();
@@ -27,11 +28,17 @@ const CourseCard = ({ courses, setCourses, showProgress }) => {
       const response = await removeFromWishlist(user, courseId);
       if (response.success) {
         updatedCourses[courseIndex].isWishlisted = false; // Update the wishlist status
+        toast('Removed from Wishlist!', {
+          icon: '💔',
+        });
       }
     } else {
       const response = await addToWishlist(user, courseId);
       if (response.success) {
         updatedCourses[courseIndex].isWishlisted = true; // Update the wishlist status
+        toast('Added to Wishlist!', {
+          icon: '💓',
+        });
       }
     }
 

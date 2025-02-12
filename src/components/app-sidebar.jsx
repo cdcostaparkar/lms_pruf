@@ -1,5 +1,5 @@
-import * as React from "react"
-import { GalleryVerticalEnd } from "lucide-react"
+import { useState } from "react";
+import { GalleryVerticalEnd } from "lucide-react";
 
 import {
   Sidebar,
@@ -13,72 +13,46 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   SidebarRail,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
-import { useModule } from "@/context/ModuleProvider"
+import { useModule } from "@/context/ModuleProvider";
 
-// // Store the modified courses in local storage
-// localStorage.setItem('courses', JSON.stringify(coursesWithActiveFlag));
-
-// // To retrieve it later
-// const storedCourses = JSON.parse(localStorage.getItem('courses'));
-// console.log(storedCourses);
-
-const courseData = {
-  courses: [
-    {
-      title: "Building Your Application",
-      modules: [
-        {
-          title: "Data Fetching",
-          isActive: false,
-        },
-        {
-          title: "State",
-          isActive: false,
-        },
-      ],
-    },
-  ],
-}
-
-export function AppSidebar({
-  ...props
-}) {
+export function AppSidebar({ ...props }) {
   const { course, modules } = props;
-  console.log("appsidebar-course", course)
 
-  const modulesFlag = modules.map(module => ({
-    ...module,
-    isActive: false, // Set the default value for isActive
-  }));
+  // Initialize modulesFlag with isActive: false
+  const [modulesFlag, setModulesFlag] = useState(() => {
+    if (modules && modules.length > 0) {
+      return modules.map((module, index) => ({
+        ...module,
+        isActive: index === 0, // Set first module to active
+      }));
+    }
+    return []; // Return an empty array if modules is empty or undefined
+  });
 
-  // console.log("blah",course)
-  // console.log("mods2", modulesFlag)
   const { selectedModule, setSelectedModule } = useModule();
-  const handleModuleSelect = (module) => {
-    console.log("sewlected module", module.title)
-    setSelectedModule(module.title);
-    modulesFlag.forEach(mod => {
-      // console.log("foreach", mod)
-      mod.isActive = false;
-      // module.forEach(mod => {
-      //   mod.isActive = false;
-      // });
-    });
-    module.isActive = true; // Update the module's active state
-    // Optionally, you can fetch the module data here
+
+  const handleModuleSelect = (selectedModule) => {
+    setSelectedModule(selectedModule.title);
+
+    setModulesFlag((prevModules) =>
+      prevModules.map((module) =>
+        module.title === selectedModule.title
+          ? { ...module, isActive: true } // Set clicked module to active
+          : { ...module, isActive: false } // Set other modules to inactive
+      )
+    );
   };
 
   return (
-    (<Sidebar {...props}>
+    <Sidebar {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="#">
-                <div
-                  className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+              <a href="#" onClick={(e) => e.preventDefault()}>
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <GalleryVerticalEnd className="size-4" />
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
@@ -95,35 +69,46 @@ export function AppSidebar({
       <SidebarContent>
         <SidebarGroup>
           <SidebarMenu>
-            {/* <h1>Hi</h1> */}
-            {courseData.courses.map((item) => (
-              <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
-                  <a href={item.url} className="font-medium">
-                    {course.enrollment.course_id.title}
-                  </a>
-                </SidebarMenuButton>
-                {modulesFlag?.length ? (
-                  <SidebarMenuSub>
-                    {modulesFlag.map((item) => (
-                      <SidebarMenuSubItem key={item.title}>
-                        <SidebarMenuSubButton asChild isActive={item.isActive} onClick={() => handleModuleSelect(item)}>
-                          <a href={item.url}>
-                            {item.title.length > 25
-                              ? `${item.title.substring(0, 20)}...`
-                              : item.title}
-                          </a>
-                        </SidebarMenuSubButton>
-                      </SidebarMenuSubItem>
-                    ))}
-                  </SidebarMenuSub>
-                ) : null}
-              </SidebarMenuItem>
-            ))}
+            <SidebarMenuItem key={course.enrollment.course_id.title}>
+              <SidebarMenuButton asChild>
+                <a
+                  href="#"
+                  className="font-medium"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  {course.enrollment.course_id.title}
+                </a>
+              </SidebarMenuButton>
+              {modulesFlag?.length ? (
+                <SidebarMenuSub>
+                  {modulesFlag.map((item) => (
+                    <SidebarMenuSubItem key={item.title}>
+                      <SidebarMenuSubButton
+                        asChild
+                        isActive={item.isActive}
+                        onClick={() => handleModuleSelect(item)}
+                      >
+                        <a
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            // handleModuleSelect(item);
+                          }}
+                        >
+                          {item.title.length > 25
+                            ? `${item.title.substring(0, 20)}...`
+                            : item.title}
+                        </a>
+                      </SidebarMenuSubButton>
+                    </SidebarMenuSubItem>
+                  ))}
+                </SidebarMenuSub>
+              ) : null}
+            </SidebarMenuItem>
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>
       <SidebarRail />
-    </Sidebar>)
+    </Sidebar>
   );
 }

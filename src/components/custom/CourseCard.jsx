@@ -107,11 +107,12 @@ const CourseCard = ({ courses, setCourses, showProgress }) => {
                   </div>
                   {showProgress && (
                     <div className="flex flex-col items-center mt-4">
-                      <Progress value={course.progress.status} className="w-[90%]" />
-                      <span className="text-sm text-gray-500">{course.progress.status}%</span>
-                      <ButtonWithIcon course={course} />
+                      <Progress value={course.completionStatus} className="w-[90%]" />
+                      <span className="text-sm text-gray-500">{course.completionStatus}%</span>
+                      
                     </div>
                   )}
+                  <ButtonWithIcon course={course} />
                 </CardContent>
               </Card>
             </div>

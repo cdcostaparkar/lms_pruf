@@ -18,13 +18,13 @@ import ModuleContentDisplay from "@/components/custom/ModuleContentDisplay"
 import { useModule } from "@/context/ModuleProvider"
 import { useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
-import { getModules } from "@/api/moduleApi"
+// import { getModules } from "@/api/moduleApi"
+import { getModuleCompletion } from "@/api/moduleCompletionApi"
 
 const CourseContent = () => {
   // console.log("hi")
   const location = useLocation();
   const { course } = location.state || {};
-  console.log("coursecontent",course)
 
   const {selectedModule, setSelectedModule} = useModule();
 
@@ -33,11 +33,14 @@ const CourseContent = () => {
   useEffect(() => {
     const fetchModules = async () => {
       try {
-        const response = await getModules(course.enrollment.course_id._id);
-        console.log(response)
+        const response = await getModuleCompletion(
+          course.enrollment.course_id._id,
+          course.enrollment._id
+        );
+        console.log("mdoule completion", response)
         // Check if response is valid and has at least one module
         if (Array.isArray(response) && response.length > 0) {
-          setSelectedModule(response[0].title);
+          setSelectedModule(response[0].module_id.title);
           setModules(response);
         } else {
           console.warn("No modules found in the response.");
@@ -51,6 +54,9 @@ const CourseContent = () => {
       fetchModules();
     }
   }, [course]);
+
+  console.log("m w c",modules);
+  console.log("e and c",course);
 
 
   // console.log("selected",selectedModule)

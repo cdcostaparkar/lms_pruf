@@ -19,6 +19,7 @@ import { useModule } from "@/context/ModuleProvider";
 
 export function AppSidebar({ ...props }) {
   const { course, modules } = props;
+  console.log("wait",modules)
 
   // Initialize modulesFlag with isActive: false
   const [modulesFlag, setModulesFlag] = useState(() => {
@@ -34,11 +35,12 @@ export function AppSidebar({ ...props }) {
   const { selectedModule, setSelectedModule } = useModule();
 
   const handleModuleSelect = (selectedModule) => {
-    setSelectedModule(selectedModule.title);
+    setSelectedModule(selectedModule.module_id.title);
 
+    // console.log("mF",modulesFlag);
     setModulesFlag((prevModules) =>
       prevModules.map((module) =>
-        module.title === selectedModule.title
+        module.module_id.title === selectedModule.module_id.title
           ? { ...module, isActive: true } // Set clicked module to active
           : { ...module, isActive: false } // Set other modules to inactive
       )
@@ -82,7 +84,7 @@ export function AppSidebar({ ...props }) {
               {modulesFlag?.length ? (
                 <SidebarMenuSub>
                   {modulesFlag.map((item) => (
-                    <SidebarMenuSubItem key={item.title}>
+                    <SidebarMenuSubItem key={item.module_id.title}>
                       <SidebarMenuSubButton
                         asChild
                         isActive={item.isActive}
@@ -95,9 +97,9 @@ export function AppSidebar({ ...props }) {
                             // handleModuleSelect(item);
                           }}
                         >
-                          {item.title.length > 25
-                            ? `${item.title.substring(0, 20)}...`
-                            : item.title}
+                          {item.module_id.title.length > 25
+                            ? `${item.module_id.title.substring(0, 20)}...`
+                            : item.module_id.title}
                         </a>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>

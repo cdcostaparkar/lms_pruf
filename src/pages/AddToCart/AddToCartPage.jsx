@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./AddToCartPage.css";
 import { useAuth } from "@/context/AuthContext";
-import { handleEnroll } from "@/api/enrollApi";
+import { handleEnrollv2T } from "@/api/enrollApi";
 import toast from "react-hot-toast";
 
 const AddToCartPage = () => {
@@ -30,7 +30,7 @@ const AddToCartPage = () => {
       
             for (const course of cart) {
               try {
-                await handleEnroll(user, course._id);
+                await handleEnrollv2T(user, course._id);
                 // await enrollUserInCourse(userId, course._id);
                 console.log(
                   `Enrolled user ${user} in course ${course._id}: ${course.title}`,

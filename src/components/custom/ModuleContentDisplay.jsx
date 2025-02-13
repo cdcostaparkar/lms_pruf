@@ -2,30 +2,33 @@ import { useModule } from "@/context/ModuleProvider";
 import React from "react";
 
 const ModuleContentDisplay = ({ modules }) => {
+  console.log("md",modules);
   const { selectedModule } = useModule();
 
   // Default to the first module if none is selected
-  const defaultModule = modules.length > 0 ? modules[0].title : null;
+  const defaultModule = modules.length > 0 ? modules[0].module_id.title : null;
   const currentModule = selectedModule || defaultModule;
 
   // Find the selected module based on the currentModule
   const selectedModuleContent = modules.find(
-    (module) => module.title === currentModule,
+    (module) => module.module_id.title === currentModule,
   );
 
-  const hardcodedVideoId = "vrQWhFysPKY"; // Hardcoded video ID
+  console.log("select",selectedModuleContent);
+  // const hardcodedVideoId = "vrQWhFysPKY"; // Hardcoded video ID
+  const hardcodedVideoId = "oIIxlgcuQRU"
 
   return (
     <div className="flex flex-1 flex-col gap-6 p-6">
       {selectedModuleContent ? (
         <div className="aspect-video rounded-xl bg-muted/50 p-4">
           <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
-            {selectedModuleContent.title}
+            {selectedModuleContent.module_id.title}
           </h2>
-          <p className="text-muted-foreground">{selectedModuleContent.description}</p>
+          <p className="text-muted-foreground">{selectedModuleContent.module_id.description}</p>
 
           {/* Conditionally render video if video_url is present */}
-          {selectedModuleContent.video_url && (
+          {true && (
             <div className="aspect-w-16 aspect-h-9 mx-auto">
               <iframe
                 src={`https://www.youtube.com/embed/${hardcodedVideoId}`}
@@ -40,14 +43,14 @@ const ModuleContentDisplay = ({ modules }) => {
           <div className="mt-4 space-y-2">
             <p>
               <strong className="font-medium">Duration:</strong>{" "}
-              {selectedModuleContent.duration} hour
-              {selectedModuleContent.duration > 1 ? "s" : ""}
+              {selectedModuleContent.module_id.duration} hour
+              {selectedModuleContent.module_id.duration > 1 ? "s" : ""}
             </p>
             <div>
               <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight text-center">
                 Content Overview
               </h3>
-              <p className="text-muted-foreground">{selectedModuleContent.content}</p>
+              <p className="text-muted-foreground">{selectedModuleContent.module_id.content}</p>
             </div>
           </div>
         </div>

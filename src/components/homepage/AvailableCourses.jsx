@@ -25,6 +25,7 @@ import toast from "react-hot-toast";
 
 const AvailableCourses = () => {
     const { user, roleName } = useAuth();
+    // console.log("hi",user, roleName);
 
     // State for student courses
     const [studentEnrolledCourses, setStudentEnrolledCourses] = useState([]);
@@ -78,7 +79,6 @@ const AvailableCourses = () => {
     //         </div>
     //     );
     // };
-
     const toggleModal = (course) => {
         setSelectedCourse(course);
         setIsModalOpen(!isModalOpen);

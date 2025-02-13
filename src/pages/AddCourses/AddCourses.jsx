@@ -8,6 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const AddCourses = () => {
   const { user } = useAuth();
+  // const { user } = useAuth();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -22,6 +23,8 @@ const AddCourses = () => {
     video_url: "",
     content: "",
     duration: "",
+    durationValue: "",    
+    durationUnit: "weeks",
     description: "",
   });
 
@@ -29,7 +32,8 @@ const AddCourses = () => {
     if (
       !moduleDetails.title ||
       !moduleDetails.content ||
-      !moduleDetails.duration ||
+      !moduleDetails.durationValue ||
+      !moduleDetails.durationUnit ||
       !moduleDetails.description
     ) {
       alert("Please fill in all fields for the module.");
@@ -42,7 +46,21 @@ const AddCourses = () => {
     //     alert("Duration must be a number between 1 and 99.");
     //     return;
     // }
+    // Validate duration
+    // const duration = parseInt(moduleDetails.duration, 10);
+    // if (isNaN(duration) || duration < 1 || duration > 99) {
+    //     alert("Duration must be a number between 1 and 99.");
+    //     return;
+    // }
 
+    if (modules.length >= 3) {
+      setShowModal(false);
+      document.getElementById("module-alert").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("module-alert").style.display = "none";
+      }, 2000);
+      return;
+    }
     if (modules.length >= 3) {
       setShowModal(false);
       document.getElementById("module-alert").style.display = "block";
@@ -64,6 +82,8 @@ const AddCourses = () => {
       video_url: "",
       content: "",
       duration: "",
+      durationUnit:"hours",
+      durationValue:"",
       description: "",
     });
     setShowModal(false);
@@ -78,7 +98,7 @@ const AddCourses = () => {
   };
 
   const closeModalIfClickedOutside = (e) => {
-    if (e.target.classList.contains("modal-overlay")) {
+    if (e.target.classList.contains("add-module-modal-overlay")) {
       setShowModal(false);
     }
   };
@@ -89,6 +109,7 @@ const AddCourses = () => {
     }
     return content;
   };
+
 
   const openModuleModal = () => {
     if (modules.length >= 3) {
@@ -103,20 +124,15 @@ const AddCourses = () => {
   };
 
   const handleSubmit = async () => {
-    if (modules.length === 0) {
-      alert("Please add at least one module before submitting.");
-      return;
-    }
-
     try {
       console.log(courseDetails);
-      const createdCourse = await createCourse(user, courseDetails);
-      const courseId = createdCourse._id;
+      // const createdCourse = await createCourse(user, courseDetails);
+      // const courseId = createdCourse._id;
 
       console.log(modules);
-      for (const module of modules) {
-        await createModule(courseId, module);
-      }
+      // for (const module of modules) {
+      //   await createModule(courseId, module);
+      // }
 
       alert("Course and modules created successfully!");
       // Reset the form or redirect as needed
@@ -136,10 +152,10 @@ const AddCourses = () => {
           <h1 className="page-heading">Add New Course</h1>
           <div className="button-container">
             <button className="submit-course-button" onClick={handleSubmit}>
-              Submit
+              Submit{" "}
             </button>
             <button className="add-module-button" onClick={openModuleModal}>
-              Add Module
+              Add Module{" "}
             </button>
           </div>
         </div>
@@ -208,46 +224,69 @@ const AddCourses = () => {
         </div>
 
         {showModal && (
-          <div className="modal-overlay" onClick={closeModalIfClickedOutside}>
-            <div className="modal-content">
-              <h2 className="modal-heading">Add Module</h2>
-              <div className="modal-group name-duration-group">
-                <div className="name-duration-container">
-                  <div className="modal-group">
-                    <label className="modal-label">Module Title:</label>
-                    <input
-                      type="text"
-                      placeholder="Module Name"
-                      className="modal-input"
-                      value={moduleDetails.title}
-                      onChange={(e) =>
-                        setModuleDetails({ ...moduleDetails, title: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="modal-group">
-                    <label className="modal-label">Module Duration:</label>
-                    <input
-                      type="text"
-                      placeholder="Module Duration (in weeks)"
-                      className="modal-input"
-                      value={moduleDetails.duration}
-                      onChange={(e) =>
-                        setModuleDetails({
-                          ...moduleDetails,
-                          duration: e.target.value,
-                        })
-                      }
-                    />
+          <div
+            className="add-module-modal-overlay"
+            onClick={closeModalIfClickedOutside}
+          >
+            <div className="add-module-modal-content ">
+              <h2 className="add-module-modal-heading">Add Module</h2>
+              <div className="add-module-form-group">
+                <div>
+                  <div className="add-module-input-group">
+                    <div>
+                      <label>Module Title:</label>
+                      <input
+                        type="text"
+                        placeholder="Module Name"
+                        value={moduleDetails.title}
+                        onChange={(e) =>
+                          setModuleDetails({
+                            ...moduleDetails,
+                            title: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <div>
+                      <label>Module Duration:</label>
+                      <div className="duration-input-group">
+                      <input
+                        type="number"
+                        placeholder="Module Duration"
+                        value={moduleDetails.durationValue}
+                        onChange={(e) =>
+                          setModuleDetails({
+                            ...moduleDetails,
+                            durationValue: e.target.value,
+                          })
+                        }
+                      />
+
+                      <select value={moduleDetails.durationUnit}
+                        onChange={(e) => 
+                            setModuleDetails({
+                                ...moduleDetails,
+                                durationUnit: e.target.value,
+                            })
+                        }
+                       >
+                         <option value="minutes">Minutes</option>
+                         <option value="hours">Hours</option>
+                         <option value="days">Days</option>
+                         <option value="weeks">Weeks</option>
+                       </select>
+
+                      </div>
+                     
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="modal-group">
-                <label className="modal-label">Module URL:</label>
+              <div className="add-module-form-group">
+                <label>Module URL:</label>
                 <input
                   type="text"
                   placeholder="Module URL"
-                  className="modal-input"
                   value={moduleDetails.video_url}
                   onChange={(e) =>
                     setModuleDetails({
@@ -257,22 +296,23 @@ const AddCourses = () => {
                   }
                 />
               </div>
-              <div className="modal-group">
-                <label className="modal-label">Module Content:</label>
+              <div className="add-module-form-group">
+                <label>Module Content:</label>
                 <textarea
                   placeholder="Module Content"
-                  className="modal-textarea"
                   value={moduleDetails.content}
                   onChange={(e) =>
-                    setModuleDetails({ ...moduleDetails, content: e.target.value })
+                    setModuleDetails({
+                      ...moduleDetails,
+                      content: e.target.value,
+                    })
                   }
                 ></textarea>
               </div>
-              <div className="modal-group">
-                <label className="modal-label">Module Description:</label>
+              <div className="add-module-form-group">
+                <label>Module Description:</label>
                 <textarea
                   placeholder="Module Description"
-                  className="modal-textarea"
                   value={moduleDetails.description}
                   onChange={(e) =>
                     setModuleDetails({
@@ -282,16 +322,9 @@ const AddCourses = () => {
                   }
                 ></textarea>
               </div>
-              <div className="button-container">
-                <button className="add-button" onClick={handleModuleAdd}>
-                  Add New Module
-                </button>
-                <button
-                  className="close-button"
-                  onClick={() => setShowModal(false)}
-                >
-                  Close
-                </button>
+              <div className="add-module-form-actions">
+                <button onClick={handleModuleAdd}>Add New Module</button>
+                <button onClick={() => setShowModal(false)}>Close</button>
               </div>
             </div>
           </div>

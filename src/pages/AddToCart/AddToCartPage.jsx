@@ -87,7 +87,7 @@ const AddToCartPage = () => {
                             <img src={`https://picsum.photos/200?random=${course._id}`} alt={course.title} className="cart-course-image" />
                             <div className="cart-course-content">
                                 <h3 className="cart-course-title"><strong>{course.title}</strong></h3>
-                                <p className="cart-course-instructor-duration">{course.trainer_id.name} |<strong> Duration: </strong> {course.duration} </p>
+                                <p className="cart-course-instructor-duration"> <strong> Trainer: </strong> {course.trainer_id.name} |<strong> Duration: </strong> {course.duration} </p>
                                 <p className="cart-course-description">
                                     {course.description}
                                 </p>

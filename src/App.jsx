@@ -21,6 +21,7 @@ import LoginPage from './app/login/page'
 import AddToCartPage from './pages/AddToCart/AddToCartPage';
 import LPNavbar from './components/landingpage/LPNavBar';
 import LandingPage from './pages/LandingPage/LandingPage';
+import WishListPage from './pages/WishList Page/WishListPage';
 import { Toaster } from 'react-hot-toast';
 
 
@@ -44,8 +45,8 @@ function App() {
           <Routes>
             <Route path="/landing" element={<LandingPage />} />
             <Route path="/signup" element={<SignupPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/login2" element={<LoginPage />} />
+            {/* <Route path="/login" element={<Login />} /> */}
+            <Route path="/login" element={<LoginPage />} />
             
             <Route path="*" element={<Navigate to="/landing" />} />
           </Routes>
@@ -66,6 +67,8 @@ function App() {
                 element={<ProtectedRoute element={<AddCourses />} allowedRoles={['trainer']} />} 
               />
               
+              
+              <Route path="/wishlist" element={<WishListPage />} />
               <Route path="/cart" element={<AddToCartPage />} />
 
               <Route path="/courses/update/:courseId" element={<CourseUpdate />} />

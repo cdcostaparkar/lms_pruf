@@ -3,8 +3,6 @@ import React from "react";
 
 const ModuleContentDisplay = ({ modules }) => {
   const { selectedModule } = useModule();
-  console.log(modules);
-  console.log("sM", selectedModule);
 
   // Default to the first module if none is selected
   const defaultModule = modules.length > 0 ? modules[0].title : null;
@@ -12,38 +10,49 @@ const ModuleContentDisplay = ({ modules }) => {
 
   // Find the selected module based on the currentModule
   const selectedModuleContent = modules.find(
-    (module) => module.title === currentModule
+    (module) => module.title === currentModule,
   );
-  console.log("sMC",selectedModuleContent)
+
+  const hardcodedVideoId = "vrQWhFysPKY"; // Hardcoded video ID
 
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4">
+    <div className="flex flex-1 flex-col gap-6 p-6">
       {selectedModuleContent ? (
         <div className="aspect-video rounded-xl bg-muted/50 p-4">
-          <h2 className="text-lg font-bold">
+          <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
             {selectedModuleContent.title}
           </h2>
-          <p>{selectedModuleContent.description}</p>
-          <p>
-            <strong>Duration:</strong> {selectedModuleContent.duration} hour
-            {selectedModuleContent.duration > 1 ? "s" : ""}
-          </p>
-          <h3 className="text-lg font-semibold">
-            Content Overview
-          </h3>
-          <p>{selectedModuleContent.content}</p>
+          <p className="text-muted-foreground">{selectedModuleContent.description}</p>
+
+          {/* Conditionally render video if video_url is present */}
           {selectedModuleContent.video_url && (
-            <a
-              href={selectedModuleContent.video_url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Watch Video
-            </a>
+            <div className="aspect-w-16 aspect-h-9 mx-auto">
+              <iframe
+                src={`https://www.youtube.com/embed/${hardcodedVideoId}`}
+                title="YouTube video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="rounded-md"
+              />
+            </div>
           )}
+
+          <div className="mt-4 space-y-2">
+            <p>
+              <strong className="font-medium">Duration:</strong>{" "}
+              {selectedModuleContent.duration} hour
+              {selectedModuleContent.duration > 1 ? "s" : ""}
+            </p>
+            <div>
+              <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight text-center">
+                Content Overview
+              </h3>
+              <p className="text-muted-foreground">{selectedModuleContent.content}</p>
+            </div>
+          </div>
         </div>
       ) : (
-        <p>No module selected or available.</p>
+        <p className="text-muted-foreground">No module selected or available.</p>
       )}
       {/* Blob */}
       <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />

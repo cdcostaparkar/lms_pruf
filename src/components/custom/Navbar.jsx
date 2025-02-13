@@ -15,7 +15,9 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import ELlogo from "../../assets/platformLogo/ELlogo.png";
 import { useAuth } from "@/context/AuthContext";
+import { Heart } from "lucide-react";
 
 export default function Navbar({ onLogout }) {
   const { roleName } = useAuth();
@@ -25,7 +27,12 @@ export default function Navbar({ onLogout }) {
       {/* Increased header height and padding */}
       <Link to="/" className="mr-8 hidden lg:flex items-center">
         {/* Added items-center for vertical alignment */}
-        <MountainIcon className="h-8 w-8" />
+        {/* <MountainIcon className="h-8 w-8" /> */}
+        <img
+          className="h-10 w-10 rounded-full"
+          src={ELlogo}
+          alt="Website Logo"
+        />
         {/* Increased icon size */}
         <span className="sr-only">Acme Inc</span>
         <span className="ml-3 text-xl font-semibold">Easy Learning</span>
@@ -57,18 +64,6 @@ export default function Navbar({ onLogout }) {
               </NavigationMenuLink>
             )}
 
-            {roleName === "student" && (
-              <NavigationMenuLink asChild>
-                <Link
-                  to="/cart"
-                  className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-                >
-                  {/* Increased height, padding, and font size */}
-                  Cart
-                </Link>
-              </NavigationMenuLink>
-            )}
-
             {roleName === "trainer" && (
               <NavigationMenuLink asChild>
                 <Link
@@ -83,7 +78,21 @@ export default function Navbar({ onLogout }) {
           </NavigationMenuList>
         </NavigationMenu>
       </div>
-      <div className="ml-auto">
+      <div className="ml-auto flex items-center">
+        {roleName === "student" && (
+          <>
+            <Link to="/wishlist" className="mr-4">
+              <Heart className="h-6 w-6 text-gray-700 rounded-md hover:text-purple-400" />
+            </Link>
+            <Link
+              to="/cart"
+              className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 mr-4"
+            >
+              {/* Increased height, padding, and font size */}
+              Cart 🛒
+            </Link>
+          </>
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="h-10 w-10">

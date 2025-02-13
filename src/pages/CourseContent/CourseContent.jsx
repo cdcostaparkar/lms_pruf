@@ -20,33 +20,6 @@ import { useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { getModules } from "@/api/moduleApi"
 
-// Mock data for courses and modules
-const courseData = {
-  courses: [
-    {
-      title: "Building Your Application",
-      modules: [
-        {
-          title: "Data Fetching",
-          content: {
-            heading: "Data Fetching Overview",
-            paragraph: "In this module, we will cover how to fetch data...",
-            video: "https://example.com/video1",
-          },
-        },
-        {
-          title: "State Management",
-          content: {
-            heading: "Understanding State Management",
-            paragraph: "This module focuses on managing state in applications...",
-            video: "https://example.com/video2",
-          },
-        },
-      ],
-    },
-  ],
-}
-
 const CourseContent = () => {
   // console.log("hi")
   const location = useLocation();

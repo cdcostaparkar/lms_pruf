@@ -110,13 +110,13 @@ const AddCourses = () => {
   const handleSubmit = async () => {
     try {
       console.log(courseDetails);
-      const createdCourse = await createCourse(user, courseDetails);
-      const courseId = createdCourse._id;
+      // const createdCourse = await createCourse(user, courseDetails);
+      // const courseId = createdCourse._id;
 
       console.log(modules);
-      for (const module of modules) {
-        await createModule(courseId, module);
-      }
+      // for (const module of modules) {
+      //   await createModule(courseId, module);
+      // }
 
       alert("Course and modules created successfully!");
       // Reset the form or redirect as needed

@@ -14,8 +14,8 @@ const CoursesProgress = () => {
             try {
                 const courses = await getAllEnrolledCourses(user);
                 console.log("to be filtered", courses);
-                const inProgress = courses.filter(course => course.progress.status < 100);
-                const completed = courses.filter(course => course.progress.status === 100);
+                const inProgress = courses.filter(course => course.completionStatus < 100);
+                const completed = courses.filter(course => course.completionStatus === 100);
 
                 setInProgressCourses(inProgress);
                 setCompletedCourses(completed);

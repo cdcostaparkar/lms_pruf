@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./WishListPage.css";
 import { useAuth } from "@/context/AuthContext";
 import { getAllWishlistedCourses, removeFromWishlist } from "@/api/wishlistAPI";
@@ -8,12 +8,22 @@ const WishListPage = () => {
     const { user } = useAuth();
 
     const [wishlistedCourses, setWishlistedCourses] = useState([]);
+    const hasFetched = useRef(false);
 
     useEffect(() => {
         const fetchWishlistedCourses = async () => {
             try {
                 const courses = await getAllWishlistedCourses(user);
                 setWishlistedCourses(courses);
+
+                if (courses.length === 0 && !hasFetched.current) {
+                    toast("Your wishlist is empty. Start adding courses!", {
+                        // icon: "💔",
+                        duration: 4000,
+                    });
+                    hasFetched.current = true;
+                }
+
             } catch (err) {
                 toast.error("Failed to retrieve courses");
             }

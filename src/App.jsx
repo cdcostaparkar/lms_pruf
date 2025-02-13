@@ -3,25 +3,25 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 
-// Aunthetication
-// import Signup from './pages/signup/Signup1'
-import Login from './pages/login/Login';
+// Authetication
+import LoginPage from './pages/login/LoginPage'
+import SignupPage from './pages/signup/SignupPage'
 import { useAuth } from './context/AuthContext'
-import SignupPage from './pages/SignupPage/SignupPage'
+
+// Navbar
+import Navbar from './components/custom/Navbar'
 // Pages
 import CoursesProgress from './pages/progress/CoursesProgress';
 import CoursePage from './pages/CourseContent/CourseContent';
 import AccountDetails from './pages/AccountDetails/AccountDetails';
-import CourseDetails from './pages/CourseDetails/CourseDetails';
 import AddCourses from './pages/AddCourses/AddCourses'
 import CourseUpdate from './pages/courseUpdate/CourseUpdate'
 import HomePage from './pages/HomePage/HomePage'
-import Navbar from './components/custom/Navbar'
-import LoginPage from './app/login/page'
 import AddToCartPage from './pages/AddToCart/AddToCartPage';
-import LPNavbar from './components/landingpage/LPNavBar';
 import LandingPage from './pages/LandingPage/LandingPage';
 import WishListPage from './pages/WishList Page/WishListPage';
+
+// Toast
 import { Toaster } from 'react-hot-toast';
 
 
@@ -37,15 +37,14 @@ function App() {
     <>
       <div><Toaster/></div>
       <Router>
+        <Navbar onLogout={logout} />
         {/* Redirect to login/signup if user is null */}
         {user === null ? (
           
           <>
-          <LPNavbar/>
           <Routes>
             <Route path="/landing" element={<LandingPage />} />
             <Route path="/signup" element={<SignupPage />} />
-            {/* <Route path="/login" element={<Login />} /> */}
             <Route path="/login" element={<LoginPage />} />
             
             <Route path="*" element={<Navigate to="/landing" />} />
@@ -53,7 +52,7 @@ function App() {
           </>
         ) : (
           <>
-            <Navbar onLogout={logout} /> {/* Include the Navbar here for authenticated users */}
+            {/* <Navbar onLogout={logout} /> */}
             <Routes>
               {/* Main application routes */}
               <Route path="/" element={<HomePage />} />
@@ -67,7 +66,7 @@ function App() {
                 element={<ProtectedRoute element={<AddCourses />} allowedRoles={['trainer']} />} 
               />
               
-              
+              {/* Right on Navbar */}
               <Route path="/wishlist" element={<WishListPage />} />
               <Route path="/cart" element={<AddToCartPage />} />
 

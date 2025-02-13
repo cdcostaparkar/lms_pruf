@@ -1,11 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuLink,
-  NavigationMenuItem,
-  NavigationMenuTrigger,
-  NavigationMenuContent,
 } from "@/components/ui/navigation-menu";
 import {
   DropdownMenu,
@@ -17,126 +14,138 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import ELlogo from "../../assets/platformLogo/ELlogo.png";
 import { useAuth } from "@/context/AuthContext";
-import { Heart } from "lucide-react";
+import { Heart, HeartHandshake } from "lucide-react";
+import { useState } from "react";
 
 export default function Navbar({ onLogout }) {
-  const { roleName } = useAuth();
+  const { user, roleName } = useAuth();
+  const [isHeartHovered, setIsHeartHovered] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 flex h-20 w-full shrink-0 items-center px-6 md:px-8 justify-between bg-purple-300 bg-opacity-50 backdrop-blur-md shadow-lg">
-      {/* Increased header height and padding */}
       <Link to="/" className="mr-8 hidden lg:flex items-center">
-        {/* Added items-center for vertical alignment */}
-        {/* <MountainIcon className="h-8 w-8" /> */}
         <img
-          className="h-10 w-10 rounded-full"
+          className="h-12 w-12 rounded-full"
           src={ELlogo}
           alt="Website Logo"
         />
-        {/* Increased icon size */}
         <span className="sr-only">Acme Inc</span>
-        <span className="ml-3 text-xl font-semibold">Easy Learning</span>
-        {/* Increased font size and margin */}
+        <span className="ml-3 text-xl font-semibold">
+          Easy <b>Learning</b>
+        </span>
       </Link>
-      <div className="flex-grow flex justify-start">
-        {/* Changed from justify-center to justify-start (middle to left) */}
+
+      <div className="flex-grow flex justify-start items-center">
         <NavigationMenu className="lg:flex">
           <NavigationMenuList>
-            <NavigationMenuLink asChild>
-              <Link
-                to="/"
-                className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-              >
-                {/* Increased height, padding, and font size */}
-                Home
-              </Link>
-            </NavigationMenuLink>
-
-            {roleName === "student" && (
+            {user && (
+              <NavigationMenuLink asChild>
+                <Link
+                  to="/"
+                  className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                >
+                  Home
+                </Link>
+              </NavigationMenuLink>
+            )}
+            {user && roleName === "student" && (
               <NavigationMenuLink asChild>
                 <Link
                   to="/progress"
                   className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
                 >
-                  {/* Increased height, padding, and font size */}
                   My Learning
                 </Link>
               </NavigationMenuLink>
             )}
-
-            {roleName === "trainer" && (
+            {user && roleName === "trainer" && (
               <NavigationMenuLink asChild>
                 <Link
                   to="/courses/add"
                   className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
                 >
-                  {/* Increased height, padding, and font size */}
                   Add Course
                 </Link>
               </NavigationMenuLink>
             )}
           </NavigationMenuList>
         </NavigationMenu>
+
+        {!user && (
+          <div className="search-bar ml-4">
+            <input
+              type="text"
+              placeholder=" 🔍 Search for anything"
+              className="search-input rounded-md px-4 py-2 bg-white bg-opacity-70 text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-400"
+            />
+          </div>
+        )}
       </div>
+
       <div className="ml-auto flex items-center">
-        {roleName === "student" && (
+        {user && roleName === "student" && (
           <>
-            <Link to="/wishlist" className="mr-4">
-              <Heart className="h-6 w-6 text-gray-700 rounded-md hover:text-purple-400" />
+            <Link
+              to="/wishlist"
+              className="mr-4"
+              onMouseEnter={() => setIsHeartHovered(true)}
+              onMouseLeave={() => setIsHeartHovered(false)}
+            >
+              {isHeartHovered ? (
+                <HeartHandshake className="h-6 w-6 text-purple-600 rounded-md" />
+              ) : (
+                <Heart className="h-6 w-6 text-gray-700 rounded-md hover:text-purple-400" />
+              )}
             </Link>
             <Link
               to="/cart"
               className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 mr-4"
             >
-              {/* Increased height, padding, and font size */}
               Cart 🛒
             </Link>
           </>
         )}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Avatar className="h-10 w-10">
-              {/* Increased avatar size */}
-              <AvatarImage src="/placeholder-user.jpg" alt="@shadcn" />
-              <AvatarFallback>JP</AvatarFallback>
-              <span className="sr-only">Toggle user menu</span>
-            </Avatar>
-          </DropdownMenuTrigger>
 
-          <DropdownMenuContent className="w-36">
-            {/* Increased width of dropdown menu */}
-            <DropdownMenuItem className="text-md">
-              {/* Increased font size */}
-              <Link to="/account">My Account</Link>
-            </DropdownMenuItem>
-            {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-md" onClick={onLogout}>
-              {/* Increased font size */}
-              Logout
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {user ? (
+          // User is logged in
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Avatar className="h-10 w-10">
+                <AvatarImage src="/placeholder-user.jpg" alt="@shadcn" />
+                <AvatarFallback>JP</AvatarFallback>
+                <span className="sr-only">Toggle user menu</span>
+              </Avatar>
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent className="w-36">
+              <DropdownMenuItem className="text-md">
+                <Link to="/account">My Account</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem className="text-md" onClick={onLogout}>
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          // User is not logged in
+          <>
+            <Link
+              to="/login"
+              className="login-button group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-100 hover:text-black focus:bg-purple-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 mr-2"
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              className="signup-button group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-700 hover:text-white focus:bg-purple-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+            >
+              Signup
+            </Link>
+
+          </>
+        )}
       </div>
     </header>
   );
-}
-
-function MountainIcon(props) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="m8 3 4 8 5-5 5 15H2L8 3z" />
-    </svg>
-  );
-}
+};

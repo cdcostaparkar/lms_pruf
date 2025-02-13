@@ -1,8 +1,9 @@
 import { useModule } from "@/context/ModuleProvider";
-import React from "react";
+import React, { useEffect } from "react";
+import updateModulePercentage from "@/api/moduleCompletionApi";
 
 const ModuleContentDisplay = ({ modules }) => {
-  console.log("md",modules);
+  console.log("md", modules);
   const { selectedModule } = useModule();
 
   // Default to the first module if none is selected
@@ -14,10 +15,44 @@ const ModuleContentDisplay = ({ modules }) => {
     (module) => module.module_id.title === currentModule,
   );
 
-  console.log("select",selectedModuleContent);
+  console.log("select", selectedModuleContent);
   // const hardcodedVideoId = "vrQWhFysPKY"; // Hardcoded video ID
-  const hardcodedVideoId = "oIIxlgcuQRU"
+  const hardcodedVideoId = "oIIxlgcuQRU";
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (selectedModuleContent) {
+        const moduleId = selectedModuleContent.module_id._id;
+
+        const shouldUpdatePercentage = modules.some((module, index) => {
+          return (
+            module.module_id._id === moduleId && module.percentage !== 1
+          );
+        });
+
+        if (shouldUpdatePercentage) {
+          const updatePercentage = async () => {
+            try {
+              const data = await updateModulePercentage(
+                selectedModuleContent.enrollment_id,
+                selectedModuleContent.module_id._id,
+              );
+              console.log("Module percentage updated:", data);
+            } catch (error) {
+              console.error("Failed to update module percentage:", error);
+            }
+          };
+
+          updatePercentage();
+        }
+      }
+    }, 10000); // 10000 milliseconds = 10 seconds
+
+    // Cleanup function to clear the timeout if the component unmounts
+    return () => clearTimeout(timer);
+  }, [selectedModuleContent, modules]);
+
+  
   return (
     <div className="flex flex-1 flex-col gap-6 p-6">
       {selectedModuleContent ? (
@@ -25,7 +60,9 @@ const ModuleContentDisplay = ({ modules }) => {
           <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
             {selectedModuleContent.module_id.title}
           </h2>
-          <p className="text-muted-foreground">{selectedModuleContent.module_id.description}</p>
+          <p className="text-muted-foreground">
+            {selectedModuleContent.module_id.description}
+          </p>
 
           {/* Conditionally render video if video_url is present */}
           {true && (
@@ -50,7 +87,9 @@ const ModuleContentDisplay = ({ modules }) => {
               <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight text-center">
                 Content Overview
               </h3>
-              <p className="text-muted-foreground">{selectedModuleContent.module_id.content}</p>
+              <p className="text-muted-foreground">
+                {selectedModuleContent.module_id.content}
+              </p>
             </div>
           </div>
         </div>

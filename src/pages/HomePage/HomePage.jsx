@@ -68,32 +68,21 @@ export default function HomePage() {
           {/* Available Courses */}
           <AvailableCourses />
 
-                    {/* Companies Using Udemy 
-                    <div className="companies-section">
-                        <h2 className="companies-heading"> Trusted by Top Companies </h2>
-                        <div className="companies-list">
-                            {companies.map((company, index) => (
-                                <span key={index} className="company-badge">
-                                    {company}
-                                </span>
-                            ))}
-                        </div>
-                    </div> */}
 
-                    <div className="homepage-end-section">
-                        <div className="homepage-end-section-content">
-                            <div className="homepage-end-section-text">                        
-                                <h1 className="homepage-end-section-heading"> Join Our Community! </h1>
-                                <p className="homepage-end-section-description">  
-                                 Stay updated with the latest courses, exclusive content, and learning tips. </p>
-                                <p className="homepage-end-section-description"> 
-                                Follow us on social media! </p>
-                            </div>
-                            <img className="homepage-end-section-image" src={followusimage} alt="Follow us" />
-                        </div>
-                    </div>
-                </div>
+          <div className="homepage-end-section">
+            <div className="homepage-end-section-content">
+              <div className="homepage-end-section-text">
+                <h1 className="homepage-end-section-heading"> Join Our Community! </h1>
+                <p className="homepage-end-section-description">
+                  Stay updated with the latest courses, exclusive content, and learning tips. </p>
+                <p className="homepage-end-section-description">
+                  Follow us on social media! </p>
+              </div>
+              <img className="homepage-end-section-image" src={followusimage} alt="Follow us" />
             </div>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }

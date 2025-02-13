@@ -55,8 +55,9 @@ const CourseContent = () => {
     }
   }, [course]);
 
-  console.log("m w c",modules);
-  console.log("e and c",course);
+  // console.log("m w c",modules);
+  // console.log("e and c",course);
+  // console.log("s",selectedModule);
 
 
   // console.log("selected",selectedModule)
@@ -93,26 +94,8 @@ const CourseContent = () => {
         </header>
         
         {/* Content */}
-
         <ModuleContentDisplay modules={modules}/>
-        {/* <div className="flex flex-1 flex-col gap-4 p-4">
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            {selectedCourse &&
-              selectedCourse.modules.map((module) => (
-                <div
-                  key={module.title}
-                  className="aspect-video rounded-xl bg-muted/50 p-4"
-                >
-                  <h2 className="text-lg font-bold">{module.content.heading}</h2>
-                  <p>{module.content.paragraph}</p>
-                  <a href={module.content.video} target="_blank" rel="noopener noreferrer">
-                    Watch Video
-                  </a>
-                </div>
-              ))}
-          </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-        </div> */}
+
       </SidebarInset>
     </SidebarProvider>
     )

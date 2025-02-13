@@ -22,6 +22,7 @@ import AddToCartPage from './pages/AddToCart/AddToCartPage';
 import LPNavbar from './components/landingpage/LPNavBar';
 import LandingPage from './pages/LandingPage/LandingPage';
 import WishListPage from './pages/WishList Page/WishListPage';
+import { Toaster } from 'react-hot-toast';
 
 
 function App() {
@@ -34,16 +35,18 @@ function App() {
 
   return (
     <>
+      <div><Toaster/></div>
       <Router>
         {/* Redirect to login/signup if user is null */}
         {user === null ? (
+          
           <>
           <LPNavbar/>
           <Routes>
             <Route path="/landing" element={<LandingPage />} />
             <Route path="/signup" element={<SignupPage />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/login2" element={<LoginPage />} />
+            {/* <Route path="/login" element={<Login />} /> */}
+            <Route path="/login" element={<LoginPage />} />
             
             <Route path="*" element={<Navigate to="/landing" />} />
           </Routes>

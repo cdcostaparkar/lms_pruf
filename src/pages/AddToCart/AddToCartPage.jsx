@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./AddToCartPage.css";
 import { useAuth } from "@/context/AuthContext";
 import { handleEnroll } from "@/api/enrollApi";
+import toast from "react-hot-toast";
 
 const AddToCartPage = () => {
     const { user } = useAuth();
@@ -16,39 +17,58 @@ const AddToCartPage = () => {
         const updatedCart = cart.filter(course => course._id !== courseId);
         setCart(updatedCart);
         localStorage.setItem("cart", JSON.stringify(updatedCart));
+        toast.success("Course removed from cart!");
         // console.log("hi");
     };
 
     const enrollAllCourses = async () => {
-        setEnrollmentError(null); // Clear any previous errors
-        // const userId = "someUserId"; // Replace with actual userId
         let allEnrolled = true;
-
-        for (const course of cart) {
-            try {
+      
+        toast.promise(
+          new Promise(async (resolve, reject) => {
+            setEnrollmentError(null); // Clear any previous errors
+      
+            for (const course of cart) {
+              try {
                 await handleEnroll(user, course._id);
                 // await enrollUserInCourse(userId, course._id);
                 console.log(
-                    `Enrolled user ${user} in course ${course._id}: ${course.title}`
+                  `Enrolled user ${user} in course ${course._id}: ${course.title}`,
                 );
-            } catch (error) {
+              } catch (error) {
                 console.error(
-                    `Error enrolling in ${course.title}:`,
-                    error.message || error
+                  `Error enrolling in ${course.title}:`,
+                  error.message || error,
                 );
                 setEnrollmentError(
-                    `Failed to enroll in one or more courses. Please try again.`
+                  `Failed to enroll in one or more courses. Please try again.`,
                 );
                 allEnrolled = false;
+                reject(error); // Reject the promise on error
                 break; // Stop enrolling if one fails
+              }
             }
-        }
-
-        if (allEnrolled) {
-            setCart([]); // Clear the cart if all enrollments were successful
-            localStorage.removeItem("cart"); // Remove cart from localStorage
-        }
-    };
+      
+            if (allEnrolled) {
+              setCart([]); // Clear the cart if all enrollments were successful
+              localStorage.removeItem("cart"); // Remove cart from localStorage
+              resolve(); // Resolve the promise on success
+            } else {
+              reject(new Error("Failed to enroll in all courses.")); // Reject if not all enrolled
+            }
+          }),
+          {
+            loading: "Enrolling in courses...",
+            success: <b>Enrolled in all courses successfully!</b>,
+            error: (error) => (
+              <b>
+                Enrollment failed:{" "}
+                {enrollmentError || "Could not enroll in all courses."}
+              </b>
+            ),
+          },
+        );
+      };
 
     useEffect(() => {
         localStorage.setItem("cart", JSON.stringify(cart));

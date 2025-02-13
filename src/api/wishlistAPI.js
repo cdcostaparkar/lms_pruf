@@ -24,3 +24,17 @@ export const removeFromWishlist = async (userId, courseId) => {
     });
     return response.json();
 };
+
+export const getAllWishlistedCourses = async (userId) => {
+    try {
+        const response = await fetch(`${WISHLIST_API_URL}/getAllWishlistedCourses/${userId}`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching wishlisted courses:', error);
+        throw error;
+    }
+};

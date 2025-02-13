@@ -15,19 +15,28 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import ELlogo from "../../assets/platformLogo/ELlogo.png"
+import ELlogo from "../../assets/platformLogo/ELlogo.png";
 import { useAuth } from "@/context/AuthContext";
+import { Heart } from "lucide-react";
 
 export default function Navbar({ onLogout }) {
   const { roleName } = useAuth();
 
   return (
-    <header className="sticky top-0 z-50 flex h-16 w-full shrink-0 items-center px-4 md:px-6 justify-between bg-purple-300 bg-opacity-50 backdrop-blur-md shadow-lg">
-      <Link to="/" className="mr-6 hidden lg:flex">
-        <MountainIcon className="h-6 w-6" />
-        {/* <img src={ELlogo} alt="ELlogo"></img> */}
+    <header className="sticky top-0 z-50 flex h-20 w-full shrink-0 items-center px-6 md:px-8 justify-between bg-purple-300 bg-opacity-50 backdrop-blur-md shadow-lg">
+      {/* Increased header height and padding */}
+      <Link to="/" className="mr-8 hidden lg:flex items-center">
+        {/* Added items-center for vertical alignment */}
+        {/* <MountainIcon className="h-8 w-8" /> */}
+        <img
+          className="h-10 w-10 rounded-full"
+          src={ELlogo}
+          alt="Website Logo"
+        />
+        {/* Increased icon size */}
         <span className="sr-only">Acme Inc</span>
-        <span className="ml-2 text-lg font-semibold">Easy Learning</span>
+        <span className="ml-3 text-xl font-semibold">Easy Learning</span>
+        {/* Increased font size and margin */}
       </Link>
       <div className="flex-grow flex justify-start">
         {/* Changed from justify-center to justify-start (middle to left) */}
@@ -36,43 +45,32 @@ export default function Navbar({ onLogout }) {
             <NavigationMenuLink asChild>
               <Link
                 to="/"
-                className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-4 py-2 text-sm font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
               >
+                {/* Increased height, padding, and font size */}
                 Home
               </Link>
             </NavigationMenuLink>
 
-            {/* Conditionally render the Progress link */}
             {roleName === "student" && (
               <NavigationMenuLink asChild>
                 <Link
                   to="/progress"
-                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-4 py-2 text-sm font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                  className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
                 >
+                  {/* Increased height, padding, and font size */}
                   My Learning
                 </Link>
               </NavigationMenuLink>
             )}
 
-            {/* Conditionally render the Cart link */}
-            {roleName === "student" && (
-              <NavigationMenuLink asChild>
-                <Link
-                  to="/cart"
-                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-4 py-2 text-sm font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-                >
-                  Cart
-                </Link>
-              </NavigationMenuLink>
-            )}
-
-            {/* Conditionally render the Add Course link */}
             {roleName === "trainer" && (
               <NavigationMenuLink asChild>
                 <Link
                   to="/courses/add"
-                  className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-4 py-2 text-sm font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+                  className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
                 >
+                  {/* Increased height, padding, and font size */}
                   Add Course
                 </Link>
               </NavigationMenuLink>
@@ -80,23 +78,43 @@ export default function Navbar({ onLogout }) {
           </NavigationMenuList>
         </NavigationMenu>
       </div>
-      <div className="ml-auto">
+      <div className="ml-auto flex items-center">
+        {roleName === "student" && (
+          <>
+            <Link to="/wishlist" className="mr-4">
+              <Heart className="h-6 w-6 text-gray-700 rounded-md hover:text-purple-400" />
+            </Link>
+            <Link
+              to="/cart"
+              className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-purple-200 bg-opacity-50 px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-300 hover:text-gray-900 focus:bg-purple-300 focus:text-gray-900 focus:outline-none disabled:pointer-events-none disabled:opacity-50 mr-4"
+            >
+              {/* Increased height, padding, and font size */}
+              Cart 🛒
+            </Link>
+          </>
+        )}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Avatar className="h-9 w-9">
+            <Avatar className="h-10 w-10">
+              {/* Increased avatar size */}
               <AvatarImage src="/placeholder-user.jpg" alt="@shadcn" />
               <AvatarFallback>JP</AvatarFallback>
               <span className="sr-only">Toggle user menu</span>
             </Avatar>
           </DropdownMenuTrigger>
 
-          <DropdownMenuContent>
-            <DropdownMenuItem>
+          <DropdownMenuContent className="w-36">
+            {/* Increased width of dropdown menu */}
+            <DropdownMenuItem className="text-md">
+              {/* Increased font size */}
               <Link to="/account">My Account</Link>
             </DropdownMenuItem>
             {/* <DropdownMenuItem>Settings</DropdownMenuItem> */}
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={onLogout}>Logout</DropdownMenuItem>
+            <DropdownMenuItem className="text-md" onClick={onLogout}>
+              {/* Increased font size */}
+              Logout
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

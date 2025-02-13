@@ -8,6 +8,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const AddCourses = () => {
   const { user } = useAuth();
+  // const { user } = useAuth();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -45,7 +46,21 @@ const AddCourses = () => {
     //     alert("Duration must be a number between 1 and 99.");
     //     return;
     // }
+    // Validate duration
+    // const duration = parseInt(moduleDetails.duration, 10);
+    // if (isNaN(duration) || duration < 1 || duration > 99) {
+    //     alert("Duration must be a number between 1 and 99.");
+    //     return;
+    // }
 
+    if (modules.length >= 3) {
+      setShowModal(false);
+      document.getElementById("module-alert").style.display = "block";
+      setTimeout(() => {
+        document.getElementById("module-alert").style.display = "none";
+      }, 2000);
+      return;
+    }
     if (modules.length >= 3) {
       setShowModal(false);
       document.getElementById("module-alert").style.display = "block";
@@ -94,6 +109,7 @@ const AddCourses = () => {
     }
     return content;
   };
+
 
   const openModuleModal = () => {
     if (modules.length >= 3) {

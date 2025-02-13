@@ -2,58 +2,71 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import "./HomePage.css";
-import midsectionimage from '../../assets/LP_mid_section/mid_image.jpg'
+import midsectionimage from "../../assets/LP_mid_section/mid_image.jpg";
+// import midsectionimage from "../../assets/LP_mid_section/woman-working-laptop-online-course.png";
 import AvailableCourses from "@/components/homepage/AvailableCourses";
-import followusimage from '../../assets/LP_end_section/follow_us.jpg'
+import { useAuth } from "@/context/AuthContext";
+import followusimage from "../../assets/LP_end_section/follow_us.jpg";
+
 export default function HomePage() {
-    const [search, setSearch] = useState("");
-    const categories = ["Development", "Business", "IT & Software", "Design"];
-    const companies = ["Google", "Microsoft", "Amazon", "Netflix"];
-    // console.log(availableCourses);
-    return (
-        <div className="webpage-layout">
-            <div className="webpage-heading">
-                <div>
-                    {/* Search Bar */}
-                    {/* <div className="search-bar">
-                        <input
-                            type="text"
-                            placeholder="Search for courses..."
-                            value={search}
-                            onChange={(e) => setSearch(e.target.value)}
-                            className="search-input"
-                        />
-                        <Button className="search-button"> Search </Button>
-                    </div> */}
+  const { roleName } = useAuth();
 
-                    {/* Categories */}
+  const companies = ["Google", "Microsoft", "Amazon", "Netflix"];
 
-                    {/* <div className="course-categories-grid">
-                        {categories.map((category, index) => (
-                            <button
-                                key={index}
-                                variant="outline"
-                                className="course-category-button"
-                            >
-                                {" "}
-                                {category}{" "}
-                            </button>
-                        ))}
-                    </div> */}
+  let midSectionContent;
 
-                    <div className="homepage-mid-section">
-                        <div className="homepage-mid-section-content">
-                            <div className="homepage-mid-section-text">                        
-                                <h1 className="homepage-mid-section-heading"> 🎉 All the best courses you need in one place! 🎉</h1>
-                                <p className="homepage-mid-section-description"> From interpersonal skills to technical topics, learning made easy and fun.</p>
-                            </div>
-                            <img className="homepage-mid-section-image" src={midsectionimage} alt="hi" />
-                        </div>
-                    </div>
-                    
+  if (roleName === "trainer") {
+    midSectionContent = (
+      <div className="mid-section-content">
+        <div className="mid-section-text">
+          <h1 className="landing-page-mid-section-heading">
+            Welcome Trainer! Manage Your Courses Here. 🎉
+          </h1>
+          <p className="landing-page-mid-section-description">
+            Create and update your courses to help learners achieve their goals.
+          </p>
+          {/* Add trainer-specific components or links here, e.g., a link to
+              course management page */}
+          {/* <Button>Manage Courses</Button> */}
+        </div>
+        {/* You can replace the image with a trainer-specific image if you have
+            one */}
+        <img
+          className="landing-page-mid-section-image"
+          src={midsectionimage}
+          alt="Trainer view"
+        />
+      </div>
+    );
+  } else {
+    midSectionContent = (
+      <div className="mid-section-content">
+        <div className="mid-section-text">
+          <h1 className="landing-page-mid-section-heading">
+            🎉 All the best courses you need in one place! 🎉
+          </h1>
+          <p className="landing-page-mid-section-description">
+            From interpersonal skills to technical topics, learning made easy
+            and fun.
+          </p>
+        </div>
+        <img
+          className="landing-page-mid-section-image sm:w-48 lg:w-64"
+          src={midsectionimage}
+          alt="hi"
+        />
+      </div>
+    );
+  }
 
-                    {/* Available Courses */}
-                    <AvailableCourses />
+  return (
+    <div className="webpage-layout">
+      <div className="webpage-heading">
+        <div>
+          <div className="landing-page-mid-section">{midSectionContent}</div>
+
+          {/* Available Courses */}
+          <AvailableCourses />
 
                     {/* Companies Using Udemy 
                     <div className="companies-section">

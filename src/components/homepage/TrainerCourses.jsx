@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useNavigate } from "react-router-dom";
 import { deleteCourse } from "@/api/courseApi";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -9,27 +8,52 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Button } from "../ui/button";
+import toast from "react-hot-toast";
 
 const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
-    const navigate = useNavigate();
     console.log("a", availableCourses);
 
-    const handleDeleteCourse = async (courseId) => {
-        const confirmDelete = window.confirm(
-            "Are you sure you want to delete this course?"
+    const handleDeleteCourse = async (courseTitle, courseId) => {
+        toast(
+          (t) => (
+            <div>
+              <span>Delete {courseTitle}?</span>
+              <div style={{ marginTop: '8px' }}>
+                {' '}
+                {/* Add margin for spacing */}
+                <button
+                  onClick={async () => {
+                    try {
+                      await deleteCourse(courseId);
+                      setAvailableCourses((prevCourses) =>
+                        prevCourses.filter((course) => course._id !== courseId)
+                      );
+                      toast.success('Course deleted.', { id: t.id });
+                      console.log(`Course ID ${courseId} deleted.`);
+                    } catch (error) {
+                      console.error(`Failed to delete course ID ${courseId}:`, error);
+                      toast.error('Failed to delete. Try again.', { id: t.id });
+                    }
+                  }}
+                  style={{
+                    backgroundColor: 'red',
+                    color: 'white',
+                    marginRight: '8px', // Add some spacing to the right
+                  }}
+                >
+                  Delete
+                </button>
+                <button onClick={() => toast.dismiss(t.id)}>Cancel</button>
+              </div>
+            </div>
+          ),
+          {
+            duration: 10000,
+            id: 'confirm-delete',
+          }
         );
-        if (confirmDelete) {
-            try {
-                await deleteCourse(courseId);
-                setAvailableCourses((prevCourses) =>
-                    prevCourses.filter((course) => course._id !== courseId)
-                );
-                console.log(`Course ID ${courseId} deleted successfully.`);
-            } catch (error) {
-                console.error(`Failed to delete course ID ${courseId}:`, error);
-            }
-        }
-    };
+      };
 
     return (
         <div className="course-created-section">
@@ -59,12 +83,12 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                                                     : course.description}
                                             </p>
                                             <div className="flex justify-between text-sm text-dark-gray">
-                                                <span>
+                                                {/* <span>
                                                     Course By:{" "}
                                                     <span className="font-bold text-gray-700">
                                                         {course.name}
                                                     </span>
-                                                </span>
+                                                </span> */}
                                                 <span className="text-gray-500">
                                                     Duration:{" "}
                                                     <span className="font-bold text-gray-700">
@@ -74,20 +98,12 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                                             </div>
                                         </div>
                                         <div className="flex justify-center mt-4 space-x-4">
-                                            {/* <button
-                                                className="button update-button"
-                                                onClick={() =>
-                                                    navigate(`/courses/update/${course._id}`)
-                                                }
-                                            >
-                                                Update
-                                            </button> */}
-                                            <button
-                                                className="button delete-button bg-red-500 text-white"
-                                                onClick={() => handleDeleteCourse(course._id)}
+                                            <Button
+                                                className="bg-red-500 text-white"
+                                                onClick={() => handleDeleteCourse(course.title, course._id)}
                                             >
                                                 Delete
-                                            </button>
+                                            </Button>
                                         </div>
                                     </CardContent>
                                 </Card>

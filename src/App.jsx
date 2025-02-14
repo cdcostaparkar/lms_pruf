@@ -10,6 +10,7 @@ import { useAuth } from './context/AuthContext'
 
 // Navbar
 import Navbar from './components/custom/Navbar'
+import LPNavbar from './components/landingpage/LPNavBar'
 // Pages
 import CoursesProgress from './pages/progress/CoursesProgress';
 import CoursePage from './pages/CourseContent/CourseContent';

@@ -19,6 +19,9 @@ import { ShoppingCart, BookOpenText, HeartOff, Heart } from "lucide-react";
 import { Button } from "../ui/button";
 import { addToWishlist, removeFromWishlist } from "@/api/wishlistAPI";
 
+// time
+import convertMinutes from "@/lib/calcTime";
+
 import toast from "react-hot-toast";
 
 const AvailableCourses = () => {
@@ -195,7 +198,8 @@ const AvailableCourses = () => {
                           <span className="text-gray-500">
                             Duration:{" "}
                             <span className="font-bold text-gray-700">
-                              {course.duration} hours
+
+                              {convertMinutes(course.duration)} 
                             </span>
                           </span>
                         </div>

@@ -9,36 +9,55 @@ import convertMinutes from "@/lib/calcTime";
 
 const AddCourses = () => {
   const { user } = useAuth();
+  // const { user } = useAuth();
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modules, setModules] = useState([]);
   const [courseDetails, setCourseDetails] = useState({
     title: "AI",
     description: "Artificial Intelligence",
-    duration: 0, // This will store the duration in minutes
+    duration: "", // Initialize duration to empty string
+    image: null, 
   });
   const [moduleDetails, setModuleDetails] = useState({
     title: "",
     video_url: "",
     content: "",
     duration: "",
-    durationUnit: "minutes",
+    durationUnit: "minutes", // Default unit
     description: "",
   });
 
+  // useEffect to calculate total course duration whenever modules change
   useEffect(() => {
     const calculateTotalDuration = () => {
       let totalDurationInMinutes = 0;
       modules.forEach((module) => {
-        totalDurationInMinutes += module.duration; // Use the stored duration in minutes
+        let duration = parseInt(module.duration, 10);
+        if (isNaN(duration) || duration < 1) {
+          return; // Skip invalid durations
+        }
+
+        let durationInMinutes = duration;
+
+        if (module.durationUnit === "hours") {
+          durationInMinutes = duration * 60;
+        } else if (module.durationUnit === "days") {
+          durationInMinutes = duration * 60 * 24;
+        } else if (module.durationUnit === "weeks") {
+          durationInMinutes = duration * 60 * 24 * 7;
+        }
+
+        totalDurationInMinutes += durationInMinutes;
       });
 
+      // Update course duration state
       setCourseDetails((prevDetails) => ({
         ...prevDetails,
-        duration: totalDurationInMinutes, // Store in minutes
+        duration: convertMinutes(totalDurationInMinutes), // Use the function
       }));
 
-      // Log the total duration in minutes
       console.log("Total course duration in minutes:", totalDurationInMinutes);
     };
 
@@ -56,20 +75,11 @@ const AddCourses = () => {
       return;
     }
 
+    // Validate duration
     const duration = parseInt(moduleDetails.duration, 10);
     if (isNaN(duration) || duration < 1) {
       alert("Duration must be a number greater than 0.");
       return;
-    }
-
-    let durationInMinutes = duration;
-
-    if (moduleDetails.durationUnit === "hours") {
-      durationInMinutes = duration * 60;
-    } else if (moduleDetails.durationUnit === "days") {
-      durationInMinutes = duration * 60 * 24;
-    } else if (moduleDetails.durationUnit === "weeks") {
-      durationInMinutes = duration * 60 * 24 * 7;
     }
 
     if (modules.length >= 3) {
@@ -81,13 +91,13 @@ const AddCourses = () => {
       return;
     }
 
+    // Add module_order based on the current length of modules
     const newModule = {
       ...moduleDetails,
-      duration: durationInMinutes, // Store duration in minutes
-      module_order: modules.length,
+      duration: duration, // Store the original duration
+      durationUnit: moduleDetails.durationUnit, // Store the unit
+      module_order: modules.length, // This will be the order index
     };
-
-    delete newModule.durationUnit;
 
     setModules([...modules, newModule]);
     setModuleDetails({
@@ -95,7 +105,7 @@ const AddCourses = () => {
       video_url: "",
       content: "",
       duration: "",
-      durationUnit: "minutes",
+      durationUnit: "minutes", // Reset to default
       description: "",
     });
     setShowModal(false);
@@ -107,6 +117,26 @@ const AddCourses = () => {
       ...prevDetails,
       [name]: value,
     }));
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    setCourseDetails((prevDetails) => ({
+      ...prevDetails,
+      image: file,
+    }));
+
+    // Log the file details to the console
+    console.log("Uploaded image file:", file);
+
+    // Optionally, you can read the file as a data URL to display a preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      console.log("Image data URL:", reader.result); // Base64 encoded image
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
 
   const closeModalIfClickedOutside = (e) => {
@@ -136,21 +166,20 @@ const AddCourses = () => {
 
   const handleSubmit = async () => {
     try {
+      // module length check(dont allow if zero)
       if (modules.length === 0) {
         alert("Please add at least one module before submitting.");
         return;
       }
 
-      // Log course details including duration in minutes
       console.log(courseDetails);
-
-      const createdCourse = await createCourse(user, courseDetails);
-      const courseId = createdCourse._id;
+      // const createdCourse = await createCourse(user, courseDetails);
+      // const courseId = createdCourse._id;
 
       console.log(modules);
-      for (const module of modules) {
-        await createModule(courseId, module);
-      }
+      // for (const module of modules) {
+      //   await createModule(courseId, module);
+      // }
 
       alert("Course and modules created successfully!");
       // Reset the form or redirect as needed
@@ -177,7 +206,7 @@ const AddCourses = () => {
     } else {
       setModuleDetails({
         ...moduleDetails,
-        video_url: url,
+        video_url: url, // Store the whole URL if it doesn't match the pattern
       });
     }
   };
@@ -228,7 +257,23 @@ const AddCourses = () => {
             </div>
             <div className="form-group">
               <label className="form-label"> Course Duration:</label>
-              <div>{convertMinutes(courseDetails.duration)}</div>
+              <input
+                type="text"
+                name="duration"
+                placeholder="Duration"
+                className="input-field"
+                value={courseDetails.duration}
+                readOnly // Make it read-only to prevent manual input
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Upload Image:</label>
+              <input
+                type="file"
+                name="image"
+                className="input-field"
+                onChange={handleImageUpload}
+              />
             </div>
           </section>
           <section className="added-modules-container">
@@ -240,7 +285,7 @@ const AddCourses = () => {
                     <li key={index} className="module-item">
                       <div className="module-title">{module.title}</div>
                       <div className="module-duration">
-                        Duration: {convertMinutes(module.duration)}
+                        Duration: {module.duration} {module.durationUnit}
                       </div>
                       <div className="module-description">
                         Description: {truncateContent(module.description)}
@@ -293,7 +338,7 @@ const AddCourses = () => {
                           type="number"
                           placeholder="Module Duration"
                           value={moduleDetails.duration}
-                          min="0"
+                          min="0" // Prevent negative numbers
                           onChange={(e) =>
                             setModuleDetails({
                               ...moduleDetails,

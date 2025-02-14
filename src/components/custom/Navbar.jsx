@@ -16,11 +16,11 @@ import ELlogo from "../../assets/platformLogo/ELlogo.png";
 import { useAuth } from "@/context/AuthContext";
 import { Heart, HeartHandshake } from "lucide-react";
 import { useState } from "react";
-
+ 
 export default function Navbar({ onLogout }) {
   const { user, roleName } = useAuth();
   const [isHeartHovered, setIsHeartHovered] = useState(false);
-
+ 
   return (
     <header className="sticky top-0 z-50 flex h-20 w-full shrink-0 items-center px-6 md:px-8 justify-between bg-purple-300 bg-opacity-50 backdrop-blur-md shadow-lg">
       <Link to="/" className="mr-8 hidden lg:flex items-center">
@@ -34,7 +34,7 @@ export default function Navbar({ onLogout }) {
           Easy <b>Learning</b>
         </span>
       </Link>
-
+ 
       <div className="flex-grow flex justify-start items-center">
         <NavigationMenu className="lg:flex">
           <NavigationMenuList>
@@ -70,7 +70,7 @@ export default function Navbar({ onLogout }) {
             )}
           </NavigationMenuList>
         </NavigationMenu>
-
+ 
         {!user && (
           <div className="ml-4 w-3/5 flex items-center rounded-full px-4 py-3">
             <input
@@ -81,7 +81,7 @@ export default function Navbar({ onLogout }) {
           </div>
         )}
       </div>
-
+ 
       <div className="ml-auto flex items-center">
         {user && roleName === "student" && (
           <>
@@ -105,7 +105,7 @@ export default function Navbar({ onLogout }) {
             </Link>
           </>
         )}
-
+ 
         {user ? (
           // User is logged in
           <DropdownMenu>
@@ -116,7 +116,7 @@ export default function Navbar({ onLogout }) {
                 <span className="sr-only">Toggle user menu</span>
               </Avatar>
             </DropdownMenuTrigger>
-
+ 
             <DropdownMenuContent className="w-36">
               <DropdownMenuItem className="text-md">
                 <Link to="/account">My Account</Link>
@@ -142,7 +142,7 @@ export default function Navbar({ onLogout }) {
             >
               Signup
             </Link>
-
+ 
           </>
         )}
       </div>

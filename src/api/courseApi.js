@@ -19,24 +19,45 @@ export async function deleteCourse(courseId) {
     }
 }
 
-export async function createCourse(userId, courseData) {
+// export async function createCourse(userId, courseData) {
+//     try {
+//         const response = await fetch(`${COURSE_API_URL}/createCourse/${userId}`, {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//             },
+//             body: JSON.stringify(courseData),
+//         });
+
+//         if (!response.ok) {
+//             throw new Error('Failed to create course');
+//         }
+
+//         const data = await response.json();
+//         return data;
+//     } catch (error) {
+//         console.error('Error creating course:', error);
+//         throw error;
+//     }
+// }
+
+export async function createCourse(userId, formData) {
     try {
-        const response = await fetch(`${COURSE_API_URL}/createCourse/${userId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(courseData),
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to create course');
-        }
-
-        const data = await response.json();
-        return data;
+      console.log("hi",userId, formData)
+      const response = await fetch(`${COURSE_API_URL}/createCourse/${userId}`, {
+        method: "POST",
+        body: formData, // Don't set Content-Type, FormData handles it
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to create course");
+      }
+  
+      const data = await response.json();
+      return data;
     } catch (error) {
-        console.error('Error creating course:', error);
-        throw error;
+      console.error("Error creating course:", error);
+      throw error;
     }
-}
+  }
+  

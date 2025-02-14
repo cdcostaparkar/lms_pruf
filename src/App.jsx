@@ -48,7 +48,6 @@ function App() {
             <Route path="/landing" element={<LandingPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
-
             <Route path="/aboutus" element={<AboutUs />} />
             
             <Route path="*" element={<Navigate to="/landing" />} />

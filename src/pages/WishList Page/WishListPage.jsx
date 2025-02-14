@@ -87,9 +87,10 @@ const WishListPage = () => {
                                 <div className="already-enrolled"> Already Enrolled </div>
                             )}
                             <img
-                                src={`https://picsum.photos/200?random=${course._id}`}
+                                src={`data:image/jpeg;base64,${course.imageUrl}`}
+                                // src={`https://picsum.photos/200?random=${course._id}`}
                                 alt={course.title}
-                                className="wishlist -course-image"
+                                className="wishlist w-64 -course-image"
                             />
 
                             <div className="wishlist-course-content">

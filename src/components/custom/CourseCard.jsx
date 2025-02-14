@@ -13,6 +13,7 @@ import { Heart, HeartOff } from "lucide-react"; // Import both icons
 import { addToWishlist, removeFromWishlist } from "@/api/wishlistAPI";
 import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
+import convertMinutes from "@/lib/calcTime";
 
 const CourseCard = ({ courses, setCourses, showProgress }) => {
   const { user } = useAuth();
@@ -64,7 +65,8 @@ const CourseCard = ({ courses, setCourses, showProgress }) => {
               <Card className="h-auto flex flex-col">
                 <div className="relative"> 
                   <img
-                    src={`https://picsum.photos/200?random=${course.enrollment.course_id._id}`}
+                    src={`data:image/jpeg;base64,${course.enrollment.course_id.imageUrl}`}
+                    // src={`https://picsum.photos/200?random=${course.enrollment.course_id._id}`}
                     alt={course.enrollment.course_id.title}
                     className="w-full h-auto aspect-video object-cover rounded-md"
                   />
@@ -97,7 +99,7 @@ const CourseCard = ({ courses, setCourses, showProgress }) => {
                       <span className="text-gray-500">
                         Duration:{" "}
                         <span className="font-bold text-gray-700">
-                          {course.enrollment.course_id.duration} hours
+                          {convertMinutes(course.enrollment.course_id.duration)}
                         </span>
                       </span>
                     </div>

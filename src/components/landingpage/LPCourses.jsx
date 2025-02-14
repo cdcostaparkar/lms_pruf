@@ -13,6 +13,8 @@ import toast from "react-hot-toast";
 import LPCourseDetails from "./LPCourseDetails";
 import { useNavigate } from "react-router-dom";
 
+import convertMinutes from "@/lib/calcTime";
+
 const LPCourses = ({ courses }) => {
     const navigate = useNavigate();
     const [selectedCourse, setSelectedCourse] = useState(null);
@@ -36,7 +38,8 @@ const LPCourses = ({ courses }) => {
                     <Card className="h-auto flex flex-col">
                         <div className="relative">
                             <img
-                                src={`https://picsum.photos/200?random=${course._id}`}
+                                src={`data:image/jpeg;base64,${course.imageUrl}`}
+                                // src={`https://picsum.photos/200?random=${course._id}`}
                                 alt={course.title}
                                 className="w-full h-auto aspect-video object-cover rounded-md"
                             />
@@ -57,7 +60,7 @@ const LPCourses = ({ courses }) => {
                                     <span className="text-gray-500">
                                         Duration:{" "}
                                         <span className="font-bold text-gray-700">
-                                            {course.duration} hours
+                                            {convertMinutes(course.duration)} 
                                         </span>
                                     </span>
                                 </div>

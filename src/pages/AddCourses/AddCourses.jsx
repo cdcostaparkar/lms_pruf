@@ -155,6 +155,12 @@ const AddCourses = () => {
         formData.append("image", image); // 'image' should match the multer fieldname
       }
 
+      console.log("Title:", formData.get("title"));
+      console.log("Description:", formData.get("description"));
+      console.log("Duration:", formData.get("duration"));
+      if (image) {
+        console.log("Image:", formData.get("image"));
+      }
       const createdCourse = await createCourse(user, formData);
       const courseId = createdCourse._id;
 

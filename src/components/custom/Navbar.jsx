@@ -72,11 +72,11 @@ export default function Navbar({ onLogout }) {
         </NavigationMenu>
 
         {!user && (
-          <div className="search-bar ml-4">
+          <div className="ml-4 w-3/5 flex items-center rounded-full px-4 py-3">
             <input
               type="text"
               placeholder=" 🔍 Search for anything"
-              className="search-input rounded-md px-4 py-2 bg-white bg-opacity-70 text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="w-full px-3 py-2 bg-white text-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400 bg-transparent"
             />
           </div>
         )}
@@ -132,13 +132,13 @@ export default function Navbar({ onLogout }) {
           <>
             <Link
               to="/login"
-              className="login-button group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-100 hover:text-black focus:bg-purple-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 mr-2"
+              className="group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-100 hover:text-black focus:bg-purple-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 mr-2 bg-white text-purple-500 border-none rounded-md"
             >
               Login
             </Link>
             <Link
               to="/signup"
-              className="signup-button group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-700 hover:text-white focus:bg-purple-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+              className="group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-700 hover:text-white focus:bg-purple-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50 bg-purple-500 text-white border-none rounded-md"
             >
               Signup
             </Link>

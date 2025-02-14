@@ -10,6 +10,7 @@ import { useAuth } from './context/AuthContext'
 
 // Navbar
 import Navbar from './components/custom/Navbar'
+// import LPNavbar from './components/landingpage/LPNavBar'
 // Pages
 import CoursesProgress from './pages/progress/CoursesProgress';
 import CoursePage from './pages/CourseContent/CourseContent';
@@ -23,6 +24,7 @@ import WishListPage from './pages/WishList Page/WishListPage';
 
 // Toast
 import { Toaster } from 'react-hot-toast';
+import AboutUs from './pages/AboutUs/AboutUs'
 
 
 function App() {
@@ -46,6 +48,8 @@ function App() {
             <Route path="/landing" element={<LandingPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/login" element={<LoginPage />} />
+
+            <Route path="/aboutus" element={<AboutUs />} />
             
             <Route path="*" element={<Navigate to="/landing" />} />
           </Routes>

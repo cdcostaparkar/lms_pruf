@@ -26,6 +26,8 @@ const AddCourses = () => {
     description: "",
   });
 
+  const [image, setImage] = useState(null);
+
   useEffect(() => {
     const calculateTotalDuration = () => {
       let totalDurationInMinutes = 0;
@@ -144,7 +146,16 @@ const AddCourses = () => {
       // Log course details including duration in minutes
       console.log(courseDetails);
 
-      const createdCourse = await createCourse(user, courseDetails);
+      // Create a FormData object to send the file
+      const formData = new FormData();
+      formData.append("title", courseDetails.title);
+      formData.append("description", courseDetails.description);
+      formData.append("duration", courseDetails.duration);
+      if (image) {
+        formData.append("image", image); // 'image' should match the multer fieldname
+      }
+
+      const createdCourse = await createCourse(user, formData);
       const courseId = createdCourse._id;
 
       console.log(modules);
@@ -180,6 +191,10 @@ const AddCourses = () => {
         video_url: url,
       });
     }
+  };
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
   };
 
   return (
@@ -224,6 +239,16 @@ const AddCourses = () => {
                 className="input-field"
                 value={courseDetails.description}
                 onChange={handleCourseDetailChange}
+              />
+            </div>
+            {/* Image Upload Field */}
+            <div className="form-group">
+              <label className="form-label">Course Image:</label>
+              <input
+                type="file"
+                name="image"
+                className="input-field"
+                onChange={handleImageChange}
               />
             </div>
             <div className="form-group">

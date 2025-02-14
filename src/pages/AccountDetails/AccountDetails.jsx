@@ -32,15 +32,17 @@ function AccountDetails() {
     return <div>Error: {error}</div>;
   }
   return (
-    <div className="mode">
-      <div className='profile-container'>
-        <div className="user-profile-card">
+    <div className="account-details-page-container">
+      <h1 className="account-details-page-heading"> Account Details </h1>
+      <div className='account-details-container'>
+        <div className="account-details-card">
           <img
-            src={userDetails.profileImage}
+            // src={userDetails.profileImage}
+            src="https://picsum.photos/200?random"
             alt={userDetails.name}
-            className="profile-img"
+            className="account-details-img"
           />
-          <div className="user-info">
+          <div className="account-details-info">
             <p><strong>Name: </strong> {userDetails.name}</p>
             <p><strong>Username: </strong> {userDetails.username}</p>
             <p><strong>Email: </strong> {userDetails.email}</p>
@@ -49,8 +51,7 @@ function AccountDetails() {
           </div>
         </div>
       </div>
-    </div>
-
+      </div>
   );
 }
 export default AccountDetails

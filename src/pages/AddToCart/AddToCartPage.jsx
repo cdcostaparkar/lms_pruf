@@ -90,7 +90,12 @@ const AddToCartPage = () => {
         <div className="cart-courses-grid">
           {cart.map((course, index) => (
             <div key={index} className="cart-course-card">
-              <img src={`https://picsum.photos/200?random=${course._id}`} alt={course.title} className="cart-course-image" />
+              {/* <img src={`https://picsum.photos/200?random=${course._id}`} alt={course.title} className="cart-course-image" /> */}
+              <img
+                src={`data:image/jpeg;base64,${course.imageUrl}`}
+                alt={course.title}
+                className="wishlist w-64 -course-image"
+              />
               <div className="cart-course-content">
                 <h3 className="cart-course-title"><strong>{course.title}</strong></h3>
                 <p className="cart-course-instructor-duration"> <strong> Trainer: </strong> {course.trainer_id.name} |<strong> Duration: </strong> {course.duration} </p>

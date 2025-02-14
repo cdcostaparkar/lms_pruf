@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/carousel";
 import { Button } from "../ui/button";
 import toast from "react-hot-toast";
+import convertMinutes from "@/lib/calcTime";
 
 const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
     console.log("a", availableCourses);
@@ -68,7 +69,7 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                             <div className="p-2">
                                 <Card className="h-auto flex flex-col">
                                     <img
-                                        src={`https://picsum.photos/200?random=${course._id}`}
+                                        src={`data:image/jpeg;base64,${course.imageUrl}`}
                                         alt={course.title}
                                         className="aspect-video object-cover rounded-md"
                                     />
@@ -92,7 +93,7 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                                                 <span className="text-gray-500">
                                                     Duration:{" "}
                                                     <span className="font-bold text-gray-700">
-                                                        {course.duration} hours
+                                                      {convertMinutes(course.duration)}
                                                     </span>
                                                 </span>
                                             </div>

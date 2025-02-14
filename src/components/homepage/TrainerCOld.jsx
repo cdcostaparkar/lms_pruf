@@ -56,7 +56,7 @@ const TrainerCourses = ({availableCourses, setAvailableCourses}) => {
                 {availableCourses.map((course,index)=>(
                     <div key={index} className="course-card">
                         <img 
-                            src={`https://picsum.photos/200?random=${course._id}`}
+                            src={`data:image/jpeg;base64,${course.imageUrl}`}
                             alt={course.title}
                             className="course-image" 
                         />

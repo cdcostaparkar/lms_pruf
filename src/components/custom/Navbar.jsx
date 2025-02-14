@@ -16,11 +16,11 @@ import ELlogo from "../../assets/platformLogo/ELlogo.png";
 import { useAuth } from "@/context/AuthContext";
 import { Heart, HeartHandshake } from "lucide-react";
 import { useState } from "react";
-
+ 
 export default function Navbar({ onLogout }) {
   const { user, roleName } = useAuth();
   const [isHeartHovered, setIsHeartHovered] = useState(false);
-
+ 
   return (
     <header className="sticky top-0 z-50 flex h-20 w-full shrink-0 items-center px-6 md:px-8 justify-between bg-purple-300 bg-opacity-50 backdrop-blur-md shadow-lg">
       <Link to="/" className="mr-8 hidden lg:flex items-center">
@@ -34,7 +34,7 @@ export default function Navbar({ onLogout }) {
           Easy <b>Learning</b>
         </span>
       </Link>
-
+ 
       <div className="flex-grow flex justify-start items-center">
         <NavigationMenu className="lg:flex">
           <NavigationMenuList>
@@ -70,18 +70,18 @@ export default function Navbar({ onLogout }) {
             )}
           </NavigationMenuList>
         </NavigationMenu>
-
+ 
         {!user && (
-          <div className="search-bar ml-4">
+          <div className="ml-4 w-3/5 flex items-center rounded-full px-4 py-3">
             <input
               type="text"
               placeholder=" 🔍 Search for anything"
-              className="search-input rounded-md px-4 py-2 bg-white bg-opacity-70 text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-400"
+              className="w-full px-3 py-2 bg-white text-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400 bg-transparent"
             />
           </div>
         )}
       </div>
-
+ 
       <div className="ml-auto flex items-center">
         {user && roleName === "student" && (
           <>
@@ -105,7 +105,7 @@ export default function Navbar({ onLogout }) {
             </Link>
           </>
         )}
-
+ 
         {user ? (
           // User is logged in
           <DropdownMenu>
@@ -116,7 +116,7 @@ export default function Navbar({ onLogout }) {
                 <span className="sr-only">Toggle user menu</span>
               </Avatar>
             </DropdownMenuTrigger>
-
+ 
             <DropdownMenuContent className="w-36">
               <DropdownMenuItem className="text-md">
                 <Link to="/account">My Account</Link>
@@ -132,17 +132,17 @@ export default function Navbar({ onLogout }) {
           <>
             <Link
               to="/login"
-              className="login-button group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-100 hover:text-black focus:bg-purple-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 mr-2"
+              className="group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-100 hover:text-black focus:bg-purple-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 mr-2 bg-white text-purple-500 border-none rounded-md"
             >
               Login
             </Link>
             <Link
               to="/signup"
-              className="signup-button group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-700 hover:text-white focus:bg-purple-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+              className="group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-700 hover:text-white focus:bg-purple-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50 bg-purple-500 text-white border-none rounded-md"
             >
               Signup
             </Link>
-
+ 
           </>
         )}
       </div>

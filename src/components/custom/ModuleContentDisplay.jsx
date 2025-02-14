@@ -65,10 +65,10 @@ const ModuleContentDisplay = ({ modules }) => {
           </p>
 
           {/* Conditionally render video if video_url is present */}
-          {true && (
+          {selectedModuleContent.module_id.video_url && (
             <div className="aspect-w-16 aspect-h-9 mx-auto">
               <iframe
-                src={`https://www.youtube.com/embed/${hardcodedVideoId}`}
+                src={`https://www.youtube.com/embed/${selectedModuleContent.module_id.video_url}`}
                 title="YouTube video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen

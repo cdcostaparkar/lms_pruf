@@ -38,7 +38,7 @@ const LPCourses = ({ courses, search }) => {
             <>
                 {parts.map((part, index) =>
                     regex.test(part) ? (
-                        <mark key={index} className="bg-yellow-200">
+                        <mark key={index} className="bg-pink-300">
                             {part}
                         </mark>
                     ) : (

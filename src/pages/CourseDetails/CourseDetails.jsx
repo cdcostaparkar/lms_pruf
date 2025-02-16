@@ -5,7 +5,7 @@ import { getModules } from "@/api/moduleApi";
 
 const CourseDetails = ({ course, toggleModal, roleName, handleEnroll }) => {
     const [modules, setModules] = useState([]);
-    console.log("course",course);
+    
     useEffect(() => {
         const fetchModules = async (courseId) => {
             try {
@@ -21,12 +21,7 @@ const CourseDetails = ({ course, toggleModal, roleName, handleEnroll }) => {
         }
     }, [course._id]);
 
-    // const modules = [
-    //     { content: 'Module 1: Introduction to React' },
-    //     { content: 'Module 2: Working with Components' },
-    //     { content: 'Module 3: React State and Hooks' },
-    // ];
-    console.log("modules",modules);
+    
     const closeModalIfClickedOutside = (e) => {
         if (e.target === e.currentTarget) {
             toggleModal(null);

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 const UpdateCourseModal = ({ isOpen, onClose, module, onUpdate }) => {
     if (!isOpen) return null;
-    console.log("hi", module);
+
     const [name, setName] = useState(module.title);
     const [description, setDescription] = useState(module.description);
 
@@ -11,7 +11,6 @@ const UpdateCourseModal = ({ isOpen, onClose, module, onUpdate }) => {
         onUpdate(module._id, name, description);
         onClose();
     };
-    // console.log(module);
 
     return (
         <div className="update-course-modal" onClick={onClose}>

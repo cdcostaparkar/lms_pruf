@@ -13,52 +13,59 @@ import toast from "react-hot-toast";
 import convertMinutes from "@/lib/calcTime";
 
 const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
-    console.log("a", availableCourses);
 
     const handleDeleteCourse = async (courseTitle, courseId) => {
         toast(
-          (t) => (
-            <div>
-              <span>Delete {courseTitle}?</span>
-              <div style={{ marginTop: '8px' }}>
-                {' '}
-                {/* Add margin for spacing */}
-                <button
-                  onClick={async () => {
-                    try {
-                      await deleteCourse(courseId);
-                      setAvailableCourses((prevCourses) =>
-                        prevCourses.filter((course) => course._id !== courseId)
-                      );
-                      toast.success('Course deleted.', { id: t.id });
-                      console.log(`Course ID ${courseId} deleted.`);
-                    } catch (error) {
-                      console.error(`Failed to delete course ID ${courseId}:`, error);
-                      toast.error('Failed to delete. Try again.', { id: t.id });
-                    }
-                  }}
-                  style={{
-                    backgroundColor: 'red',
-                    color: 'white',
-                    marginRight: '8px', // Add some spacing to the right
-                  }}
-                >
-                  Delete
-                </button>
-                <button onClick={() => toast.dismiss(t.id)}>Cancel</button>
-              </div>
-            </div>
-          ),
-          {
-            duration: 10000,
-            id: 'confirm-delete',
-          }
+            (t) => (
+                <div>
+                    <span>Delete {courseTitle}?</span>
+                    <div style={{ marginTop: "8px" }}>
+                        {" "}
+                        {/* Add margin for spacing */}
+                        <button
+                            onClick={async () => {
+                                try {
+                                    await deleteCourse(courseId);
+                                    setAvailableCourses((prevCourses) =>
+                                        prevCourses.filter((course) => course._id !== courseId)
+                                    );
+                                    toast.success("Course deleted.");
+                                } catch (error) {
+                                    console.error(
+                                        `Failed to delete course ID ${courseId}:`,
+                                        error
+                                    );
+                                    toast.error("Failed to delete. Try again.", { id: t.id });
+                                }
+                            }}
+                            style={{
+                                backgroundColor: "red",
+                                color: "white",
+                                marginRight: "8px", // Add some spacing to the right
+                            }}
+                        >
+                            Delete
+                        </button>
+                        <button onClick={() => toast.dismiss(t.id)}>Cancel</button>
+                    </div>
+                </div>
+            ),
+            {
+                duration: 10000,
+                id: "confirm-delete",
+            }
         );
-      };
+    };
 
     return (
         <div className="course-created-section">
-            <h2 className="course-created-heading">Courses Created by You</h2>
+            <h2 className="course-created-heading">
+                Courses Created by You (
+                <span className="text-purple-500">
+                    {availableCourses.length}
+                </span>
+                )
+            </h2>
             <Carousel opts={{ align: "start" }} className="w-full">
                 <CarouselContent>
                     {availableCourses.map((course) => (
@@ -93,7 +100,7 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                                                 <span className="text-gray-500">
                                                     Duration:{" "}
                                                     <span className="font-bold text-gray-700">
-                                                      {convertMinutes(course.duration)}
+                                                        {convertMinutes(course.duration)}
                                                     </span>
                                                 </span>
                                             </div>
@@ -101,7 +108,9 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                                         <div className="flex justify-center mt-4 space-x-4">
                                             <Button
                                                 className="bg-red-500 text-white"
-                                                onClick={() => handleDeleteCourse(course.title, course._id)}
+                                                onClick={() =>
+                                                    handleDeleteCourse(course.title, course._id)
+                                                }
                                             >
                                                 Delete
                                             </Button>

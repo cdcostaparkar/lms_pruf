@@ -10,18 +10,17 @@ const CoursesProgress = () => {
   const [inProgressCourses, setInProgressCourses] = useState([]);
   const [completedCourses, setCompletedCourses] = useState([]);
 
-  const toastId = useRef(null); // Use useRef to persist toastId across re-renders
+  const toastId = useRef(null);
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         if (!toastId.current) {
-          // Only show loading toast if it's not already active
           toastId.current = toast.loading('Loading courses...');
         }
 
         const courses = await getAllEnrolledCourses(user);
-        console.log('to be filtered', courses);
+        
         const inProgress = courses.filter(
           (course) => course.completionStatus < 100,
         );
@@ -37,28 +36,36 @@ const CoursesProgress = () => {
         console.error(error);
         toast.error('Failed to load courses.', { id: toastId.current });
       } finally {
-        // Ensure toast is always cleared, even on success
         if (toastId.current) {
           toast.dismiss(toastId.current);
-          toastId.current = null; // Reset toastId after dismissing
+          toastId.current = null;
         }
       }
     };
 
     fetchCourses();
 
-    // Cleanup function (optional, but good practice)
     return () => {
       if (toastId.current) {
         toast.dismiss(toastId.current);
-        toastId.current = null; // Reset toastId on unmount
+        toastId.current = null;
       }
     };
   }, [user]);
 
+  const totalCourses = inProgressCourses.length + completedCourses.length;
+
   return (
     <div className="p-6">
-      <h1 className="text-4xl font-bold text-left my-4 pl-4">My Learning</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-4xl font-bold text-left my-4 pl-4">My Learning</h1>
+        <div className="mr-4">
+          <p className="text-2xl font-semibold">
+            Total courses:
+            <span className="text-purple-500 ml-1">{totalCourses}</span>
+          </p>
+        </div>
+      </div>
       {(inProgressCourses.length > 0 || completedCourses.length > 0) ? (
         <>
           {inProgressCourses.length > 0 && (

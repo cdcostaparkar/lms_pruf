@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import "./LPCourseDetails.css";
 import { getModules } from "@/api/moduleApi";
 import { useAuth } from "@/context/AuthContext";
+import convertMinutes from "@/lib/calcTime";
+import { CircleX } from "lucide-react";
 
 const LPCourseDetails = ({ course, toggleModal }) => {    
     const [modules, setModules] = useState([]);
-    console.log("course",course);
     useEffect(() => {
         const fetchModules = async (courseId) => {
             try {
@@ -22,12 +23,6 @@ const LPCourseDetails = ({ course, toggleModal }) => {
         }
     }, [course._id]);
 
-    // const modules = [
-    //     { content: 'Module 1: Introduction to React' },
-    //     { content: 'Module 2: Working with Components' },
-    //     { content: 'Module 3: React State and Hooks' },
-    // ];
-    console.log("modules",modules);
     const closeModalIfClickedOutside = (e) => {
         if (e.target === e.currentTarget) {
             toggleModal(null);
@@ -61,16 +56,21 @@ const LPCourseDetails = ({ course, toggleModal }) => {
                 <div className="modal-overlay" onClick={closeModalIfClickedOutside}>
                     <div className="modal-content">
                         <button className="close-button" onClick={toggleModal}>
-                            X
+                            <CircleX/>
                         </button>
                         <div className="course-info">
-                            <img src={`https://picsum.photos/200?random=${course._id}`}
+                            {/* <img src={`https://picsum.photos/200?random=${course._id}`}
                                 alt={course.title}
-                                className="course-image" />
+                                className="wishlist w-64 -course-image" /> */}
+                            <img
+                                src={`data:image/jpeg;base64,${course.imageUrl}`}
+                                alt={course.title}
+                                className="course-image"
+                            />
                             <h1 className="course-heading"> {course.title}</h1>
                             <div className="trainer-and-duration">
                                 <p className="course-trainer"><strong> Trainer: </strong> {course.trainer_id.name}</p>
-                                <p className="course-duration"><strong> Duration: </strong> {course.duration} hours </p>
+                                <p className="course-duration"><strong> Duration: </strong> {convertMinutes(course.duration)}  </p>
                             </div>
                             <p className="modal-course-description">{truncateDescription(course.description)}</p>         
                         </div>

@@ -22,7 +22,6 @@ import { useEffect, useState } from "react"
 import { getModuleCompletion } from "@/api/moduleCompletionApi"
 
 const CourseContent = () => {
-  // console.log("hi")
   const location = useLocation();
   const { course } = location.state || {};
 
@@ -37,7 +36,6 @@ const CourseContent = () => {
           course.enrollment.course_id._id,
           course.enrollment._id
         );
-        console.log("mdoule completion", response)
         // Check if response is valid and has at least one module
         if (Array.isArray(response) && response.length > 0) {
           setSelectedModule(response[0].module_id.title);
@@ -55,15 +53,8 @@ const CourseContent = () => {
     }
   }, [course]);
 
-  // console.log("m w c",modules);
-  // console.log("e and c",course);
-  // console.log("s",selectedModule);
 
-
-  // console.log("selected",selectedModule)
   const breadcrumbTitle = selectedModule || (modules.length > 0 ? modules[0].title : null);
-  // console.log("breadcrumbTitle:", breadcrumbTitle);
-  // const breadcrumbTitle = modules.length > 0 ? modules[0].title : selectedModule;
   
   return (
     (

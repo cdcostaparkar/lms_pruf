@@ -3,6 +3,7 @@ import "./AddToCartPage.css";
 import { useAuth } from "@/context/AuthContext";
 import { handleEnrollv2T } from "@/api/enrollApi";
 import toast from "react-hot-toast";
+import convertMinutes from "@/lib/calcTime";
 
 const AddToCartPage = () => {
   const { user } = useAuth();
@@ -18,7 +19,6 @@ const AddToCartPage = () => {
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     toast.success("Course removed from cart!");
-    // console.log("hi");
   };
 
   const enrollAllCourses = async () => {
@@ -38,9 +38,6 @@ const AddToCartPage = () => {
           try {
             await handleEnrollv2T(user, course._id);
             // await enrollUserInCourse(userId, course._id);
-            console.log(
-              `Enrolled user ${user} in course ${course._id}: ${course.title}`,
-            );
           } catch (error) {
             console.error(
               `Error enrolling in ${course.title}:`,
@@ -83,7 +80,9 @@ const AddToCartPage = () => {
   return (
     <div className="add-to-cart-page">
       <div className="cart-header">
-        <h1 className="cart-heading"> Courses in Cart 🛒 </h1>
+        <h1 className="cart-heading"> Courses in Cart 🛒{" "}
+          <span className="text-purple-500">({cart.length})</span>
+        </h1>
         <button className="enroll-all-courses-button" onClick={enrollAllCourses}> Enroll all courses </button>
       </div>
       {cart.length > 0 ? (
@@ -98,7 +97,7 @@ const AddToCartPage = () => {
               />
               <div className="cart-course-content">
                 <h3 className="cart-course-title"><strong>{course.title}</strong></h3>
-                <p className="cart-course-instructor-duration"> <strong> Trainer: </strong> {course.trainer_id.name} |<strong> Duration: </strong> {course.duration} </p>
+                <p className="cart-course-instructor-duration"> <strong> Trainer: </strong> {course.trainer_id.name} |<strong> Duration: </strong> {convertMinutes(course.duration)} </p>
                 <p className="cart-course-description">
                   {course.description}
                 </p>

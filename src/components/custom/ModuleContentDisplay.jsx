@@ -1,9 +1,9 @@
 import { useModule } from "@/context/ModuleProvider";
 import React, { useEffect } from "react";
 import updateModulePercentage from "@/api/moduleCompletionApi";
+import convertMinutes from "@/lib/calcTime";
 
 const ModuleContentDisplay = ({ modules }) => {
-  console.log("md", modules);
   const { selectedModule } = useModule();
 
   // Default to the first module if none is selected
@@ -15,9 +15,9 @@ const ModuleContentDisplay = ({ modules }) => {
     (module) => module.module_id.title === currentModule,
   );
 
-  console.log("select", selectedModuleContent);
-  // const hardcodedVideoId = "vrQWhFysPKY"; // Hardcoded video ID
-  const hardcodedVideoId = "oIIxlgcuQRU";
+  // Hardcoded video ID for testing
+  // const hardcodedVideoId = "vrQWhFysPKY"; 
+  // const hardcodedVideoId = "oIIxlgcuQRU";
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -37,7 +37,6 @@ const ModuleContentDisplay = ({ modules }) => {
                 selectedModuleContent.enrollment_id,
                 selectedModuleContent.module_id._id,
               );
-              console.log("Module percentage updated:", data);
             } catch (error) {
               console.error("Failed to update module percentage:", error);
             }
@@ -52,42 +51,39 @@ const ModuleContentDisplay = ({ modules }) => {
     return () => clearTimeout(timer);
   }, [selectedModuleContent, modules]);
 
-  
   return (
-    <div className="flex flex-1 flex-col gap-6 p-6">
+    <div className="flex flex-1 flex-col gap-8 p-6">
       {selectedModuleContent ? (
-        <div className="aspect-video rounded-xl bg-muted/50 p-4">
-          <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0">
+        <div className="rounded-xl bg-muted/50 p-6">
+          <h2 className="scroll-m-20 pb-4 text-4xl font-semibold tracking-tight transition-colors first:mt-0">
             {selectedModuleContent.module_id.title}
           </h2>
-          <p className="text-muted-foreground">
+          <p>
+            <strong className="font-medium">Duration:</strong>{" "}
+            {convertMinutes(selectedModuleContent.module_id.duration)}
+          </p>
+          <p className="text-muted-foreground text-lg mt-4 my-4">
             {selectedModuleContent.module_id.description}
           </p>
-
           {/* Conditionally render video if video_url is present */}
           {selectedModuleContent.module_id.video_url && (
-            <div className="aspect-w-16 aspect-h-9 mx-auto">
+            <div className="relative pt-[56.25%]">
+              {/* 16:9 aspect ratio (9 / 16 = 0.5625) */}
               <iframe
+                className="absolute top-0 left-0 w-5/6 h-full rounded-md"
                 src={`https://www.youtube.com/embed/${selectedModuleContent.module_id.video_url}`}
                 title="YouTube video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                 allowFullScreen
-                className="rounded-md"
               />
             </div>
           )}
-
-          <div className="mt-4 space-y-2">
-            <p>
-              <strong className="font-medium">Duration:</strong>{" "}
-              {selectedModuleContent.module_id.duration} hour
-              {selectedModuleContent.module_id.duration > 1 ? "s" : ""}
-            </p>
-            <div>
-              <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight text-center">
+          <div className="mt-10 space-y-4">
+            <div className="mt-6">
+              <h3 className="scroll-m-20 text-3xl font-semibold tracking-tight">
                 Content Overview
               </h3>
-              <p className="text-muted-foreground">
+              <p className="text-muted-foreground text-lg mt-4">
                 {selectedModuleContent.module_id.content}
               </p>
             </div>

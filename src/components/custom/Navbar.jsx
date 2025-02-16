@@ -133,13 +133,13 @@ export default function Navbar({ onLogout }) {
           <>
             <Link
               to="/login"
-              className="group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-100 hover:text-black focus:bg-purple-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 mr-2 bg-white text-purple-500 border-none rounded-md"
+              className="group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-100 hover:text-black focus:bg-purple-100 focus:outline-none disabled:pointer-events-none disabled:opacity-50 mr-2 bg-white text-purple-500 border-none"
             >
               Login
             </Link>
             <Link
               to="/signup"
-              className="group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-700 hover:text-white focus:bg-purple-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50 bg-purple-500 text-white border-none rounded-md"
+              className="group inline-flex h-10 w-max items-center justify-center rounded-md px-5 py-2.5 text-lg font-medium transition-colors hover:bg-purple-700 hover:text-white focus:bg-purple-700 focus:outline-none disabled:pointer-events-none disabled:opacity-50 bg-purple-500 text-white border-none"
             >
               Signup
             </Link>

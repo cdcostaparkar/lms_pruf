@@ -3,6 +3,7 @@ import "./WishListPage.css";
 import { useAuth } from "@/context/AuthContext";
 import { getAllWishlistedCourses, removeFromWishlist } from "@/api/wishlistAPI";
 import toast from "react-hot-toast";
+import convertMinutes from "@/lib/calcTime";
 
 const WishListPage = () => {
     const { user } = useAuth();
@@ -77,7 +78,10 @@ const WishListPage = () => {
     return (
         <div className="wishlist-page">
             <div className="wishlist-header">
-                <h1 className="wishlist-heading"> Courses in Wishlist ♡ </h1>
+                <h1 className="wishlist-heading">
+                    Courses in Wishlist ♡❤️♡ {" "}
+                    <span className="text-purple-500">({wishlistedCourses.length})</span>
+                </h1>
             </div>
             {wishlistedCourses.length > 0 ? (
                 <div className="wishlist-courses-grid">
@@ -98,7 +102,7 @@ const WishListPage = () => {
                                     <strong>{course.title}</strong>
                                 </h3>
                                 <p className="wishlist-course-instructor-duration">
-                                    <strong> Trainer: </strong> {course.trainer_id.name} | <strong> Duration: </strong> {course.duration} </p>
+                                    <strong> Trainer: </strong> {course.trainer_id.name} | <strong> Duration: </strong> {convertMinutes(course.duration)} </p>
                                 <p className="wishlist-course-description">
                                     {course.description}
                                 </p>

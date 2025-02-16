@@ -1,6 +1,7 @@
 import { GalleryVerticalEnd } from "lucide-react"
-
 import { SignupForm } from "@/components/signup-form";
+import verticalLaptop from "@/assets/LP_mid_section/verticalLaptop.jpg"
+
 export default function SignupPage() {
   return (
     (<div className="grid min-h-svh lg:grid-cols-2">
@@ -22,7 +23,7 @@ export default function SignupPage() {
       </div>
       <div className="relative hidden bg-muted lg:block">
         <img
-          src="/placeholder.svg"
+          src={verticalLaptop}
           alt="Image"
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale" />
       </div>

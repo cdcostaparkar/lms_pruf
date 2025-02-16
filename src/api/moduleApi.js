@@ -29,8 +29,7 @@ export const updateModule = async (moduleId, title, description) => {
         }
 
         const updatedModule = await response.json();
-        console.log("Updated module:", updatedModule);
-
+        
     } catch (error) {
         console.error("Error updating module:", error);
     }

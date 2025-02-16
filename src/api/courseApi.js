@@ -8,9 +8,6 @@ export async function deleteCourse(courseId) {
                 'Content-Type': 'application/json'
             }
         });
-        // if (!response.ok) {
-        //     throw new Error('Network response was not ok');
-        // }
         const data = await response.json();
         return data;
     } catch (error) {
@@ -43,7 +40,6 @@ export async function deleteCourse(courseId) {
 
 export async function createCourse(userId, formData) {
     try {
-      console.log("hi",userId, formData)
       const response = await fetch(`${COURSE_API_URL}/createCourse/${userId}`, {
         method: "POST",
         body: formData, // Don't set Content-Type, FormData handles it

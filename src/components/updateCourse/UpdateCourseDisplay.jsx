@@ -8,7 +8,6 @@ import { getModules, updateModule } from '@/api/moduleApi';
 
 const UpdateCourseDisplay = () => {
     const { courseId } = useParams();
-    // console.log(courseId); // use this to retrieve the modules if any
 
     const [modules, setModules] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,7 +17,6 @@ const UpdateCourseDisplay = () => {
     const openModal = (moduleId) => {
         const module = modules.find(m => m._id === moduleId);
         setCurrentModule(module);
-        console.log("currentModule",currentModule);
         setIsModalOpen(true);
     };
 

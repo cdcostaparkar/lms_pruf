@@ -19,8 +19,7 @@ import { useModule } from "@/context/ModuleProvider";
 
 export function AppSidebar({ ...props }) {
   const { course, modules } = props;
-  console.log("wait",modules)
-
+  
   // Initialize modulesFlag with isActive: false
   const [modulesFlag, setModulesFlag] = useState(() => {
     if (modules && modules.length > 0) {
@@ -37,7 +36,6 @@ export function AppSidebar({ ...props }) {
   const handleModuleSelect = (selectedModule) => {
     setSelectedModule(selectedModule.module_id.title);
 
-    // console.log("mF",modulesFlag);
     setModulesFlag((prevModules) =>
       prevModules.map((module) =>
         module.module_id.title === selectedModule.module_id.title

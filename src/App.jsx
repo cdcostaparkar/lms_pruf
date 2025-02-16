@@ -10,7 +10,8 @@ import { useAuth } from './context/AuthContext'
 
 // Navbar
 import Navbar from './components/custom/Navbar'
-// import LPNavbar from './components/landingpage/LPNavBar'
+import Footer from './components/custom/Footer'
+
 // Pages
 import CoursesProgress from './pages/progress/CoursesProgress';
 import CoursePage from './pages/CourseContent/CourseContent';
@@ -21,70 +22,70 @@ import HomePage from './pages/HomePage/HomePage'
 import AddToCartPage from './pages/AddToCart/AddToCartPage';
 import LandingPage from './pages/LandingPage/LandingPage';
 import WishListPage from './pages/WishList Page/WishListPage';
+import AboutUs from './pages/AboutUs/AboutUs'
 
 // Toast
 import { Toaster } from 'react-hot-toast';
-import AboutUs from './pages/AboutUs/AboutUs'
-
 
 function App() {
-  const { user, logout, roleName } = useAuth();
+    const { user, logout, roleName } = useAuth();
 
-  // Custom route for protected access based on role
-  const ProtectedRoute = ({ element, allowedRoles }) => {
-    return allowedRoles.includes(roleName) ? element : <Navigate to="/" />;
-  };
+    // Custom route for protected access based on role
+    const ProtectedRoute = ({ element, allowedRoles }) => {
+        return allowedRoles.includes(roleName) ? element : <Navigate to="/" />;
+    };
 
-  return (
-    <>
-      <div><Toaster/></div>
-      <Router>
-        <Navbar onLogout={logout} />
-        {/* Redirect to login/signup if user is null */}
-        {user === null ? (
-          
-          <>
-          <Routes>
-            <Route path="/landing" element={<LandingPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/aboutus" element={<AboutUs />} />
-            
-            <Route path="*" element={<Navigate to="/landing" />} />
-          </Routes>
-          </>
-        ) : (
-          <>
-            {/* <Navbar onLogout={logout} /> */}
-            <Routes>
-              {/* Main application routes */}
-              <Route path="/" element={<HomePage />} />
-              <Route path="/courses/:courseId" element={<CoursePage />} />
-              <Route 
-                path="/progress" 
-                element={<ProtectedRoute element={<CoursesProgress />} allowedRoles={['student']} />} 
-              />
-              <Route 
-                path="/courses/add" 
-                element={<ProtectedRoute element={<AddCourses />} allowedRoles={['trainer']} />} 
-              />
-              
-              {/* Right on Navbar */}
-              <Route path="/wishlist" element={<WishListPage />} />
-              <Route path="/cart" element={<AddToCartPage />} />
+    return (
+        <>
+            <div><Toaster /></div>
+            <Router>
+                <Navbar onLogout={logout} />
+                {/* Redirect to login/signup if user is null */}
+                {user === null ? (
 
-              <Route path="/courses/update/:courseId" element={<CourseUpdate />} />
-              <Route path="/account" element={<AccountDetails />} />
+                    <>
+                        <Routes>
+                            <Route path="/landing" element={<LandingPage />} />
+                            <Route path="/signup" element={<SignupPage />} />
+                            <Route path="/login" element={<LoginPage />} />
+                            <Route path="/aboutus" element={<AboutUs />} />
 
-              {/* This is a modal, and can be persisted on click in HomePage */}
-              {/* <Route path="/courses/details/:courseId" element={<CourseDetails />} /> */}
-              <Route path="*" element={<Navigate to="/" />} />
-            </Routes>
-          </>
-        )}
-      </Router>
-    </>
-  );
+                            <Route path="*" element={<Navigate to="/landing" />} />
+                        </Routes>
+                    </>
+                ) : (
+                    <>
+                        {/* <Navbar onLogout={logout} /> */}
+                        <Routes>
+                            {/* Main application routes */}
+                            <Route path="/" element={<HomePage />} />
+                            <Route path="/courses/:courseId" element={<CoursePage />} />
+                            <Route
+                                path="/progress"
+                                element={<ProtectedRoute element={<CoursesProgress />} allowedRoles={['student']} />}
+                            />
+                            <Route
+                                path="/courses/add"
+                                element={<ProtectedRoute element={<AddCourses />} allowedRoles={['trainer']} />}
+                            />
+
+                            {/* Right on Navbar */}
+                            <Route path="/wishlist" element={<WishListPage />} />
+                            <Route path="/cart" element={<AddToCartPage />} />
+
+                            <Route path="/courses/update/:courseId" element={<CourseUpdate />} />
+                            <Route path="/account" element={<AccountDetails />} />
+
+                            {/* This is a modal, and can be persisted on click in HomePage */}
+                            {/* <Route path="/courses/details/:courseId" element={<CourseDetails />} /> */}
+                            <Route path="*" element={<Navigate to="/" />} />
+                        </Routes>
+                    </>
+                )}
+                <Footer />
+            </Router>
+        </>
+    );
 }
 
 export default App;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import "./HomePage.css";
+import homepageLaptopGirl from "@/assets/LP_mid_section/homepageLaptopGirl.jpg";
 import midsectionimage from "../../assets/LP_mid_section/mid_image.jpg";
 // import midsectionimage from "../../assets/LP_mid_section/woman-working-laptop-online-course.png";
 import AvailableCourses from "@/components/homepage/AvailableCourses";
@@ -17,53 +18,67 @@ export default function HomePage() {
 
   if (roleName === "trainer") {
     midSectionContent = (
-      <div className="mid-section-content">
-        <div className="mid-section-text">
-          <h1 className="landing-page-mid-section-heading">
-            Welcome Trainer! Manage Your Courses Here. 🎉
-          </h1>
-          <p className="landing-page-mid-section-description">
-            Create and update your courses to help learners achieve their goals.
-          </p>
-          {/* Add trainer-specific components or links here, e.g., a link to
-              course management page */}
-          {/* <Button>Manage Courses</Button> */}
+      <div className="bg-purple-300 py-8 px-4 rounded-xl shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg relative overflow-hidden">
+        <div className="md:flex items-center justify-between">
+          <div className="md:w-2/3 text-center md:text-left">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl text-gray-800 font-bold mb-4">
+              Welcome Trainer! Manage Your Courses Here. 🎉
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+              Create and update your courses to help learners achieve their goals.
+            </p>
+          </div>
+          <img
+            className="hidden md:block md:w-1/3 h-auto rounded-xl"
+            src={homepageLaptopGirl}
+            alt="Trainer view"
+          />
         </div>
-        {/* You can replace the image with a trainer-specific image if you have
-            one */}
-        <img
-          className="landing-page-mid-section-image"
-          src={midsectionimage}
-          alt="Trainer view"
-        />
+        <div className="md:hidden flex justify-center">
+          <img
+            className="w-2/3 h-auto rounded-xl mt-4"
+            src={homepageLaptopGirl}
+            alt="Trainer view"
+          />
+        </div>
       </div>
     );
   } else {
     midSectionContent = (
-      <div className="mid-section-content">
-        <div className="mid-section-text">
-          <h1 className="landing-page-mid-section-heading">
-            🎉 All the best courses you need in one place! 🎉
-          </h1>
-          <p className="landing-page-mid-section-description">
-            From interpersonal skills to technical topics, learning made easy
-            and fun.
-          </p>
+      <div className="bg-purple-300 py-8 px-4 rounded-xl shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg relative overflow-hidden">
+        <div className="md:flex items-center justify-between">
+          <div className="md:w-2/3 text-center md:text-left">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl text-gray-800 font-bold mb-4">
+              🎉 All the best courses you need in one place! 🎉
+            </h1>
+            <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+              From interpersonal skills to technical topics, learning made easy
+              and fun.
+            </p>
+          </div>
+          <img
+            className="hidden md:block md:w-1/3 h-auto rounded-xl"
+            src={homepageLaptopGirl}
+            alt="Laptop Girl"
+          />
         </div>
-        <img
-          className="landing-page-mid-section-image sm:w-48 lg:w-64"
-          src={midsectionimage}
-          alt="hi"
-        />
+        <div className="md:hidden flex justify-center">
+          <img
+            className="w-2/3 h-auto rounded-xl mt-4"
+            src={homepageLaptopGirl}
+            alt="Laptop Girl"
+          />
+        </div>
       </div>
     );
   }
+
 
   return (
     <div className="webpage-layout">
       <div className="webpage-heading">
         <div>
-          <div className="landing-page-mid-section">{midSectionContent}</div>
+          {midSectionContent}
 
           {/* Available Courses */}
           <AvailableCourses />

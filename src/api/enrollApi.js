@@ -11,7 +11,6 @@ export const handleEnroll = async (userId, courseId) => {
 
         const data = await response.json();
 
-        console.log("Enrollment successful!");
         return data;
     } catch (error) {
         console.error("Enrollment failed:", error);
@@ -30,7 +29,6 @@ export const handleEnrollv2T = async (userId, courseId) => {
 
         const data = await response.json();
 
-        console.log("Enrollment successful!");
         return data;
     } catch (error) {
         console.error("Enrollment failed:", error);

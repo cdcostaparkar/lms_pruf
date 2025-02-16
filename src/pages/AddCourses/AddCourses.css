@@ -40,7 +40,7 @@
 .add-module-button {
     padding: 10px 20px; 
     border: none;
-    background-color: #8a40d4;
+    background-color:rgba(0, 0, 0, 0.9) ;
     color: white; 
     cursor: pointer; 
 }
@@ -272,13 +272,13 @@
 }
   
 .add-module-form-actions button:first-child {
-    background-color: #8a40d4;
+    background-color: #aa40d4;
     color: white;
     margin-right: 10px;
 }
 
 .add-module-form-actions button:last-child {
-    background-color: #8a40d4;
+    background-color: rgba(0, 0, 0, 0.9) ;
     color: white;
 }
 

@@ -19,7 +19,7 @@ const CourseCard = ({ courses, setCourses, showProgress }) => {
   const { user } = useAuth();
 
   const toggleBookmark = async (isWishlisted, courseId) => {
-    console.log(user, courseId);
+    
     let updatedCourses = [...courses]; // Create a copy of the courses array
     const courseIndex = updatedCourses.findIndex(
       (course) => course.enrollment.course_id._id === courseId
@@ -62,7 +62,7 @@ const CourseCard = ({ courses, setCourses, showProgress }) => {
             className="w-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/4"
           >
             <div className="p-2">
-              <Card className="h-auto flex flex-col">
+              <Card className="h-[28rem] flex flex-col">
                 <div className="relative"> 
                   <img
                     src={`data:image/jpeg;base64,${course.enrollment.course_id.imageUrl}`}
@@ -92,13 +92,13 @@ const CourseCard = ({ courses, setCourses, showProgress }) => {
                     <div className="flex justify-between text-sm text-dark-gray">
                       <span>
                         Course By:{" "}
-                        <span className="font-bold text-gray-700">
+                        <span className="font-bold text-gray-700 block">
                           {course.enrollment.course_id.trainer_id.name}
                         </span>
                       </span>
                       <span className="text-gray-500">
                         Duration:{" "}
-                        <span className="font-bold text-gray-700">
+                        <span className="font-bold text-gray-700 block">
                           {convertMinutes(course.enrollment.course_id.duration)}
                         </span>
                       </span>

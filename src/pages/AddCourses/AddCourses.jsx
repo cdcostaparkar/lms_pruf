@@ -343,7 +343,7 @@ const AddCourses = () => {
                                 </div>
                             </div>
                             <div className="add-module-form-group">
-                                <label>Module URL:</label>
+                                <label>Module Video: (Use Youtube URL)</label>
                                 <input
                                     type="text"
                                     placeholder="Module URL"

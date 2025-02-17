@@ -18,7 +18,7 @@ const AddToCartPage = () => {
   useEffect(() => {
     if (cart.length === 0 && !toastShown.current) {
       toast("Your cart is empty. Start adding courses!", {
-        duration: 4000,
+        duration: 3000,
       });
       toastShown.current = true; // Mark the toast as shown
     }

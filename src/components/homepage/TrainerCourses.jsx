@@ -74,7 +74,7 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                             className="w-full sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/4"
                         >
                             <div className="p-2">
-                                <Card className="h-auto flex flex-col">
+                                <Card className="h-[25rem] flex flex-col">
                                     <img
                                         src={`data:image/jpeg;base64,${course.imageUrl}`}
                                         alt={course.title}

@@ -55,7 +55,7 @@ const LPCourses = ({ courses, search }) => {
 
     return (
         <div>
-            <div className="flex items-center bg-gray-100 rounded-md py-2 px-4 mb-4">
+            <div className="flex items-center bg-gray-100 rounded-md py-2 px-4 mb-8">
                 <svg
                     className="-ml-1 mr-1.5 h-6 w-6 text-purple-600"
                     viewBox="0 0 20 20"

@@ -40,7 +40,6 @@ const AddCourses = () => {
                 ...prevDetails,
                 duration: totalDurationInMinutes, // Store in minutes
             }));
-
         };
 
         calculateTotalDuration();
@@ -53,13 +52,14 @@ const AddCourses = () => {
             !moduleDetails.duration ||
             !moduleDetails.description
         ) {
-            alert("Please fill in all fields for the module.");
+            toast.error("Please fill in all fields for the module.")
+            //   alert("Please fill in all fields for the module.");
             return;
         }
 
         const duration = parseInt(moduleDetails.duration, 10);
         if (isNaN(duration) || duration < 1) {
-            alert("Duration must be a number greater than 0.");
+            toast.error("Duration must be a number greater than 0.")
             return;
         }
 
@@ -71,15 +71,6 @@ const AddCourses = () => {
             durationInMinutes = duration * 60 * 24;
         } else if (moduleDetails.durationUnit === "weeks") {
             durationInMinutes = duration * 60 * 24 * 7;
-        }
-
-        if (modules.length >= 3) {
-            setShowModal(false);
-            document.getElementById("module-alert").style.display = "block";
-            setTimeout(() => {
-                document.getElementById("module-alert").style.display = "none";
-            }, 2000);
-            return;
         }
 
         const newModule = {
@@ -124,14 +115,6 @@ const AddCourses = () => {
     };
 
     const openModuleModal = () => {
-        if (modules.length >= 3) {
-            setShowModal(false);
-            document.getElementById("module-alert").style.display = "block";
-            setTimeout(() => {
-                document.getElementById("module-alert").style.display = "none";
-            }, 2000);
-            return;
-        }
         setShowModal(true);
     };
 
@@ -141,7 +124,7 @@ const AddCourses = () => {
                 toast("Please add at least one module before submitting.", {
                     icon: "🖐️",
                 });
-    
+
                 return;
             }
 
@@ -196,9 +179,6 @@ const AddCourses = () => {
 
     return (
         <div className="page-container">
-            <div className="module-alert" id="module-alert">
-                Can't add more than 3 modules
-            </div>
             <div className="header-container">
                 <div className="header-content">
                     <h1 className="page-heading">Add New Course</h1>
@@ -271,7 +251,7 @@ const AddCourses = () => {
                                                 {truncateContent(module.content)}
                                             </div>
                                             <button
-                                                className="delete-module-button"
+                                                className="delete-module-button bg-red-400"
                                                 onClick={() => handleDeleteModule(index)}
                                             >
                                                 Delete

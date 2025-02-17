@@ -18,35 +18,35 @@ import convertMinutes from "@/lib/calcTime";
 const CourseCard = ({ courses, setCourses, showProgress }) => {
   const { user } = useAuth();
 
-  const toggleBookmark = async (isWishlisted, courseId) => {
+  // const toggleBookmark = async (isWishlisted, courseId) => {
     
-    let updatedCourses = [...courses]; // Create a copy of the courses array
-    const courseIndex = updatedCourses.findIndex(
-      (course) => course.enrollment.course_id._id === courseId
-    );
+  //   let updatedCourses = [...courses]; // Create a copy of the courses array
+  //   const courseIndex = updatedCourses.findIndex(
+  //     (course) => course.enrollment.course_id._id === courseId
+  //   );
 
-    if (isWishlisted) {
-      const response = await removeFromWishlist(user, courseId);
-      if (response.success) {
-        updatedCourses[courseIndex].isWishlisted = false; // Update the wishlist status
-        toast('Removed from Wishlist!', {
-          icon: '💔',
-        });
-      }
-    } else {
-      const response = await addToWishlist(user, courseId);
-      if (response.success) {
-        updatedCourses[courseIndex].isWishlisted = true; // Update the wishlist status
-        toast('Added to Wishlist!', {
-          icon: '💓',
-        });
-      }
-    }
+  //   if (isWishlisted) {
+  //     const response = await removeFromWishlist(user, courseId);
+  //     if (response.success) {
+  //       updatedCourses[courseIndex].isWishlisted = false; // Update the wishlist status
+  //       toast('Removed from Wishlist!', {
+  //         icon: '💔',
+  //       });
+  //     }
+  //   } else {
+  //     const response = await addToWishlist(user, courseId);
+  //     if (response.success) {
+  //       updatedCourses[courseIndex].isWishlisted = true; // Update the wishlist status
+  //       toast('Added to Wishlist!', {
+  //         icon: '💓',
+  //       });
+  //     }
+  //   }
 
-    // Update the state with the modified courses array
-    // Assuming you have a way to set the courses state, e.g., via props or context
-    setCourses(updatedCourses); // Uncomment this if you have a setCourses function
-  };
+  //   // Update the state with the modified courses array
+  //   // Assuming you have a way to set the courses state, e.g., via props or context
+  //   setCourses(updatedCourses); // Uncomment this if you have a setCourses function
+  // };
 
   return (
     <Carousel
@@ -70,7 +70,7 @@ const CourseCard = ({ courses, setCourses, showProgress }) => {
                     alt={course.enrollment.course_id.title}
                     className="w-full h-auto aspect-video object-cover rounded-md"
                   />
-                  <div className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-md">
+                  {/* <div className="absolute top-2 right-2 z-10 bg-white rounded-full p-1 shadow-md">
                     {course.isWishlisted ? (
                       <HeartOff
                         className="text-gray-700 hover:text-gray-900 cursor-pointer"
@@ -82,7 +82,7 @@ const CourseCard = ({ courses, setCourses, showProgress }) => {
                         onClick={() => toggleBookmark(course.isWishlisted, course.enrollment.course_id._id)}
                       />
                     )}
-                  </div>
+                  </div> */}
                 </div>
                 <CardContent className="flex flex-col justify-between p-6 space-y-4 flex-grow">
                   <div>

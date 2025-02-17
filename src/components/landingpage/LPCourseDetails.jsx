@@ -59,21 +59,24 @@ const LPCourseDetails = ({ course, toggleModal }) => {
                             <CircleX/>
                         </button>
                         <div className="course-info">
-                            {/* <img src={`https://picsum.photos/200?random=${course._id}`}
-                                alt={course.title}
-                                className="wishlist w-64 -course-image" /> */}
-                            <img
-                                src={`data:image/jpeg;base64,${course.imageUrl}`}
-                                alt={course.title}
-                                className="course-image"
-                            />
-                            <h1 className="course-heading"> {course.title}</h1>
-                            <div className="trainer-and-duration">
-                                <p className="course-trainer"><strong> Trainer: </strong> {course.trainer_id.name}</p>
-                                <p className="course-duration"><strong> Duration: </strong> {convertMinutes(course.duration)}  </p>
-                            </div>
-                            <p className="modal-course-description">{truncateDescription(course.description)}</p>         
-                        </div>
+  <img
+    src={`data:image/jpeg;base64,${course.imageUrl}`}
+    alt={course.title}
+    className="course-image mx-auto block"
+  />
+  <h1 className="course-heading"> {course.title}</h1>
+  <div className="trainer-and-duration">
+    <p className="course-trainer">
+      <strong> Trainer: </strong> {course.trainer_id.name}
+    </p>
+    <p className="course-duration">
+      <strong> Duration: </strong> {convertMinutes(course.duration)}
+    </p>
+  </div>
+  <p className="modal-course-description">
+    {truncateDescription(course.description)}
+  </p>
+</div>
 
                         <div className="course-details-modules">
                             <h3>Modules: </h3>

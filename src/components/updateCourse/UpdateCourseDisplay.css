@@ -1,4 +1,201 @@
+/* UpdateCourseDisplay.css */
+
+.uc-page-container {
+    font-family: sans-serif;
+    text-align: center;
+    padding: 50px;
+  }
+  
+  .uc-heading {
+    /* background-color: #333; */
+    color: black;
+    text-align: left;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .error {
+    color: rgb(191, 134, 244);
+    margin-bottom: 10px;
+  }
+  
+  .update-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: left; /* Align content to the left within the section */
+    background-color: rgb(240, 224, 250);
+    max-width: 800px;
+  }
+  
+  
+  .course-details-form-group {
+    margin-bottom: 30px;
+  }
+  
+  .course-details-form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: #555;
+    font-size: 20px;
+  }
+  
+  .course-details-form-group input[type="text"],
+  .course-details-form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important for padding to not affect width */
+    font-size: 14px;
+  }
+  
+  /* .course-details-form-group textarea {
+    height: 100px; 
+  } */
+  
+  /* .update-section button {
+    background-color: #9a2ff1;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  } */
+
+  .update-course-details-button{
+    background-color: #9a2ff1;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+
+  .update-module-details-button{
+    background-color: #9a2ff1;
+    color: rgb(251, 249, 252);
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+
+  }
+
+  /* Modal Overlay Styling */
+.module-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's on top of everything */
+  }
+  
+  /* Modal Window Styling */
+  .module-modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 50%; /* Adjust as needed */
+    max-width: 600px;
+    text-align: left;
+  }
+  
+  /* Modal Heading Styling */
+  .module-modal h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+  }
+  
+  /* Form Group Styling */
+  .module-modal .form-group {
+    margin-bottom: 15px;
+  }
+  
+  /* Label Styling */
+  .module-modal label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  /* Input and Textarea Styling */
+  .module-modal input[type="text"],
+  .module-modal textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+  }
+  
+  /* Textarea Specific Styling */
+  .module-modal textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  /* Modal Buttons Container Styling */
+  .module-modal-buttons {
+    text-align: right;
+    margin-top: 20px;
+  }
+  
+  /* Modal Buttons Styling */
+  .module-modal-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-left: 10px;
+  }
+  
+  /* Primary Button Styling */
+  .module-modal-buttons button:first-child {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .module-modal-buttons button:first-child:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Secondary Button Styling */
+  .module-modal-buttons button:last-child {
+    background-color: #ccc;
+    color: black;
+  }
+  
+  .module-modal-buttons button:last-child:hover {
+    background-color: #999;
+  }
+  
+
+  
+
+
+
 /* src/components/UpdateCourse/UpdateCourse.css */
+
+
+/* 
 :root {
     --background-color: #f7f9fc;
     --text-color: #333;
@@ -7,34 +204,34 @@
     --button-background: #007bff;
     --button-hover: #0056b3;
     --input-border: #ccc;
-}
+} */
 
 
-
+/* 
 .uc-navbar {
     display: flex;
     font-size: 34px;
     justify-content: space-between;
     align-items: center;
     /* background-color: #007bff; */
-    padding: 0px 20px;
+    /* padding: 0px 20px; */
     /* color: white; */
-    color: black;
+    /* color: black;
     margin: 0px;
     font-weight: 500;
     margin-left: 40px;
-}
+} */
 
-.uc-navbar p{
+/* .uc-navbar p{
     margin: 20px;
 }
 
 .uc-navbar h1 {
     margin: 0;
     font-size: 25px;
-}
+} */
 
-.theme-toggle {
+/* .theme-toggle {
     background-color: transparent;
     color: white; 
     background-color: gray;
@@ -75,7 +272,7 @@
 }
 
 .update-course-module h2 {
-    /* color: #007bff; */
+    color: #007bff;
     margin: 0 0 10px;
     font-weight: 700;
 }
@@ -104,10 +301,10 @@
 .update-course-btn:hover {
     background-color: var(--button-hover);
     transform: scale(1.05);
-}
+} */
 
-.update-course-modal {
-    /* display: none; */
+/* .update-course-modal {
+    display: none;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -145,7 +342,7 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
-}
+}  */
 
 /* input {
     width: 100%;
@@ -162,7 +359,7 @@ input:focus {
 } */
 
 
-input {
+/* input {
     width: 100%;
     padding: 12px;
     margin: 10px 0;
@@ -190,10 +387,10 @@ input {
 .update-modal-btn:hover {
     background-color: #218838;
     transform: scale(1.05);
-}
+} */
 
 /* Dark Theme */
-body.dark {
+/* body.dark {
     --background-color: #181818;
     --text-color: #f7f9fc;
     --module-background: #2c2c2c;
@@ -206,6 +403,6 @@ body.dark {
 .update-course-module-div{
     display: flex;
     flex-wrap: wrap;
-    /* gap: 100px; */
+    gap: 100px;
     flex-direction: column;
-}
+} */

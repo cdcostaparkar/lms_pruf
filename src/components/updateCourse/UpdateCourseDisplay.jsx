@@ -22,7 +22,8 @@ const UpdateCourseDisplay = () => {
   const [courseDescription, setCourseDescription] = useState(
     course.description || ""
   );
-  const [courseImageUrl, setCourseImageUrl] = useState(course.imageUrl || "");
+  const [courseImageUrl, setCourseImageUrl] = useState(course?.imageUrl || ""); // Use optional chaining
+  const [newImage, setNewImage] = useState(null);
 
   useEffect(() => {
     const fetchModules = async (courseId) => {
@@ -47,8 +48,12 @@ const UpdateCourseDisplay = () => {
     setCourseDescription(e.target.value);
   };
 
-  const handleCourseImageUrlChange = (e) => {
-    setCourseImageUrl(e.target.value);
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const selectedFile = e.target.files[0];
+      setNewImage(URL.createObjectURL(selectedFile));
+      setCourseImageUrl(URL.createObjectURL(selectedFile)); // Update immediately
+    }
   };
 
   const handleCourseDetailsSubmit = () => {
@@ -84,7 +89,10 @@ const UpdateCourseDisplay = () => {
       await updateModule(
         selectedModule._id,
         updatedModule.title,
-        updatedModule.description
+        updatedModule.description,
+        updatedModule.duration,
+        updatedModule.ModuleURL,
+        updatedModule.content
       );
 
       setModules(
@@ -99,75 +107,112 @@ const UpdateCourseDisplay = () => {
       closeModuleModal();
     } catch (error) {
       console.error("Error updating module:", error);
-      setError("Failed to update module. Please try again.");
+      setError("Failed to update module. Please try again later.");
     }
+  };
+
+  const handleSubmitUpdates = () => {
+    const updatedCourseInfo = {
+      title: courseTitle,
+      description: courseDescription,
+      imageUrl: courseImageUrl,
+    };
+
+    const updatedModulesInfo = modules.map((module) => ({
+      id: module._id,
+      title: module.title,
+      description: module.description,
+      duration: module.duration,
+      ModuleURL: module.ModuleURL,
+      content: module.content,
+    }));
+
+    console.log("Final Updated Course Info:", updatedCourseInfo);
+    console.log("Final Updated Modules Info:", updatedModulesInfo);
   };
 
   return (
     <div className="uc-page-container">
       <div className="uc-heading">
-        <p>Update Courses</p>
+        <p>Update Course</p>
+        <button className="submit-updates-button" onClick={handleSubmitUpdates}>
+          Submit Updates
+        </button>
       </div>
 
       {error && <p className="error">{error}</p>}
       {modules.length === 0 && <p>No modules available.</p>}
 
-      <section className="update-section">
-        <h2>Update Course Details</h2>
-        <div className="course-details-form-group">
-          <label htmlFor="courseTitle">Course Title:</label>
-          <input
-            type="text"
-            id="courseTitle"
-            value={courseTitle}
-            onChange={handleCourseTitleChange}
-          />
-        </div>
-        <div className="course-details-form-group">
-          <label htmlFor="courseDescription">Course Description:</label>
-          <textarea
-            id="courseDescription"
-            value={courseDescription}
-            onChange={handleCourseDescriptionChange}
-          />
-        </div>
-        <div className="course-details-form-group">
-          <label htmlFor="courseImageUrl">Image URL:</label>
-          <input
-            type="text"
-            id="courseImageUrl"
-            value={courseImageUrl}
-            onChange={handleCourseImageUrlChange}
-          />
-        </div>
-        <div>
-          <button onClick={handleCourseDetailsSubmit} className="update-course-details-button">
-            Update Course Details
-          </button>
-        </div>
-      </section>
-
-      <section className="update-module-section">
-        {modules.length > 0 && (
-          <button onClick={() => openModuleModal(modules[0]?._id)} 
-          className="update-module-details-button">
-            Update Module Details
-          </button>
-        )}
-      </section>
-
-      {/* <section className="update-course-container">
-        <h2>Course Modules</h2>
-        <div className="update-course-modules">
-          {modules.map((module) => (
-            <UpdateCourseModule
-              key={module._id}
-              module={module}
-              onUpdate={openModuleModal}
+      <div className="sections-container">
+        <section className="update-course-details-section">
+          {/* <h2>Update Course Details</h2> */}
+          <div className="course-details-form-group">
+            <label htmlFor="courseTitle">Course Title:</label>
+            <input
+              type="text"
+              value={courseTitle}
+              onChange={handleCourseTitleChange}
+              className="course-details-input"
             />
-          ))}
-        </div>
-      </section> */}
+          </div>
+          <div className="course-details-form-group">
+            <label htmlFor="courseDescription">Course Description:</label>
+            <textarea
+              className="course-details-input"
+              value={courseDescription}
+              onChange={handleCourseDescriptionChange}
+            />
+          </div>
+          <div className="course-details-form-group">
+            <label htmlFor="courseImageUrl">Image:</label>
+            {courseImageUrl && (
+              <img
+                src={courseImageUrl}
+                alt="Course Preview"
+                className="course-image-preview"
+              />
+            )}
+          </div>
+          <div className="course-details-form-group">
+            <label htmlFor="newImage">Replace Image:</label>
+            <input
+              type="file"
+              id="newImage"
+              onChange={handleImageChange}
+              className="course-details-input"
+            />
+          </div>
+          <div>
+            <button
+              onClick={handleCourseDetailsSubmit}
+              className="update-course-details-button"
+            >
+              Update Course Details
+            </button>
+          </div>
+        </section>
+
+        <section className="modules-in-course-section">
+          <h2>Modules in Course</h2>
+          <div className="modules-in-course-container">
+            {modules.map((module) => (
+              <div className="module-box" key={module._id}>
+                <h3>
+                  <strong> Module Name:</strong> {module.title}
+                </h3>
+                <button
+                  className="update-module-details-button"
+                  onClick={() => openModuleModal(module._id)}
+                >
+                  Update Module Details
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <section className="update-module-section"></section>
 
       {isModuleModalOpen && selectedModule && (
         <ModuleDetailsModal
@@ -186,32 +231,63 @@ const ModuleDetailsModal = ({ isOpen, onClose, module, onSubmit }) => {
   const [description, setDescription] = useState(module.description || "");
   const [duration, setDuration] = useState(module.duration || "");
   const [ModuleURL, setModuleURL] = useState(module.ModuleURL || "");
-  const [content, setContent] = useState(module.content || ""); 
+  const [content, setContent] = useState(module.content || "");
   const handleSubmit = () => {
-    onSubmit({ title, description });
+    onSubmit({ title, description, duration, ModuleURL, content });
   };
 
   if (!isOpen) return null;
 
+  const handleOverlayClick = (e) => {
+    if (e.target.classList.contains("update-module-details-modal-overlay")) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="module-modal-overlay">
-      <div className="module-modal">
+    <div
+      className="update-module-details-modal-overlay"
+      onClick={handleOverlayClick}
+    >
+      <div className="update-module-details-modal">
         <h2>Update Module Details</h2>
         <div className="form-group">
-          <label htmlFor="moduleName">Module Name:</label>
+          <label>Module Name:</label>
           <input
             type="text"
-            id="moduleName"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className="form-group">
-          <label htmlFor="moduleDescription">Module Description:</label>
+          <label>Module Description:</label>
           <textarea
-            id="moduleDescription"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label>Module Duration:</label>
+          <input
+            type="text"
+            value={duration}
+            onChange={(e) => setDuration(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label>Module URL:</label>
+          <input
+            type="text"
+            value={ModuleURL}
+            onChange={(e) => setModuleURL(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label>Module Content:</label>
+          <input
+            type="text"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           />
         </div>
         <div className="module-modal-buttons">

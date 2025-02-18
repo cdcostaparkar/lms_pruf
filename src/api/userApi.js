@@ -12,6 +12,7 @@ export const createUser = async (formData) => {
   });
 
   if (!response.ok) {
+    // console.log(response);
     throw new Error("Signup failed. Please check your details.");
   }
 

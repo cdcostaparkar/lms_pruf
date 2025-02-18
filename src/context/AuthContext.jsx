@@ -27,7 +27,8 @@ export const AuthProvider = ({ children }) => {
     toast(
       (t) => (
         <div className="flex flex-col items-center">
-          <span>They don't 💞 you like I 💞 you</span>
+          <span>Are you sure?</span>
+          {/* <span>They don't 💞 you like I 💞 you</span> */}
           <div className="flex w-full justify-center mt-2">
             <button
               onClick={() => {
@@ -53,7 +54,7 @@ export const AuthProvider = ({ children }) => {
         </div>
       ),
       {
-        icon: "🖐️",
+        icon: "🥺",
         autoClose: false, // Prevent auto-closing
         closeOnClick: false, // Prevent closing on click outside
         draggable: false, // Disable dragging

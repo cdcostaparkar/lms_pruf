@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { authenticateUser } from "@/api/userApi";
 
+import toast from "react-hot-toast";
+
 export function LoginForm({ className, ...props }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -37,6 +39,7 @@ export function LoginForm({ className, ...props }) {
 
       login(data.userId, data.role_name);
     } catch (error) {
+      toast.error(error.message);
       setLoginError(error.message);
     }
   };

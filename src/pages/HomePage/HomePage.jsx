@@ -21,7 +21,7 @@ export default function HomePage() {
       <div className="bg-purple-300 py-8 px-4 rounded-xl shadow-md transition-transform duration-300 ease-in-out hover:translate-y-[-5px] hover:shadow-lg relative overflow-hidden">
         <div className="md:flex items-center justify-between">
           <div className="md:w-2/3 text-center md:text-left">
-            <h1 className="text-2xl md:text-3xl lg:text-4xl text-gray-800 font-bold mb-4">
+            <h1 className="text-2xl md:text-3xl lg:text-3xl text-gray-800 font-bold mb-4">
               Welcome Trainer! Manage Your Courses Here. 🎉
             </h1>
             <p className="text-lg md:text-xl text-gray-600 leading-relaxed">

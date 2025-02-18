@@ -4,12 +4,19 @@ import { useAuth } from "@/context/AuthContext";
 import { getAllWishlistedCourses, removeFromWishlist } from "@/api/wishlistAPI";
 import toast from "react-hot-toast";
 import convertMinutes from "@/lib/calcTime";
+import { Link } from "react-router-dom";
 
 const WishListPage = () => {
     const { user } = useAuth();
-
     const [wishlistedCourses, setWishlistedCourses] = useState([]);
     const hasFetched = useRef(false);
+    const [cart, setCart] = useState([]);
+
+    useEffect(() => {
+        // Load cart from localStorage on component mount
+        const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+        setCart(storedCart);
+    }, []);
 
     useEffect(() => {
         const fetchWishlistedCourses = async () => {
@@ -24,7 +31,6 @@ const WishListPage = () => {
                     });
                     hasFetched.current = true;
                 }
-
             } catch (err) {
                 toast.error("Failed to retrieve courses");
             }
@@ -34,7 +40,6 @@ const WishListPage = () => {
             fetchWishlistedCourses();
         }
     }, [user]);
-
 
     const removeWishlist = async (courseId) => {
         try {
@@ -53,34 +58,41 @@ const WishListPage = () => {
         }
     };
 
-
     // Adding course to cart
     const handleAddCart = (newCourse) => {
         const currentCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-        if (!currentCart.some(course => course._id === newCourse._id)) {
-            const courseToAdd = wishlistedCourses.find(course => course._id === newCourse._id);
+        if (!currentCart.some((course) => course._id === newCourse._id)) {
+            const courseToAdd = wishlistedCourses.find(
+                (course) => course._id === newCourse._id
+            );
 
             currentCart.push(courseToAdd);
 
             localStorage.setItem("cart", JSON.stringify(currentCart));
-            toast('Course Added to Cart!', {
-                icon: '🛒',
+            setCart(currentCart); // Update the cart state
+            toast("Course Added to Cart!", {
+                icon: "🛒",
             });
         } else {
-            toast('Course Already in Cart!', {
-                icon: '😊',
+            toast("Course Already in Cart!", {
+                icon: "😊",
             });
         }
     };
 
+    const isInCart = (courseId) => {
+        return cart.some((course) => course._id === courseId);
+    };
 
     return (
         <div className="wishlist-page">
             <div className="wishlist-header">
                 <h1 className="wishlist-heading">
-                    Courses in Wishlist ♡❤️♡ {" "}
-                    <span className="text-purple-500">({wishlistedCourses.length})</span>
+                    Courses in Wishlist ♡❤️♡{" "}
+                    <span className="text-purple-500">
+                        ({wishlistedCourses.length})
+                    </span>
                 </h1>
             </div>
             {wishlistedCourses.length > 0 ? (
@@ -102,7 +114,9 @@ const WishListPage = () => {
                                     <strong>{course.title}</strong>
                                 </h3>
                                 <p className="wishlist-course-instructor-duration">
-                                    <strong> Trainer: </strong> {course.trainer_id.name} | <strong> Duration: </strong> {convertMinutes(course.duration)} </p>
+                                    <strong> Trainer: </strong> {course.trainer_id.name} |{" "}
+                                    <strong> Duration: </strong> {convertMinutes(course.duration)}{" "}
+                                </p>
                                 <p className="wishlist-course-description">
                                     {course.description}
                                 </p>
@@ -110,23 +124,29 @@ const WishListPage = () => {
                                     <button
                                         className="wishlist-remove-button"
                                         onClick={() => {
-                                            removeWishlist(course._id)
+                                            removeWishlist(course._id);
                                         }}
                                     >
                                         Remove from Wishlist
                                     </button>
 
-
-                                    {!course.isEnrolled && (
-                                        <button
-                                            className="wishlist-add-to-cart-button"
-                                            onClick={() => {
-                                                handleAddCart(course);
-                                            }}
-                                        >
-                                            Add To Cart
-                                        </button>
-                                    )}
+                                    {!course.isEnrolled &&
+                                        (isInCart(course._id) ? (
+                                            <Link to="/cart">
+                                                <button className="wishlist-add-to-cart-button">
+                                                    Go to Cart 🛒
+                                                </button>
+                                            </Link>
+                                        ) : (
+                                            <button
+                                                className="wishlist-add-to-cart-button"
+                                                onClick={() => {
+                                                    handleAddCart(course);
+                                                }}
+                                            >
+                                                Add To Cart
+                                            </button>
+                                        ))}
                                 </div>
                             </div>
                         </div>

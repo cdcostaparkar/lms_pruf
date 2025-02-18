@@ -170,8 +170,11 @@
   }
 
   .team-member img {
-    width: 150px; /* Reduced image size for smaller screens */
-    margin-bottom: 5px; /* Reduced margin for smaller screens */
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 5px;
   }
   
   .contact-section {

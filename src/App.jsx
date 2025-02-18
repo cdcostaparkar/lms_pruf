@@ -26,6 +26,8 @@ import AboutUs from './pages/AboutUs/AboutUs'
 
 // Toast
 import { Toaster } from 'react-hot-toast';
+// import UpdateCoursePage from './pages/UpdateCourses2/UpdateCoursepage'
+import UpdateCourseModule from './components/updateCourse/UpdateCourseModule'
 
 function App() {
     const { user, logout, roleName } = useAuth();
@@ -37,52 +39,66 @@ function App() {
 
     return (
         <>
-            <div><Toaster /></div>
+            <div>
+                <Toaster />
+            </div>
             <Router>
-                <Navbar onLogout={logout} />
-                {/* Redirect to login/signup if user is null */}
-                {user === null ? (
-
-                    <>
-                        <Routes>
-                            <Route path="/landing" element={<LandingPage />} />
-                            <Route path="/signup" element={<SignupPage />} />
-                            <Route path="/login" element={<LoginPage />} />
-                            <Route path="/aboutus" element={<AboutUs />} />
-
-                            <Route path="*" element={<Navigate to="/landing" />} />
-                        </Routes>
-                    </>
-                ) : (
-                    <>
-                        {/* <Navbar onLogout={logout} /> */}
-                        <Routes>
-                            {/* Main application routes */}
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/courses/:courseId" element={<CoursePage />} />
-                            <Route
-                                path="/progress"
-                                element={<ProtectedRoute element={<CoursesProgress />} allowedRoles={['student']} />}
-                            />
-                            <Route
-                                path="/courses/add"
-                                element={<ProtectedRoute element={<AddCourses />} allowedRoles={['trainer']} />}
-                            />
-
-                            {/* Right on Navbar */}
-                            <Route path="/wishlist" element={<WishListPage />} />
-                            <Route path="/cart" element={<AddToCartPage />} />
-
-                            <Route path="/courses/update/:courseId" element={<CourseUpdate />} />
-                            <Route path="/account" element={<AccountDetails />} />
-
-                            {/* This is a modal, and can be persisted on click in HomePage */}
-                            {/* <Route path="/courses/details/:courseId" element={<CourseDetails />} /> */}
-                            <Route path="*" element={<Navigate to="/" />} />
-                        </Routes>
-                    </>
-                )}
-                <Footer />
+                <div className="flex flex-col min-h-screen">
+                    <Navbar onLogout={logout} />
+                    <main className="flex-grow">
+                        {/* Redirect to login/signup if user is null */}
+                        {user === null ? (
+                            <>
+                                <Routes>
+                                    <Route path="/landing" element={<LandingPage />} />
+                                    <Route path="/signup" element={<SignupPage />} />
+                                    <Route path="/login" element={<LoginPage />} />
+                                    <Route path="/aboutus" element={<AboutUs />} />
+                                    <Route path="*" element={<Navigate to="/landing" />} />
+                                    {/* <Route path = "/update" element={<UpdateCourseModule/>}/> */}
+                                </Routes>
+                            </>
+                        ) : (
+                            <>
+                                <Routes>
+                                    {/* Main application routes */}
+                                    <Route path="/" element={<HomePage />} />
+                                    <Route path="/courses/:courseId" element={<CoursePage />} />
+                                    <Route
+                                        path="/progress"
+                                        element={
+                                            <ProtectedRoute
+                                                element={<CoursesProgress />}
+                                                allowedRoles={["student"]}
+                                            />
+                                        }
+                                    />
+                                    <Route
+                                        path="/courses/add"
+                                        element={
+                                            <ProtectedRoute
+                                                element={<AddCourses />}
+                                                allowedRoles={["trainer"]}
+                                            />
+                                        }
+                                    />
+                                    {/* Right on Navbar */}
+                                    <Route path="/wishlist" element={<WishListPage />} />
+                                    <Route path="/cart" element={<AddToCartPage />} />
+                                    <Route
+                                        path="/courses/update/:courseId"
+                                        element={<CourseUpdate />}
+                                    />
+                                    <Route path="/account" element={<AccountDetails />} />
+                                    {/* This is a modal, and can be persisted on click in HomePage */}
+                                    {/* <Route path="/courses/details/:courseId" element={<CourseDetails />} /> */}
+                                    <Route path="*" element={<Navigate to="/" />} />
+                                </Routes>
+                            </>
+                        )}
+                    </main>
+                    <Footer />
+                </div>
             </Router>
         </>
     );

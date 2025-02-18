@@ -6,7 +6,7 @@ import { useAuth } from "@/context/AuthContext";
 import convertMinutes from "@/lib/calcTime";
 import { CircleX } from "lucide-react";
 
-const LPCourseDetails = ({ course, toggleModal }) => {    
+const LPCourseDetails = ({ course, toggleModal }) => {
     const [modules, setModules] = useState([]);
     useEffect(() => {
         const fetchModules = async (courseId) => {
@@ -31,19 +31,19 @@ const LPCourseDetails = ({ course, toggleModal }) => {
 
     const truncateDescription = (description) => {
         const words = description.split(" ");
-        const limit =50;
-        if(words.length<=limit){
+        const limit = 50;
+        if (words.length <= limit) {
             return description;
         }
 
-        const truncated = words.slice(0,limit).join(" ");
+        const truncated = words.slice(0, limit).join(" ");
 
         const lastPeriodIndex = truncated.lastIndexOf(".");
 
-        return lastPeriodIndex !== -1 ? truncated.slice(0, lastPeriodIndex + 1) + " " : truncated+ " " ;
-        
+        return lastPeriodIndex !== -1 ? truncated.slice(0, lastPeriodIndex + 1) + " " : truncated + " ";
+
     };
-    
+
     return (
         <div className="course-box">
             <div className="container">
@@ -56,23 +56,26 @@ const LPCourseDetails = ({ course, toggleModal }) => {
                 <div className="modal-overlay" onClick={closeModalIfClickedOutside}>
                     <div className="modal-content">
                         <button className="close-button" onClick={toggleModal}>
-                            <CircleX/>
+                            <CircleX />
                         </button>
                         <div className="course-info">
-                            {/* <img src={`https://picsum.photos/200?random=${course._id}`}
-                                alt={course.title}
-                                className="wishlist w-64 -course-image" /> */}
                             <img
-                                src={`data:image/jpeg;base64,${course.imageUrl}`}
+                                src={course.imageUrl}
                                 alt={course.title}
-                                className="course-image"
+                                className="course-image mx-auto block"
                             />
                             <h1 className="course-heading"> {course.title}</h1>
                             <div className="trainer-and-duration">
-                                <p className="course-trainer"><strong> Trainer: </strong> {course.trainer_id.name}</p>
-                                <p className="course-duration"><strong> Duration: </strong> {convertMinutes(course.duration)}  </p>
+                                <p className="course-trainer">
+                                    <strong> Trainer: </strong> {course.trainer_id.name}
+                                </p>
+                                <p className="course-duration">
+                                    <strong> Duration: </strong> {convertMinutes(course.duration)}
+                                </p>
                             </div>
-                            <p className="modal-course-description">{truncateDescription(course.description)}</p>         
+                            <p className="modal-course-description">
+                                {truncateDescription(course.description)}
+                            </p>
                         </div>
 
                         <div className="course-details-modules">

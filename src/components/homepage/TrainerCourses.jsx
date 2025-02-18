@@ -16,7 +16,7 @@ import { BookOpenText, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
-
+    console.log("trainer", availableCourses);
     const navigate = useNavigate();
 
     const handleUpdateClick = (course, courseId) => {
@@ -95,14 +95,13 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                                 <Card className="h-[25rem] flex flex-col">
                                     <div className="relative">
                                         <img
-                                            src={`data:image/jpeg;base64,${course.imageUrl}`}
+                                            src={course.imageUrl}
                                             alt={course.title}
                                             className="w-full h-auto aspect-video object-cover rounded-md"
                                         />
-                                        <div className="absolute top-2 right-2 z-10 bg-red-400 text-gray-600 rounded-full p-1 shadow-md">
-                                            <Trash2 onClick={() =>
-                                                handleDeleteCourse(course.title, course._id)
-                                            }
+                                        <div className="absolute top-2 right-2 z-10 bg-red-400 rounded-full p-1 shadow-md cursor-pointer">
+                                            <Trash2 
+                                                onClick={() => handleDeleteCourse(course.title, course._id)}
                                             />
                                         </div>
                                     </div>
@@ -140,7 +139,7 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                                                 <BookOpenText />
                                             </Button>
                                             <Button
-                                                className="bg-purple-500 text-white"
+                                                className="bg-purple-500 text-white hover:bg-purple-600"
                                                 onClick={() => handleUpdateClick(course, course._id)}
                                             >
                                                 Update

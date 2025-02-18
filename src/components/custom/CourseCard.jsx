@@ -99,7 +99,7 @@ const CourseCard = ({ courses, setCourses, showProgress }) => {
                       <span className="text-gray-500">
                         Duration:{" "}
                         <span className="font-bold text-gray-700 block">
-                          {convertMinutes(course.enrollment.course_id.duration)}
+                          {convertMinutes(course.duration)}
                         </span>
                       </span>
                     </div>

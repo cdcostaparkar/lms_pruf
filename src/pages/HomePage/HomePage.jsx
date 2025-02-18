@@ -12,8 +12,6 @@ import followusimage from "../../assets/LP_end_section/follow_us.jpg";
 export default function HomePage() {
   const { roleName } = useAuth();
 
-  const companies = ["Google", "Microsoft", "Amazon", "Netflix"];
-
   let midSectionContent;
 
   if (roleName === "trainer") {

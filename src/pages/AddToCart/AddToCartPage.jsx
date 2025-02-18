@@ -101,7 +101,7 @@ const AddToCartPage = () => {
           {cart.map((course, index) => (
             <div key={index} className="cart-course-card">
               <img
-                src={`data:image/jpeg;base64,${course.imageUrl}`}
+                src={course.imageUrl}
                 alt={course.title}
                 className="wishlist w-64 -course-image"
               />

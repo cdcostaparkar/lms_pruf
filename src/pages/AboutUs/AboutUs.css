@@ -171,10 +171,16 @@
 
   .team-member img {
     width: 150px;
-    height: 150px;
+    height: 250px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 5px;
+  }
+  @media (max-width: 768px) {
+    .team-member img {
+      width: 140px;
+      height: 150px;
+    }
   }
   
   .contact-section {

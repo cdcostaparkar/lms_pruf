@@ -1,302 +1,373 @@
 import React, { useState, useEffect } from "react";
-import UpdateCourseModule from "./UpdateCourseModule";
-import "./UpdateCourseDisplay.css";
 import { useLocation, useParams } from "react-router-dom";
-import { getModules, updateModule } from "@/api/moduleApi";
+import {
+    getModules,
+    updateModule,
+    deleteModuleById,
+    createModule,
+} from "@/api/moduleApi";
+import { updateCourse } from "@/api/courseApi"; // Import the new API function
+import ModuleUpdateModal from "./ModuleUpdateModal";
+import convertMinutes from "@/lib/calcTime";
+import toast from "react-hot-toast";
+import { useAuth } from "@/context/AuthContext";
 
 const UpdateCourseDisplay = () => {
-  const { courseId } = useParams();
-  const location = useLocation();
-  const course = location.state?.course;
+    const { user } = useAuth();
 
-  if (!course) {
-    return <p>Error: Course data not found.</p>;
-  }
+    const { courseId } = useParams();
+    console.log(courseId);
+    const location = useLocation();
+    const course = location.state?.course;
 
-  const [modules, setModules] = useState([]);
-  const [error, setError] = useState(null);
-  const [isModuleModalOpen, setIsModuleModalOpen] = useState(false);
-  const [selectedModule, setSelectedModule] = useState(null);
+    const [modules, setModules] = useState([]);
+    const [error, setError] = useState(null);
+    const [isModuleModalOpen, setIsModuleModalOpen] = useState(false);
+    const [selectedModuleId, setSelectedModuleId] = useState(null);
+    const [isCourseUpdating, setIsCourseUpdating] = useState(false);
+    const [isAddModuleModalOpen, setIsAddModuleModalOpen] = useState(false);
 
-  const [courseTitle, setCourseTitle] = useState(course.title || "");
-  const [courseDescription, setCourseDescription] = useState(
-    course.description || ""
-  );
-  const [courseImageUrl, setCourseImageUrl] = useState(course?.imageUrl || ""); // Use optional chaining
-  const [newImage, setNewImage] = useState(null);
+    const [courseTitle, setCourseTitle] = useState(course.title || "");
+    const [courseDescription, setCourseDescription] = useState(
+        course.description || ""
+    );
+    const [courseImage, setCourseImage] = useState(course.imageUrl || "");
+    const [newImage, setNewImage] = useState(null);
 
-  useEffect(() => {
-    const fetchModules = async (courseId) => {
-      try {
-        const data = await getModules(courseId);
-        setModules(data);
-      } catch (error) {
-        setError("Failed to fetch modules. Please try again later.");
-      }
+    useEffect(() => {
+        const fetchModules = async (courseId) => {
+            try {
+                const data = await getModules(courseId);
+                setModules(data);
+            } catch (error) {
+                console.error("API Error:", error);
+                toast.error("Failed to fetch modules. Please try again later.");
+            }
+        };
+
+        if (courseId) {
+            fetchModules(courseId);
+        }
+    }, [courseId]);
+
+    const handleCourseTitleChange = (e) => {
+        setCourseTitle(e.target.value);
     };
 
-    if (courseId) {
-      fetchModules(courseId);
-    }
-  }, [courseId]);
-
-  const handleCourseTitleChange = (e) => {
-    setCourseTitle(e.target.value);
-  };
-
-  const handleCourseDescriptionChange = (e) => {
-    setCourseDescription(e.target.value);
-  };
-
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const selectedFile = e.target.files[0];
-      setNewImage(URL.createObjectURL(selectedFile));
-      setCourseImageUrl(URL.createObjectURL(selectedFile)); // Update immediately
-    }
-  };
-
-  const handleCourseDetailsSubmit = () => {
-    console.log("Updated Course Details:", {
-      title: courseTitle,
-      description: courseDescription,
-      imageUrl: courseImageUrl,
-    });
-  };
-
-  const openModuleModal = (moduleId) => {
-    const module = modules.find((m) => m._id === moduleId);
-    if (module) {
-      setSelectedModule(module);
-      setIsModuleModalOpen(true);
-    } else {
-      console.error("Module not found with ID:", moduleId);
-    }
-  };
-
-  const closeModuleModal = () => {
-    setIsModuleModalOpen(false);
-    setSelectedModule(null);
-  };
-
-  const handleModuleDetailsSubmit = async (updatedModule) => {
-    try {
-      if (!selectedModule) {
-        console.error("No module selected to update.");
-        return;
-      }
-
-      await updateModule(
-        selectedModule._id,
-        updatedModule.title,
-        updatedModule.description,
-        updatedModule.duration,
-        updatedModule.ModuleURL,
-        updatedModule.content
-      );
-
-      setModules(
-        modules.map((module) =>
-          module._id === selectedModule._id
-            ? { ...module, ...updatedModule }
-            : module
-        )
-      );
-
-      console.log("Updated Module Details:", updatedModule);
-      closeModuleModal();
-    } catch (error) {
-      console.error("Error updating module:", error);
-      setError("Failed to update module. Please try again later.");
-    }
-  };
-
-  const handleSubmitUpdates = () => {
-    const updatedCourseInfo = {
-      title: courseTitle,
-      description: courseDescription,
-      imageUrl: courseImageUrl,
+    const handleCourseDescriptionChange = (e) => {
+        setCourseDescription(e.target.value);
     };
 
-    const updatedModulesInfo = modules.map((module) => ({
-      id: module._id,
-      title: module.title,
-      description: module.description,
-      duration: module.duration,
-      ModuleURL: module.ModuleURL,
-      content: module.content,
-    }));
+    //   const handleImageChange = (e) => {
+    //     setNewImage(e.target.files[0]);
+    // };
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (file.type.startsWith("image/") && file.size <= 5 * 1024 * 1024) {
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                    setNewImage(reader.result);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                toast.error("Please select a valid image file (max 5MB).");
+                e.target.value = null;
+            }
+        }
+    };
 
-    console.log("Final Updated Course Info:", updatedCourseInfo);
-    console.log("Final Updated Modules Info:", updatedModulesInfo);
-  };
+    const handleCourseDetailsSubmit = async () => {
+        setIsCourseUpdating(true);
+        try {
+            const formData = new FormData();
+            formData.append("title", courseTitle);
+            formData.append("description", courseDescription);
 
-  return (
-    <div className="uc-page-container">
-      <div className="uc-heading">
-        <p>Update Course</p>
-        <button className="submit-updates-button" onClick={handleSubmitUpdates}>
-          Submit Updates
-        </button>
-      </div>
+            console.log(newImage);
+            if (newImage) {
+                formData.append("image", newImage);
+            }
 
-      {error && <p className="error">{error}</p>}
-      {modules.length === 0 && <p>No modules available.</p>}
+            for (const entry of formData.entries()) {
+                const [key, value] = entry;
+                console.log(key, value);
+            }
 
-      <div className="sections-container">
-        <section className="update-course-details-section">
-          {/* <h2>Update Course Details</h2> */}
-          <div className="course-details-form-group">
-            <label htmlFor="courseTitle">Course Title:</label>
-            <input
-              type="text"
-              value={courseTitle}
-              onChange={handleCourseTitleChange}
-              className="course-details-input"
-            />
-          </div>
-          <div className="course-details-form-group">
-            <label htmlFor="courseDescription">Course Description:</label>
-            <textarea
-              className="course-details-input"
-              value={courseDescription}
-              onChange={handleCourseDescriptionChange}
-            />
-          </div>
-          <div className="course-details-form-group">
-            <label htmlFor="courseImageUrl">Image:</label>
-            {courseImageUrl && (
-              <img
-                src={courseImageUrl}
-                alt="Course Preview"
-                className="course-image-preview"
-              />
-            )}
-          </div>
-          <div className="course-details-form-group">
-            <label htmlFor="newImage">Replace Image:</label>
-            <input
-              type="file"
-              id="newImage"
-              onChange={handleImageChange}
-              className="course-details-input"
-            />
-          </div>
-          <div>
-            <button
-              onClick={handleCourseDetailsSubmit}
-              className="update-course-details-button"
-            >
-              Update Course Details
-            </button>
-          </div>
-        </section>
+            // Call the updateCourse API function
+            await updateCourse(user, courseId, formData);
 
-        <section className="modules-in-course-section">
-          <h2>Modules in Course</h2>
-          <div className="modules-in-course-container">
-            {modules.map((module) => (
-              <div className="module-box" key={module._id}>
-                <h3>
-                  <strong> Module Name:</strong> {module.title}
-                </h3>
-                <button
-                  className="update-module-details-button"
-                  onClick={() => openModuleModal(module._id)}
-                >
-                  Update Module Details
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
-      </div>
+            toast.success("Course details updated successfully!");
+        } catch (error) {
+            console.error("Error updating course:", error);
+            toast.error("Failed to update course details. Please try again.");
+        } finally {
+            setIsCourseUpdating(false);
+        }
+    };
 
-      <section className="update-module-section"></section>
+    const openModuleModal = (moduleId) => {
+        setSelectedModuleId(moduleId);
+        setIsModuleModalOpen(true);
+    };
 
-      {isModuleModalOpen && selectedModule && (
-        <ModuleDetailsModal
-          isOpen={isModuleModalOpen}
-          onClose={closeModuleModal}
-          module={selectedModule}
-          onSubmit={handleModuleDetailsSubmit}
-        />
-      )}
-    </div>
-  );
-};
+    const closeModuleModal = () => {
+        setIsModuleModalOpen(false);
+        setSelectedModuleId(null);
+    };
 
-const ModuleDetailsModal = ({ isOpen, onClose, module, onSubmit }) => {
-  const [title, setTitle] = useState(module.title || "");
-  const [description, setDescription] = useState(module.description || "");
-  const [duration, setDuration] = useState(module.duration || "");
-  const [ModuleURL, setModuleURL] = useState(module.ModuleURL || "");
-  const [content, setContent] = useState(module.content || "");
-  const handleSubmit = () => {
-    onSubmit({ title, description, duration, ModuleURL, content });
-  };
+    const openAddModuleModal = () => {
+        setIsAddModuleModalOpen(true);
+    };
 
-  if (!isOpen) return null;
+    const closeAddModuleModal = () => {
+        setIsAddModuleModalOpen(false);
+    };
 
-  const handleOverlayClick = (e) => {
-    if (e.target.classList.contains("update-module-details-modal-overlay")) {
-      onClose();
-    }
-  };
+    const handleUpdateModule = async (moduleId, updatedModuleData) => {
+        try {
+            const { title, description, video_url, content, duration, durationUnit } =
+                updatedModuleData;
 
-  return (
-    <div
-      className="update-module-details-modal-overlay"
-      onClick={handleOverlayClick}
-    >
-      <div className="update-module-details-modal">
-        <h2>Update Module Details</h2>
-        <div className="form-group">
-          <label>Module Name:</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
+            let durationInMinutes = duration;
+
+            if (durationUnit === "hours") {
+                durationInMinutes = duration * 60;
+            } else if (durationUnit === "days") {
+                durationInMinutes = duration * 60 * 24;
+            } else if (durationUnit === "weeks") {
+                durationInMinutes = duration * 60 * 24 * 7;
+            }
+
+            const updatedModule = await updateModule(
+                moduleId,
+                title,
+                description,
+                video_url,
+                content,
+                durationInMinutes
+            );
+
+            setModules(
+                modules.map((module) =>
+                    module._id === moduleId ? { ...module, ...updatedModule } : module
+                )
+            );
+
+            toast.success("Module updated successfully!");
+            // console.log("Updated Module Details:", updatedModule);
+            closeModuleModal();
+        } catch (error) {
+            console.error("Error updating module:", error);
+            toast.error("Failed to update module. Please try again.");
+        }
+    };
+
+    const handleCreateModule = async (moduleData) => {
+        try {
+            let durationInMinutes = moduleData.duration;
+            console.log(moduleData);
+
+            if (moduleData.durationUnit === "hours") {
+                durationInMinutes = duration * 60;
+            } else if (moduleData.durationUnit === "days") {
+                durationInMinutes = duration * 60 * 24;
+            } else if (moduleData.durationUnit === "weeks") {
+                durationInMinutes = duration * 60 * 24 * 7;
+            }
+
+            const moduleDataWithMinutes = {
+                ...moduleData,
+                duration: durationInMinutes,
+                // module_order: modules.length, // Assign module_order based on the number of modules
+            };
+            delete moduleDataWithMinutes.durationUnit;
+            // Determine the next module order
+            const nextModuleOrder =
+                modules.length > 0
+                    ? Math.max(...modules.map((m) => m.module_order)) + 1
+                    : 1;
+
+            moduleDataWithMinutes.module_order = nextModuleOrder;
+
+            // console.log("mDwM", moduleDataWithMinutes)
+            const newModule = await createModule(courseId, moduleDataWithMinutes);
+
+            setModules([...modules, newModule.module]);
+            closeAddModuleModal();
+            toast.success("Module created successfully!");
+            console.log("Created Module Details:", newModule);
+        } catch (error) {
+            console.error("Error creating module:", error);
+            toast.error("Failed to create module. Please try again.");
+        }
+    };
+
+    const handleDeleteModule = async (moduleId) => {
+        try {
+            await deleteModuleById(moduleId);
+            setModules(modules.filter((module) => module._id !== moduleId));
+            console.log(`Module with ID ${moduleId} deleted successfully.`);
+        } catch (error) {
+            console.error("Error deleting module:", error);
+            toast.error("Failed to delete module. Please try again.");
+        }
+    };
+
+    const handleModuleSubmit = async (moduleId, moduleDetails) => {
+        if (moduleId) {
+            await handleUpdateModule(moduleId, moduleDetails);
+        } else {
+            await handleCreateModule(moduleDetails);
+        }
+    };
+
+    return (
+        <div className="flex flex-col min-h-screen bg-gray-100 p-5">
+            <div className="container mx-auto p-4">
+                <h1 className="text-3xl font-bold mb-4">Update Course: {course.title}</h1>
+
+                {error && <p className="text-red-500 mb-4">{error}</p>}
+                {modules.length === 0 && <p>No modules available.</p>}
+
+                <div className="flex flex-wrap lg:flex-nowrap gap-4">
+                    {/* Course Details Section */}
+                    <section className="w-full lg:w-1/3 bg-purple-100 shadow rounded-md p-4">
+                        <h2 className="text-lg font-semibold mb-2">Update Course Details</h2>
+                        <div className="mb-4">
+                            <label
+                                htmlFor="courseTitle"
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                            >
+                                Course Title:
+                            </label>
+                            <input
+                                type="text"
+                                id="courseTitle"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                value={courseTitle}
+                                onChange={handleCourseTitleChange}
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label
+                                htmlFor="courseDescription"
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                            >
+                                Course Description:
+                            </label>
+                            <textarea
+                                id="courseDescription"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                value={courseDescription}
+                                onChange={handleCourseDescriptionChange}
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <label
+                                htmlFor="courseImage"
+                                className="block text-gray-700 text-sm font-bold mb-2"
+                            >
+                                Current Course Image:
+                            </label>
+                            {courseImage && (
+                                <img
+                                    src={newImage || courseImage}
+                                    alt="Course"
+                                    className="w-auto h-32 object-cover rounded-md mb-2"
+                                />
+                            )}
+                            <input
+                                type="file"
+                                id="courseImage"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline cursor-pointer"
+                                onChange={handleImageChange}
+                            />
+                        </div>
+
+                        <div>
+                            <button
+                                onClick={handleCourseDetailsSubmit}
+                                className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                disabled={isCourseUpdating}
+                            >
+                                {isCourseUpdating ? "Updating..." : "Update Course Details"}
+                            </button>
+                        </div>
+                    </section>
+
+                    {/* Course Modules Section */}
+                    <section className="w-full lg:w-2/3">
+                        <div className="bg-purple-100 p-4 shadow rounded-md">
+                            <div className="flex items-center justify-between mb-2">
+                                <h2 className="text-lg font-bold">Course Modules</h2>
+                                <button
+                                    onClick={openAddModuleModal}
+                                    className="bg-gradient-to-r from-purple-700 to-purple-500 hover:from-purple-600 hover:to-purple-400 text-white font-bold py-2 px-4 my-2 rounded focus:outline-none focus:shadow-outline transition-colors duration-500"
+                                >
+                                    Add New Module
+                                </button>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {modules.map((module) => (
+                                    <div
+                                        key={module._id}
+                                        className="bg-gray-50 p-4 rounded-md shadow-sm flex items-center justify-between"
+                                    >
+                                        <div>
+                                            <h3 className="text-lg font-semibold">{module.title}</h3>
+                                            {/* <p className="text-gray-600 text-sm">
+                                            {module.description}
+                                        </p>
+                                        <p className="text-gray-600 text-sm">
+                                            Duration: {convertMinutes(module.duration)}
+                                        </p> */}
+                                            <p className="text-gray-600 text-sm">
+                                                Module Order: {module.module_order}
+                                            </p>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <button
+                                                onClick={() => openModuleModal(module._id)}
+                                                className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                            >
+                                                Update
+                                            </button>
+                                            <button
+                                                onClick={() => handleDeleteModule(module._id)}
+                                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                {isModuleModalOpen && selectedModuleId && (
+                    <ModuleUpdateModal
+                        isOpen={isModuleModalOpen}
+                        onClose={closeModuleModal}
+                        moduleId={selectedModuleId}
+                        modules={modules}
+                        onSubmit={handleModuleSubmit}
+                    />
+                )}
+
+                {isAddModuleModalOpen && (
+                    <ModuleUpdateModal
+                        isOpen={isAddModuleModalOpen}
+                        onClose={closeAddModuleModal}
+                        onSubmit={handleModuleSubmit}
+                    />
+                )}
+            </div>
         </div>
-        <div className="form-group">
-          <label>Module Description:</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label>Module Duration:</label>
-          <input
-            type="text"
-            value={duration}
-            onChange={(e) => setDuration(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label>Module URL:</label>
-          <input
-            type="text"
-            value={ModuleURL}
-            onChange={(e) => setModuleURL(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label>Module Content:</label>
-          <input
-            type="text"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-        </div>
-        <div className="module-modal-buttons">
-          <button onClick={handleSubmit}>Update Module</button>
-          <button onClick={onClose}>Cancel</button>
-        </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default UpdateCourseDisplay;

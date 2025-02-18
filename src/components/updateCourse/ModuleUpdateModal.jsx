@@ -9,8 +9,9 @@ const ModuleUpdateModal = ({ isOpen, onClose, moduleId, modules, onSubmit }) => 
     description: "",
     video_url: "",
     content: "",
-    duration: "",
-    durationUnit: "minutes",
+    duration: "", // Displayed duration
+    durationUnit: "minutes", // Selected unit (minutes, hours, days, weeks)
+    durationInMinutes: "", // Store duration in minutes for submission
   });
 
   const modalOverlayRef = useRef();
@@ -18,14 +19,34 @@ const ModuleUpdateModal = ({ isOpen, onClose, moduleId, modules, onSubmit }) => 
   useEffect(() => {
     if (moduleId && modules) {
       const module = modules.find((m) => m._id === moduleId);
+      console.log("hi")
       if (module) {
+        // Convert duration from minutes to appropriate unit for display
+        let displayDuration = module.duration;
+        let displayUnit = "minutes";
+        
+
+        if (module.duration) {
+          if (module.duration % (60 * 24 * 7) === 0) {
+            displayDuration = module.duration / (60 * 24 * 7);
+            displayUnit = "weeks";
+          } else if (module.duration % (60 * 24) === 0) {
+            displayDuration = module.duration / (60 * 24);
+            displayUnit = "days";
+          } else if (module.duration % 60 === 0) {
+            displayDuration = module.duration / 60;
+            displayUnit = "hours";
+          }
+        }
+
         setModuleDetails({
           title: module.title || "",
           description: module.description || "",
           video_url: module.video_url || "",
           content: module.content || "",
-          duration: module.duration || "",
-          durationUnit: module.durationUnit || "minutes",
+          duration: displayDuration || "", // Displayed duration
+          durationUnit: displayUnit, // Displayed unit
+          durationInMinutes: module.duration, // Store original duration in minutes
         });
       }
     } else {
@@ -37,25 +58,42 @@ const ModuleUpdateModal = ({ isOpen, onClose, moduleId, modules, onSubmit }) => 
         content: "",
         duration: "",
         durationUnit: "minutes",
+        durationInMinutes: "",
       });
     }
   }, [moduleId, modules]);
 
   const handleModuleURLChange = (e) => {
-        const url = e.target.value;
-        if (url.startsWith("https://youtu.be/")) {
-            const videoId = url.substring("https://youtu.be/".length);
-            setModuleDetails({
-                ...moduleDetails,
-                video_url: videoId,
-            });
-        } else {
-            setModuleDetails({
-                ...moduleDetails,
-                video_url: url,
-            });
-        }
-    };
+    const url = e.target.value;
+    if (url.startsWith("https://youtu.be/")) {
+      const videoId = url.substring("https://youtu.be/".length);
+      setModuleDetails({
+        ...moduleDetails,
+        video_url: videoId,
+      });
+    } else {
+      setModuleDetails({
+        ...moduleDetails,
+        video_url: url,
+      });
+    }
+  };
+
+  const handleDurationChange = (e) => {
+    const newDuration = e.target.value;
+    setModuleDetails({
+      ...moduleDetails,
+      duration: newDuration,
+    });
+  };
+
+  const handleDurationUnitChange = (e) => {
+    const newUnit = e.target.value;
+    setModuleDetails({
+      ...moduleDetails,
+      durationUnit: newUnit,
+    });
+  };
 
   const handleModuleSubmit = () => {
     // Check if duration is empty before parsing
@@ -66,9 +104,22 @@ const ModuleUpdateModal = ({ isOpen, onClose, moduleId, modules, onSubmit }) => 
       return;
     }
 
+    console.log(durationValue);
+
+    // Convert duration to minutes before submitting
+    let durationInMinutes = parseInt(durationValue);
+
+    if (moduleDetails.durationUnit === "hours") {
+      durationInMinutes = durationInMinutes * 60;
+    } else if (moduleDetails.durationUnit === "days") {
+      durationInMinutes = durationInMinutes * 60 * 24;
+    } else if (moduleDetails.durationUnit === "weeks") {
+      durationInMinutes = durationInMinutes * 60 * 24 * 7;
+    }
+
     onSubmit(moduleId, {
       ...moduleDetails,
-      duration: parseInt(durationValue),
+      duration: durationInMinutes,
     });
   };
 
@@ -118,22 +169,12 @@ const ModuleUpdateModal = ({ isOpen, onClose, moduleId, modules, onSubmit }) => 
                     placeholder="Module Duration"
                     value={moduleDetails.duration}
                     min="0"
-                    onChange={(e) =>
-                      setModuleDetails({
-                        ...moduleDetails,
-                        duration: e.target.value,
-                      })
-                    }
+                    onChange={handleDurationChange}
                     className="w-[70px] p-2 border border-gray-300 rounded-md mr-1 text-md"
                   />
                   <select
                     value={moduleDetails.durationUnit}
-                    onChange={(e) =>
-                      setModuleDetails({
-                        ...moduleDetails,
-                        durationUnit: e.target.value,
-                      })
-                    }
+                    onChange={handleDurationUnitChange}
                     className="p-2 border border-gray-300 rounded-md w-[120px] text-md"
                   >
                     <option value="minutes">Minutes</option>

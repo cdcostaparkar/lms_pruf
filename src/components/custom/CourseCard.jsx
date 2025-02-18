@@ -65,7 +65,7 @@ const CourseCard = ({ courses, setCourses, showProgress }) => {
               <Card className="h-[28rem] flex flex-col">
                 <div className="relative"> 
                   <img
-                    src={`data:image/jpeg;base64,${course.enrollment.course_id.imageUrl}`}
+                    src={course.enrollment.course_id.imageUrl}
                     // src={`https://picsum.photos/200?random=${course.enrollment.course_id._id}`}
                     alt={course.enrollment.course_id.title}
                     className="w-full h-auto aspect-video object-cover rounded-md"

@@ -99,7 +99,7 @@ export default function LandingPage() {
           <input
             type="text"
             placeholder=" 🔍 Search for courses...."
-            className="w-[60%] px-3 py-2 mb-8 bg-white text-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400 bg-transparent"
+            className="w-[60%] px-3 py-2 mb-8 bg-white text-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-purple-400 bg-transparent border border-gray-400"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />

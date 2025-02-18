@@ -87,7 +87,7 @@ const LPCourses = ({ courses, search }) => {
                             <Card className="h-96 flex flex-col">
                                 <div className="relative">
                                     <img
-                                        src={`data:image/jpeg;base64,${course.imageUrl}`}
+                                        src={course.imageUrl}
                                         alt={course.title}
                                         className="w-full h-auto aspect-video object-cover rounded-md"
                                     />
@@ -115,14 +115,18 @@ const LPCourses = ({ courses, search }) => {
                                     </div>
                                     <div className="flex justify-center space-x-4 mt-4">
                                         <Button
-                                            className="bg-gray-900 text-white py-2 px-4 rounded"
+                                            className="bg-gray-900 text-white py-2 px-4 rounded text-sm md:text-base"
                                             onClick={() => toggleModal(course)}
                                         >
+                                            {/* <Button
+                                                className="bg-gray-900 text-white py-2 px-4 rounded text-sm md:text-base sm:py-1 sm:px-2 sm:text-xs"
+                                                onClick={() => toggleModal(course)}
+                                            > */}
                                             Details
                                             <BookOpenText />
                                         </Button>
                                         <Button
-                                            className="bg-purple-600 text-white py-2 px-4 rounded"
+                                            className="bg-purple-600 text-white py-2 px-4 rounded text-sm md:text-base"
                                             onClick={() => handleEnrollClick()}
                                         >
                                             Enroll Now

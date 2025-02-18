@@ -55,6 +55,7 @@ const TrainerCourses = ({ availableCourses, setAvailableCourses }) => {
                                     );
                                     toast.error("Failed to delete. Try again.", { id: t.id });
                                 }
+                                toast.dismiss(t.id) // close the toast msg
                             }}
                             style={{
                                 backgroundColor: "red",

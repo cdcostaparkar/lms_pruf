@@ -39,8 +39,6 @@ const AvailableCourses = () => {
     const [selectedCourse, setSelectedCourse] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [enrollmentChange, setEnrollmentChange] = useState(0);
-
     useEffect(() => {
         const fetchCourses = async () => {
             try {
@@ -65,7 +63,7 @@ const AvailableCourses = () => {
         if (user) {
             fetchCourses();
         }
-    }, [user, roleName, enrollmentChange]);
+    }, [user, roleName]);
 
     const toggleModal = (course) => {
         setSelectedCourse(course);
@@ -169,7 +167,7 @@ const AvailableCourses = () => {
                                     <Card className="h-96 flex flex-col">
                                         <div className="relative">
                                             <img
-                                                src={`data:image/jpeg;base64,${course.imageUrl}`}
+                                                src={course.imageUrl}
                                                 alt={course.title}
                                                 className="w-full h-auto aspect-video object-cover rounded-md"
                                             />

@@ -126,18 +126,19 @@ const UpdateCourseDisplay = () => {
 
     const handleUpdateModule = async (moduleId, updatedModuleData) => {
         try {
-            const { title, description, video_url, content, duration, durationUnit } =
+            const { title, description, video_url, content, duration } =
                 updatedModuleData;
 
-            let durationInMinutes = duration;
+            // console.log(duration)
+            // let durationInMinutes = duration;
 
-            if (durationUnit === "hours") {
-                durationInMinutes = duration * 60;
-            } else if (durationUnit === "days") {
-                durationInMinutes = duration * 60 * 24;
-            } else if (durationUnit === "weeks") {
-                durationInMinutes = duration * 60 * 24 * 7;
-            }
+            // if (durationUnit === "hours") {
+            //     durationInMinutes = duration * 60;
+            // } else if (durationUnit === "days") {
+            //     durationInMinutes = duration * 60 * 24;
+            // } else if (durationUnit === "weeks") {
+            //     durationInMinutes = duration * 60 * 24 * 7;
+            // }
 
             const updatedModule = await updateModule(
                 moduleId,
@@ -145,7 +146,7 @@ const UpdateCourseDisplay = () => {
                 description,
                 video_url,
                 content,
-                durationInMinutes
+                duration
             );
 
             setModules(
@@ -166,7 +167,7 @@ const UpdateCourseDisplay = () => {
     const handleCreateModule = async (moduleData) => {
         try {
             let durationInMinutes = moduleData.duration;
-            console.log(moduleData);
+            // console.log(moduleData);
 
             if (moduleData.durationUnit === "hours") {
                 durationInMinutes = duration * 60;

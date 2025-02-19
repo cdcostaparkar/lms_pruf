@@ -27,7 +27,7 @@ import AboutUs from './pages/AboutUs/AboutUs'
 // Toast
 import { Toaster } from 'react-hot-toast';
 // import UpdateCoursePage from './pages/UpdateCourses2/UpdateCoursepage'
-import UpdateCourseModule from './components/updateCourse/UpdateCourseModule'
+// import UpdateCourseModule from './components/updateCourse/UpdateCourseModule'
 
 function App() {
     const { user, logout, roleName } = useAuth();

@@ -204,16 +204,46 @@ const UpdateCourseDisplay = () => {
         }
     };
 
-    const handleDeleteModule = async (moduleId) => {
-        try {
-            await deleteModuleById(moduleId);
-            setModules(modules.filter((module) => module._id !== moduleId));
-            console.log(`Module with ID ${moduleId} deleted successfully.`);
-        } catch (error) {
-            console.error("Error deleting module:", error);
-            toast.error("Failed to delete module. Please try again.");
-        }
+    const handleDeleteModule = async (moduleTitle, moduleId) => {
+        toast(
+            (t) => (
+                <div>
+                    <span>Delete {moduleTitle}?</span>
+                    <div style={{ marginTop: "8px" }}>
+                        {/* Add margin for spacing */}
+                        <button
+                            onClick={async () => {
+                                try {
+                                    await deleteModuleById(moduleId);
+                                    setModules((prevModules) =>
+                                        prevModules.filter((module) => module._id !== moduleId)
+                                    );
+                                    toast.success("Module deleted.");
+                                } catch (error) {
+                                    console.error(`Failed to delete module ID ${moduleId}:`, error);
+                                    toast.error("Failed to delete. Try again.", { id: t.id });
+                                }
+                                toast.dismiss(t.id); // close the toast msg
+                            }}
+                            style={{
+                                backgroundColor: "red",
+                                color: "white",
+                                marginRight: "8px", // Add some spacing to the right
+                            }}
+                        >
+                            Delete
+                        </button>
+                        <button onClick={() => toast.dismiss(t.id)}>Cancel</button>
+                    </div>
+                </div>
+            ),
+            {
+                duration: 10000,
+                id: "confirm-delete",
+            }
+        );
     };
+
 
     const handleModuleSubmit = async (moduleId, moduleDetails) => {
         if (moduleId) {
@@ -333,10 +363,10 @@ const UpdateCourseDisplay = () => {
                                                 onClick={() => openModuleModal(module._id)}
                                                 className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                             >
-                                                Update
+                                                Edit
                                             </button>
                                             <button
-                                                onClick={() => handleDeleteModule(module._id)}
+                                                onClick={() => handleDeleteModule(module.title, module._id)}
                                                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                             >
                                                 Delete
